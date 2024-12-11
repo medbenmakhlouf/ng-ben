@@ -5,6 +5,11 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "strict": true,
+    "paths": {
+      "@ng-ben/google-recaptcha": [
+        "./dist/google-recaptcha"
+      ]
+    },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
