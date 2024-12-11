@@ -1,18 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'lib-google-recaptcha',
   imports: [],
-  template: `
-    <p>
-      google-recaptcha works!
-    </p>
-  `,
-  styles: ``
+  template: ` <p> google-recaptcha works! </p> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GoogleRecaptchaComponent {
-
-}
-
-
-
+export class GoogleRecaptchaComponent {}

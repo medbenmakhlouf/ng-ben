@@ -8,9 +8,8 @@ describe('GoogleRecaptchaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoogleRecaptchaComponent]
-    })
-    .compileComponents();
+      imports: [GoogleRecaptchaComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GoogleRecaptchaComponent);
     component = fixture.componentInstance;
