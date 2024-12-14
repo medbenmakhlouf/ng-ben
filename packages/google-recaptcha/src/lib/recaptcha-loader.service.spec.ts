@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/no-undefined-types */
 import { NgModule, PLATFORM_ID, Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs';

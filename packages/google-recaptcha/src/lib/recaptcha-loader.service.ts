@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/no-undefined-types */
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
