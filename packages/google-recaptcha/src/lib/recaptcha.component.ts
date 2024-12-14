@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -23,12 +24,11 @@ export type NeverUndefined<T> = T extends undefined ? never : T;
 
 export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Parameters['error-callback']>>;
 
-// eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
   exportAs: 'reCaptcha',
   selector: 're-captcha',
   template: ``,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   @Input()

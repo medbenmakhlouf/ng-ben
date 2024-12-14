@@ -1,3 +1,4 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, NgZone } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -18,8 +19,7 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
         <div *ngIf="captcha.pristine" captcha-pristine></div>
       </form>
     `,
-    // eslint-disable-next-line @angular-eslint/prefer-standalone
-    standalone: false,
+    imports: [RecaptchaComponent, FormsModule, NgIf, RecaptchaValueAccessorDirective],
   })
   class TestComponent {
     public formModel: { captcha: string | null } = { captcha: null };
@@ -31,8 +31,7 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
   beforeEach(async () => {
     mockRecaptchaLoaderService = new MockRecaptchaLoaderService();
     await TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [FormsModule, ReactiveFormsModule, RecaptchaComponent, RecaptchaValueAccessorDirective],
+      imports: [TestComponent],
       providers: [
         {
           provide: RecaptchaLoaderService,
@@ -123,8 +122,7 @@ describe('RecaptchaValueAccessorDirective -> formGroup', () => {
         <re-captcha formControlName="captcha"></re-captcha>
       </form>
     `,
-    // eslint-disable-next-line @angular-eslint/prefer-standalone
-    standalone: false,
+    imports: [RecaptchaComponent, ReactiveFormsModule, NgIf, RecaptchaValueAccessorDirective, AsyncPipe],
   })
   class TestComponent {
     public loading$ = new BehaviorSubject<boolean>(false);
@@ -155,8 +153,7 @@ describe('RecaptchaValueAccessorDirective -> formGroup', () => {
   beforeEach(async () => {
     mockRecaptchaLoaderService = new MockRecaptchaLoaderService();
     await TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [FormsModule, ReactiveFormsModule, RecaptchaComponent, RecaptchaValueAccessorDirective],
+      imports: [TestComponent],
       providers: [
         {
           provide: RecaptchaLoaderService,
