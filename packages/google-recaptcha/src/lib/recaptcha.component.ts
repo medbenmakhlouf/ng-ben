@@ -77,7 +77,7 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     this.subscription = this.loader.ready.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha | null) => {
-      if (grecaptcha != null && grecaptcha.render instanceof Function) {
+      if (grecaptcha != null && typeof grecaptcha.render === 'function') {
         this.grecaptcha = grecaptcha;
         this.renderRecaptcha();
       }
@@ -129,7 +129,8 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
    * While this member is `public`, it is not a part of the component's public API.
    * The semantic versioning guarantees _will not be honored_! Thus, you might find that this property behavior changes in incompatible ways in minor or even patch releases.
    * You are **strongly advised** against using this property.
-   * Instead, use more idiomatic ways to get reCAPTCHA value, such as `resolved` EventEmitter, or form-bound methods (ngModel, formControl, and the likes).å
+   * Instead, use more idiomatic ways to get reCAPTCHA value, such as `resolved` EventEmitter, or form-bound methods (ngModel, formControl, and the likes).
+   * @returns {string | null} The reCAPTCHA value or null if the widget is not available.
    */
   public get __unsafe_widgetValue(): string | null {
     return this.widget != null ? this.grecaptcha.getResponse(this.widget) : null;
@@ -141,7 +142,8 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * @param args
+   * Handles the error callback for reCAPTCHA.
+   * @param {RecaptchaErrorParameters} args - The error parameters.
    * @internal
    */
   private onError(args: RecaptchaErrorParameters) {
@@ -150,7 +152,7 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * @param response
+   * @param {string} response - The response string from the reCAPTCHA.
    * @internal
    */
   private captchaResponseCallback(response: string) {
@@ -190,7 +192,7 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
 
     this.widget = this.grecaptcha.render(this.elementRef.nativeElement, renderOptions);
 
-    if (this.executeRequested === true) {
+    if (this.executeRequested) {
       this.executeRequested = false;
       this.execute();
     }

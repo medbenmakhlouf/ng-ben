@@ -110,8 +110,9 @@ export class ReCaptchaV3Service {
   }
 
   /**
-   * @param action
-   * @param subject
+   * Executes an action with the provided subject.
+   * @param {string} action - The action to execute.
+   * @param {Subject<string>} subject - The subject to notify with the result.
    * @internal
    */
   private executeActionWithSubject(action: string, subject: Subject<string>): void {

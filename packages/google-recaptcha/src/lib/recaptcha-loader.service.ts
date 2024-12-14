@@ -14,8 +14,10 @@ import {
 } from './tokens';
 
 /**
- *
- * @param subject
+ * Converts a BehaviorSubject to an Observable that filters out null values.
+ * @template T
+ * @param {BehaviorSubject<T>} subject - The BehaviorSubject to convert.
+ * @returns {Observable<T>} An Observable that emits non-null values.
  */
 function toNonNullObservable<T>(subject: BehaviorSubject<T>): Observable<T> {
   return subject.asObservable().pipe(filter<T>((value) => value !== null));
@@ -25,7 +27,6 @@ function toNonNullObservable<T>(subject: BehaviorSubject<T>): Observable<T> {
 export class RecaptchaLoaderService {
   /**
    * @internal
-   * @nocollapse
    */
   private static ready: BehaviorSubject<ReCaptchaV2.ReCaptcha | null> | null = null;
 
@@ -59,7 +60,10 @@ export class RecaptchaLoaderService {
     this.ready = subject ? toNonNullObservable(subject) : of();
   }
 
-  /** @internal */
+  /**
+   * @internal
+   * @returns {BehaviorSubject<ReCaptchaV2.ReCaptcha | null> | undefined} A BehaviorSubject that emits ReCaptcha instances or `undefined` if not in a browser platform.
+   */
   private init(): BehaviorSubject<ReCaptchaV2.ReCaptcha | null> | undefined {
     if (RecaptchaLoaderService.ready) {
       return RecaptchaLoaderService.ready;

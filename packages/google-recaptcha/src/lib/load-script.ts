@@ -10,13 +10,13 @@ export type RenderMode = 'explicit' | { key: string };
 
 /**
  *
- * @param renderMode
- * @param onBeforeLoad
- * @param onLoaded
- * @param root0
- * @param root0.url
- * @param root0.lang
- * @param root0.nonce
+ * @param {RenderMode} renderMode - The mode to render the reCAPTCHA.
+ * @param {(url: URL) => { url: URL; nonce?: string }} onBeforeLoad - Function to call before loading the script.
+ * @param {(grecaptcha: ReCaptchaV2.ReCaptcha) => void} onLoaded - Function to call when the script is loaded.
+ * @param {{ url?: string; lang?: string; nonce?: string }} root0 - Additional options.
+ * @param {string} [root0.url] - The URL to load the script from.
+ * @param {string} [root0.lang] - The language code for the reCAPTCHA.
+ * @param {string} [root0.nonce] - The nonce attribute for the script.
  */
 function loadScript(
   renderMode: RenderMode,
@@ -54,10 +54,10 @@ function loadScript(
 
 /**
  *
- * @param root0
- * @param root0.v3SiteKey
- * @param root0.onBeforeLoad
- * @param root0.onLoaded
+ * @param {object} root0 - The options object.
+ * @param {string} [root0.v3SiteKey] - The site key for reCAPTCHA v3.
+ * @param {(url: URL) => { url: URL; nonce?: string }} root0.onBeforeLoad - Function to call before loading the script.
+ * @param {(grecaptcha: ReCaptchaV2.ReCaptcha) => void} root0.onLoaded - Function to call when the script is loaded.
  */
 function newLoadScript({
   v3SiteKey,

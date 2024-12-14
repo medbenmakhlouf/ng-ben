@@ -29,7 +29,8 @@ describe('ReCaptchaV3Service', () => {
   });
 
   /**
-   *
+   * Retrieves the parameters of the most recently appended script tag.
+   * @returns {object} An object containing the script tag, script URL, and script URL search parameters.
    */
   function getMockLoadScriptParams() {
     expect(scriptAppendSpy).toHaveBeenCalledTimes(1);
@@ -46,8 +47,8 @@ describe('ReCaptchaV3Service', () => {
   }
 
   /**
-   *
-   * @param grecaptcha
+   * Handles the loading of the grecaptcha script.
+   * @param {MockGrecaptcha} grecaptcha - The mock grecaptcha instance.
    */
   function onGrecaptchaLoad(grecaptcha: MockGrecaptcha) {
     expect(loadScriptStub).toHaveBeenCalledTimes(1);
@@ -56,8 +57,9 @@ describe('ReCaptchaV3Service', () => {
   }
 
   /**
-   *
-   * @param additionalProviders
+   * Initializes the service with additional providers.
+   * @param {Provider[]} additionalProviders - Additional providers to configure the service.
+   * @returns {ReCaptchaV3Service} The initialized ReCaptchaV3Service instance.
    */
   function initService(additionalProviders: Provider[] = []) {
     TestBed.configureTestingModule({
@@ -68,9 +70,7 @@ describe('ReCaptchaV3Service', () => {
         ...additionalProviders,
       ],
     });
-    const service = TestBed.inject(ReCaptchaV3Service);
-
-    return service;
+    return TestBed.inject(ReCaptchaV3Service);
   }
 
   it('should load grecaptcha upon initialization', () => {

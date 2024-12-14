@@ -28,7 +28,8 @@ describe('RecaptchaLoaderService', () => {
   });
 
   /**
-   *
+   * Retrieves the parameters of the most recently appended script tag.
+   * @returns {object} An object containing the script tag, script URL, and script URL search parameters.
    */
   function getMockLoadScriptParams() {
     expect(scriptAppendSpy).toHaveBeenCalledTimes(1);
@@ -45,9 +46,10 @@ describe('RecaptchaLoaderService', () => {
   }
 
   /**
-   *
-   * @param service
-   * @param mockGrecaptchaValue
+   * Simulates the script loading process.
+   * @param {RecaptchaLoaderService} service - The RecaptchaLoaderService instance.
+   * @param {MockGrecaptcha} mockGrecaptchaValue - The mock grecaptcha value.
+   * @returns {ReCaptchaV2.ReCaptcha} The resolved ReCaptcha instance.
    */
   function simulateScriptLoaded(
     service: RecaptchaLoaderService,
@@ -64,16 +66,15 @@ describe('RecaptchaLoaderService', () => {
   }
 
   /**
-   *
-   * @param additionalProviders
+   * Initializes the RecaptchaLoaderService with additional providers.
+   * @param {Provider[]} additionalProviders - Additional providers to configure the service.
+   * @returns {RecaptchaLoaderService} The initialized RecaptchaLoaderService instance.
    */
   function initService(additionalProviders: Provider[] = []) {
     TestBed.configureTestingModule({
       providers: [RecaptchaLoaderService, ...additionalProviders],
     });
-    const service = TestBed.inject(RecaptchaLoaderService);
-
-    return service;
+    return TestBed.inject(RecaptchaLoaderService);
   }
 
   it("should have a 'ready' observable", () => {
