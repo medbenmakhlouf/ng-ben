@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, signal, WritableSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 
@@ -11,7 +11,6 @@ import { RecaptchaValueAccessorDirective } from './recaptcha-value-accessor.dire
 import { RecaptchaComponent } from './recaptcha.component';
 
 describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   @Component({
     template: `
       <form #captchaForm="ngForm">
@@ -22,9 +21,10 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
       </form>
     `,
     imports: [RecaptchaComponent, FormsModule, RecaptchaValueAccessorDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush,
   })
   class TestComponent {
-    public formModel: { captcha: string | null } = { captcha: null };
+    public formModel: { captcha: WritableSignal<string | null> } = { captcha: signal(null) };
   }
   let debugElement: DebugElement;
   let fixture: ComponentFixture<TestComponent>;
@@ -66,7 +66,7 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
     fixture.detectChanges();
 
     // Assert
-    expect(fixture.componentInstance.formModel.captcha).toEqual('test response');
+    expect(fixture.componentInstance.formModel.captcha()).toEqual('test response');
     expect(fixture.debugElement.queryAll(By.css('[captcha-pristine]'))).toHaveSize(0);
   });
 
@@ -78,7 +78,7 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
     fixture.detectChanges();
 
     mockRecaptchaLoaderService.grecaptchaMock.reset.calls.reset();
-    fixture.componentInstance.formModel.captcha = '';
+    fixture.componentInstance.formModel.captcha.set('');
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -93,7 +93,7 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
     mockRecaptchaLoaderService.grecaptchaMock.reset.calls.reset();
     mockRecaptchaLoaderService.grecaptchaMock.emitGrecaptchaResponse('test response');
     fixture.detectChanges();
-    fixture.componentInstance.formModel.captcha = 'some value';
+    fixture.componentInstance.formModel.captcha.set('some value');
     fixture.detectChanges();
 
     // Assert
@@ -110,7 +110,6 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
 });
 
 describe('RecaptchaValueAccessorDirective -> formGroup', () => {
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   @Component({
     template: `
       @if ((loading$ | async) === false) {
@@ -120,6 +119,7 @@ describe('RecaptchaValueAccessorDirective -> formGroup', () => {
       }
     `,
     imports: [RecaptchaComponent, ReactiveFormsModule, RecaptchaValueAccessorDirective, AsyncPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush,
   })
   class TestComponent {
     public loading$ = new BehaviorSubject<boolean>(false);
