@@ -1,6 +1,6 @@
 /* eslint-disable jsdoc/no-undefined-types */
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -26,6 +26,8 @@ function toNonNullObservable<T>(subject: BehaviorSubject<T>): Observable<T> {
 
 @Injectable()
 export class RecaptchaLoaderService {
+  private readonly platformId = inject(PLATFORM_ID);
+
   /**
    * @internal
    */
@@ -34,29 +36,17 @@ export class RecaptchaLoaderService {
   public ready: Observable<ReCaptchaV2.ReCaptcha | null>;
 
   /** @internal */
-  private language?: string;
+  private language = inject<string | null>(RECAPTCHA_LANGUAGE, { optional: true });
   /** @internal */
-  private baseUrl?: string;
+  private baseUrl = inject<string>(RECAPTCHA_BASE_URL, { optional: true });
   /** @internal */
-  private nonce?: string;
+  private nonce = inject<string | null>(RECAPTCHA_NONCE, { optional: true });
   /** @internal */
-  private v3SiteKey?: string;
+  private v3SiteKey = inject<string | null>(RECAPTCHA_V3_SITE_KEY, { optional: true });
   /** @internal */
-  private options?: RecaptchaLoaderOptions;
+  private options = inject<RecaptchaLoaderOptions | null>(RECAPTCHA_LOADER_OPTIONS, { optional: true });
 
-  constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    @Optional() @Inject(RECAPTCHA_LANGUAGE) language?: string,
-    @Optional() @Inject(RECAPTCHA_BASE_URL) baseUrl?: string,
-    @Optional() @Inject(RECAPTCHA_NONCE) nonce?: string,
-    @Optional() @Inject(RECAPTCHA_V3_SITE_KEY) v3SiteKey?: string,
-    @Optional() @Inject(RECAPTCHA_LOADER_OPTIONS) options?: RecaptchaLoaderOptions,
-  ) {
-    this.language = language;
-    this.baseUrl = baseUrl;
-    this.nonce = nonce;
-    this.v3SiteKey = v3SiteKey;
-    this.options = options;
+  constructor() {
     const subject = this.init();
     this.ready = subject ? toNonNullObservable(subject) : of();
   }

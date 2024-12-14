@@ -1,4 +1,4 @@
-import { Inject, Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import { RECAPTCHA_V3_SITE_KEY } from './tokens';
@@ -37,10 +37,12 @@ type ActionBacklogEntry = [string, Subject<string>];
  */
 @Injectable()
 export class ReCaptchaV3Service {
+  recaptchaLoader = inject(RecaptchaLoaderService);
+
   /** @internal */
-  private readonly siteKey: string;
+  private readonly siteKey = inject<string>(RECAPTCHA_V3_SITE_KEY);
   /** @internal */
-  private readonly zone: NgZone;
+  private readonly zone = inject<NgZone>(NgZone);
   /** @internal */
   private actionBacklog: ActionBacklogEntry[] | undefined;
   /** @internal */
@@ -55,14 +57,7 @@ export class ReCaptchaV3Service {
   /** @internal */
   private onExecuteErrorObservable!: Observable<OnExecuteErrorData>;
 
-  constructor(
-    zone: NgZone,
-    public recaptchaLoader: RecaptchaLoaderService,
-    @Inject(RECAPTCHA_V3_SITE_KEY) siteKey: string,
-  ) {
-    this.zone = zone;
-    this.siteKey = siteKey;
-
+  constructor() {
     this.init();
   }
 

@@ -21,7 +21,7 @@ export type RenderMode = 'explicit' | { key: string };
  */
 function loadScript(
   renderMode: RenderMode,
-  onBeforeLoad: (url: URL) => { url: URL; nonce?: string },
+  onBeforeLoad: (url: URL) => { url: URL; nonce?: string | null | undefined },
   onLoaded: (grecaptcha: ReCaptchaV2.ReCaptcha) => void,
   { url, lang, nonce }: { url?: string; lang?: string; nonce?: string } = {},
 ): void {
@@ -64,7 +64,7 @@ function newLoadScript({
   v3SiteKey,
   onBeforeLoad,
   onLoaded,
-}: { v3SiteKey: string | undefined; onLoaded(recaptcha: ReCaptchaV2.ReCaptcha): void } & Pick<
+}: { v3SiteKey: string | null; onLoaded(recaptcha: ReCaptchaV2.ReCaptcha): void } & Pick<
   Required<RecaptchaLoaderOptions>,
   'onBeforeLoad'
 >) {

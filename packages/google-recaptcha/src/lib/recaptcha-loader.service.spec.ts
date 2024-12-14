@@ -180,11 +180,10 @@ describe('RecaptchaLoaderService', () => {
       providers: [
         {
           provide: RecaptchaLoaderService,
-          useFactory(platformId: unknown) {
-            service1 = new RecaptchaLoaderService(platformId as object);
+          useFactory() {
+            service1 = new RecaptchaLoaderService();
             return service1;
           },
-          deps: [PLATFORM_ID],
           multi: true,
         },
       ],
@@ -195,11 +194,10 @@ describe('RecaptchaLoaderService', () => {
       providers: [
         {
           provide: RecaptchaLoaderService,
-          useFactory(platformId: unknown) {
-            service2 = new RecaptchaLoaderService(platformId as object);
+          useFactory() {
+            service2 = new RecaptchaLoaderService();
             return service2;
           },
-          deps: [PLATFORM_ID],
           multi: true,
         },
       ],

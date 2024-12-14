@@ -73,7 +73,7 @@ export interface RecaptchaLoaderOptions {
    * }
    * ```
    */
-  onBeforeLoad?(url: URL): { url: URL; nonce?: string };
+  onBeforeLoad?(url: URL): { url: URL; nonce?: string | null | undefined };
 
   /**
    * Allows you to change the `grecaptcha` that the `ng-recaptcha` will be relying on.
