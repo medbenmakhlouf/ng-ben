@@ -1,14 +1,14 @@
 {
   "name": "@ng-ben/google-recaptcha",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "keywords": [
     "angular",
     "recaptcha",
     "google-recaptcha"
   ],
   "peerDependencies": {
-    "@angular/common": "^19.0.0",
-    "@angular/core": "^19.0.0",
-    "@types/grecaptcha": "^3.0.7"
+    "@angular/common": ">=19.0.0",
+    "@angular/core": ">=19.0.0",
+    "@types/grecaptcha": ">=3.0.0"
   }
 }
