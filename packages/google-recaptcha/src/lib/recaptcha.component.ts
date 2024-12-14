@@ -3,14 +3,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OutputEmitterRef,
+  EventEmitter,
   HostBinding,
   Inject,
   Input,
   NgZone,
   OnDestroy,
   Optional,
-  output,
+  Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -43,8 +43,13 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   @Input() public badge?: ReCaptchaV2.Badge;
   @Input() public errorMode: 'handled' | 'default' = 'default';
 
-  public readonly resolved: OutputEmitterRef<string | null> = output<string | null>();
-  public readonly errored: OutputEmitterRef<RecaptchaErrorParameters> = output<RecaptchaErrorParameters>();
+  @Output() public resolved = new EventEmitter<string | null>();
+  /**
+   * @deprecated `(error) output will be removed in the next major version. Use (errored) instead
+   */
+  // eslint-disable-next-line @angular-eslint/no-output-native
+  @Output() public error = new EventEmitter<RecaptchaErrorParameters>();
+  @Output() public errored = new EventEmitter<RecaptchaErrorParameters>();
 
   /** @internal */
   private subscription!: Subscription;
@@ -142,6 +147,7 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
    * @internal
    */
   private onError(args: RecaptchaErrorParameters) {
+    this.error.emit(args);
     this.errored.emit(args);
   }
 
