@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, NgZone } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -16,10 +16,12 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
     template: `
       <form #captchaForm="ngForm">
         <re-captcha [(ngModel)]="formModel.captcha" name="captcha" #captcha="ngModel"></re-captcha>
-        <div *ngIf="captcha.pristine" captcha-pristine></div>
+        @if (captcha.pristine) {
+          <div captcha-pristine></div>
+        }
       </form>
     `,
-    imports: [RecaptchaComponent, FormsModule, NgIf, RecaptchaValueAccessorDirective],
+    imports: [RecaptchaComponent, FormsModule, RecaptchaValueAccessorDirective],
   })
   class TestComponent {
     public formModel: { captcha: string | null } = { captcha: null };
@@ -118,11 +120,13 @@ describe('RecaptchaValueAccessorDirective -> formGroup', () => {
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   @Component({
     template: `
-      <form [formGroup]="formGroup" *ngIf="(loading$ | async) === false">
-        <re-captcha formControlName="captcha"></re-captcha>
-      </form>
+      @if ((loading$ | async) === false) {
+        <form [formGroup]="formGroup">
+          <re-captcha formControlName="captcha"></re-captcha>
+        </form>
+      }
     `,
-    imports: [RecaptchaComponent, ReactiveFormsModule, NgIf, RecaptchaValueAccessorDirective, AsyncPipe],
+    imports: [RecaptchaComponent, ReactiveFormsModule, RecaptchaValueAccessorDirective, AsyncPipe],
   })
   class TestComponent {
     public loading$ = new BehaviorSubject<boolean>(false);
