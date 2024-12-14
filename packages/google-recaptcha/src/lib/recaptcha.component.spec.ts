@@ -1,4 +1,3 @@
-import { NgZone } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MockRecaptchaLoaderService } from './mock-recaptcha-loader.service.spec';
@@ -193,9 +192,11 @@ describe('RecaptchaComponent', () => {
 });
 
 describe('RecaptchaComponent initialization', () => {
-  it('should default input values to RECAPTCHA_SETTINGS injection token if it was provided', async () => {
-    // Arrange
-    const mockRecaptchaLoaderService = new MockRecaptchaLoaderService();
+  // Arrange
+  let mockRecaptchaLoaderService: MockRecaptchaLoaderService;
+
+  beforeEach(async () => {
+    mockRecaptchaLoaderService = new MockRecaptchaLoaderService();
     const recaptchaSettings: RecaptchaSettings = {
       badge: 'bottomleft',
       siteKey: 'test site key',
@@ -216,11 +217,12 @@ describe('RecaptchaComponent initialization', () => {
         },
       ],
     }).compileComponents();
+  });
 
+  it('should default input values to RECAPTCHA_SETTINGS injection token if it was provided', () => {
     // Act
     const fixture = TestBed.createComponent(RecaptchaComponent);
     fixture.detectChanges();
-
     // Assert
     expect(fixture.componentInstance.badge).toEqual('bottomleft');
     expect(fixture.componentInstance.siteKey).toEqual('test site key');
@@ -230,16 +232,10 @@ describe('RecaptchaComponent initialization', () => {
   });
 
   it('should gracefully handle destroying of the component if initialization has not finished', () => {
-    // Arrange
-    const component = new RecaptchaComponent(
-      {
-        nativeElement: document.createElement('div'),
-      },
-      new MockRecaptchaLoaderService() as unknown as RecaptchaLoaderService,
-      new NgZone({}),
-    );
-
+    // Act
+    const fixture = TestBed.createComponent(RecaptchaComponent);
+    fixture.detectChanges();
     // Act + Assert
-    expect(() => component.ngOnDestroy()).not.toThrow();
+    expect(() => fixture.componentInstance.ngOnDestroy()).not.toThrow();
   });
 });

@@ -5,12 +5,11 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
-  Inject,
   Input,
   NgZone,
   OnDestroy,
-  Optional,
   Output,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -31,6 +30,11 @@ export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Par
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecaptchaComponent implements AfterViewInit, OnDestroy {
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private loader = inject(RecaptchaLoaderService);
+  private zone = inject(NgZone);
+  private settings = inject<RecaptchaSettings>(RECAPTCHA_SETTINGS, { optional: true });
+
   @Input()
   @HostBinding('attr.id')
   public id = `ngrecaptcha-${nextId++}`;
@@ -44,11 +48,6 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   @Input() public errorMode: 'handled' | 'default' = 'default';
 
   @Output() public resolved = new EventEmitter<string | null>();
-  /**
-   * @deprecated `(error) output will be removed in the next major version. Use (errored) instead
-   */
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  @Output() public error = new EventEmitter<RecaptchaErrorParameters>();
   @Output() public errored = new EventEmitter<RecaptchaErrorParameters>();
 
   /** @internal */
@@ -60,18 +59,13 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   private executeRequested!: boolean;
 
-  constructor(
-    private elementRef: ElementRef<HTMLElement>,
-    private loader: RecaptchaLoaderService,
-    private zone: NgZone,
-    @Optional() @Inject(RECAPTCHA_SETTINGS) settings?: RecaptchaSettings,
-  ) {
-    if (settings) {
-      this.siteKey = settings.siteKey;
-      this.theme = settings.theme;
-      this.type = settings.type;
-      this.size = settings.size;
-      this.badge = settings.badge;
+  constructor() {
+    if (this.settings) {
+      this.siteKey = this.settings.siteKey;
+      this.theme = this.settings.theme;
+      this.type = this.settings.type;
+      this.size = this.settings.size;
+      this.badge = this.settings.badge;
     }
   }
 
@@ -147,7 +141,6 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
    * @internal
    */
   private onError(args: RecaptchaErrorParameters) {
-    this.error.emit(args);
     this.errored.emit(args);
   }
 

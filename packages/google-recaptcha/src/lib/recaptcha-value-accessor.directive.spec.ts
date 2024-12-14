@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, NgZone } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -26,7 +26,7 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
   class TestComponent {
     public formModel: { captcha: string | null } = { captcha: null };
   }
-
+  let debugElement: DebugElement;
   let fixture: ComponentFixture<TestComponent>;
   let mockRecaptchaLoaderService: MockRecaptchaLoaderService;
 
@@ -102,15 +102,8 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
 
   it("should not fail if 'onResolve' is invoked prior to callbacks being registered", () => {
     // Arrange
-    const directive = new RecaptchaValueAccessorDirective(
-      new RecaptchaComponent(
-        { nativeElement: document.createElement('div') },
-        // @ts-expect-error this is an expected type mismatch
-        new MockRecaptchaLoaderService(),
-        new NgZone({}),
-      ),
-    );
-
+    debugElement = fixture.debugElement.query(By.directive(RecaptchaValueAccessorDirective));
+    const directive = debugElement.injector.get(RecaptchaValueAccessorDirective);
     // Act + Assert
     expect(() => directive.onResolve('test value')).not.toThrow();
   });
