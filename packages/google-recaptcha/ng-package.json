@@ -1,6 +1,8 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/google-recaptcha",
+  "allowedNonPeerDependencies": ["@types/grecaptcha"],
+  "deleteDestPath": true,
   "lib": {
     "entryFile": "src/public-api.ts"
   }

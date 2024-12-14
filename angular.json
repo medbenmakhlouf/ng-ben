@@ -127,6 +127,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "tsConfig": "packages/google-recaptcha/tsconfig.spec.json",
+            "karmaConfig": "packages/google-recaptcha/karma.conf.js",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

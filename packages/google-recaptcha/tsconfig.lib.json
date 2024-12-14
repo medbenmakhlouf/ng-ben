@@ -7,7 +7,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": []
+    "types": ["grecaptcha"]
   },
   "exclude": [
     "**/*.spec.ts"
