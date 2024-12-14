@@ -66,7 +66,7 @@ describe('RecaptchaComponent', () => {
   it('should emit null value upon grecaptcha reset if it has been resolved prior to that', () => {
     // Arrange
     const emittedResponses: (string | null)[] = [];
-    component.resolved.subscribe((response: string) => emittedResponses.push(response));
+    component.resolved.subscribe((response: string | null) => emittedResponses.push(response));
     mockRecaptchaLoaderService.init();
 
     // Act
@@ -83,7 +83,7 @@ describe('RecaptchaComponent', () => {
   it('should emit grecaptcha value through resolved event emitter', () => {
     // Arrange
     const emittedResponses: (string | null)[] = [];
-    component.resolved.subscribe((response: string) => emittedResponses.push(response));
+    component.resolved.subscribe((response: string | null) => emittedResponses.push(response));
     mockRecaptchaLoaderService.init();
 
     // Act
@@ -97,7 +97,7 @@ describe('RecaptchaComponent', () => {
   it('should emit null value through resolved event emitter once grecaptcha expires', () => {
     // Arrange
     const emittedResponses: (string | null)[] = [];
-    component.resolved.subscribe((response: string) => emittedResponses.push(response));
+    component.resolved.subscribe((response: string | null) => emittedResponses.push(response));
     mockRecaptchaLoaderService.init();
 
     // Act

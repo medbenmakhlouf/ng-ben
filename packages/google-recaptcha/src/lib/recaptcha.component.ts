@@ -3,13 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
+  OutputEmitterRef,
   HostBinding,
   Input,
   NgZone,
   OnDestroy,
-  Output,
   inject,
+  output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -47,8 +47,8 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   @Input() public badge?: ReCaptchaV2.Badge;
   @Input() public errorMode: 'handled' | 'default' = 'default';
 
-  @Output() public resolved = new EventEmitter<string | null>();
-  @Output() public errored = new EventEmitter<RecaptchaErrorParameters>();
+  public readonly resolved: OutputEmitterRef<string | null> = output<string | null>();
+  public readonly errored: OutputEmitterRef<RecaptchaErrorParameters> = output<RecaptchaErrorParameters>();
 
   /** @internal */
   private subscription!: Subscription;
