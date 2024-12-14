@@ -4,12 +4,12 @@ import {
   Component,
   ElementRef,
   OutputEmitterRef,
-  HostBinding,
   Input,
   NgZone,
   OnDestroy,
   inject,
   output,
+  input,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -27,6 +27,9 @@ export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Par
   exportAs: 'reCaptcha',
   selector: 're-captcha',
   template: ``,
+  host: {
+    '[attr.id]': 'id()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecaptchaComponent implements AfterViewInit, OnDestroy {
@@ -35,15 +38,13 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   private zone = inject(NgZone);
   private settings = inject<RecaptchaSettings>(RECAPTCHA_SETTINGS, { optional: true });
 
-  @Input()
-  @HostBinding('attr.id')
-  public id = `ngrecaptcha-${nextId++}`;
+  public readonly id = input<string>(`ngrecaptcha-${nextId++}`);
 
   @Input() public siteKey?: string;
   @Input() public theme?: ReCaptchaV2.Theme;
   @Input() public type?: ReCaptchaV2.Type;
   @Input() public size?: ReCaptchaV2.Size;
-  @Input() public tabIndex?: number;
+  public readonly tabIndex = input<number>();
   @Input() public badge?: ReCaptchaV2.Badge;
   @Input() public errorMode: 'handled' | 'default' = 'default';
 
@@ -172,7 +173,7 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
       },
       sitekey: this.siteKey,
       size: this.size,
-      tabindex: this.tabIndex,
+      tabindex: this.tabIndex(),
       theme: this.theme,
       type: this.type,
     };
