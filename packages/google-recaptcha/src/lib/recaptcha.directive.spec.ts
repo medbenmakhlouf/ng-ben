@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { MockRecaptchaLoaderService } from './mock-recaptcha-loader.service.spec';
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
-import { RecaptchaValueAccessorDirective } from './recaptcha-value-accessor.directive';
+import { RecaptchaDirective } from './recaptcha.directive';
 import { RecaptchaComponent } from './recaptcha.component';
 
 describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
@@ -20,7 +20,7 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
         }
       </form>
     `,
-    imports: [RecaptchaComponent, FormsModule, RecaptchaValueAccessorDirective],
+    imports: [RecaptchaComponent, FormsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
   })
   class TestComponent {
@@ -102,8 +102,8 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
 
   it("should not fail if 'onResolve' is invoked prior to callbacks being registered", () => {
     // Arrange
-    debugElement = fixture.debugElement.query(By.directive(RecaptchaValueAccessorDirective));
-    const directive = debugElement.injector.get(RecaptchaValueAccessorDirective);
+    debugElement = fixture.debugElement.query(By.directive(RecaptchaDirective));
+    const directive = debugElement.injector.get(RecaptchaDirective);
     // Act + Assert
     expect(() => directive.onResolve('test value')).not.toThrow();
   });
@@ -118,7 +118,7 @@ describe('RecaptchaValueAccessorDirective -> formGroup', () => {
         </form>
       }
     `,
-    imports: [RecaptchaComponent, ReactiveFormsModule, RecaptchaValueAccessorDirective, AsyncPipe],
+    imports: [RecaptchaComponent, ReactiveFormsModule, AsyncPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
   })
   class TestComponent {

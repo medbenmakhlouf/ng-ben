@@ -9,7 +9,10 @@ import {
   DestroyRef,
   computed,
   Directive,
+  forwardRef,
+  HostListener,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -25,12 +28,19 @@ export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Par
 
 @Directive({
   exportAs: 'reCaptcha',
-  selector: '[re-captcha]',
+  selector: '[re-captcha],re-captcha[formControlName],re-captcha[formControl],re-captcha[ngModel]',
   host: {
     '[attr.id]': 'id()',
   },
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RecaptchaDirective),
+    },
+  ],
 })
-export class RecaptchaDirective implements AfterViewInit {
+export class RecaptchaDirective implements AfterViewInit, ControlValueAccessor {
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private loader = inject(RecaptchaLoaderService);
   private zone = inject(NgZone);
@@ -47,7 +57,12 @@ export class RecaptchaDirective implements AfterViewInit {
   public readonly errorMode = input<'handled' | 'default'>('default');
   public readonly resolved: OutputEmitterRef<string | null> = output<string | null>();
   public readonly errored: OutputEmitterRef<RecaptchaErrorParameters> = output<RecaptchaErrorParameters>();
-
+  /** @internal */
+  private onChange!: (value: string | null) => void;
+  /** @internal */
+  private onTouched!: () => void;
+  /** @internal */
+  private requiresControllerReset = false;
   /** @internal */
   private grecaptcha$ = this.loader.ready.pipe(
     filter((grecaptcha: ReCaptchaV2.ReCaptcha) => typeof grecaptcha.render === 'function'),
@@ -82,6 +97,41 @@ export class RecaptchaDirective implements AfterViewInit {
 
   constructor() {
     this.destroyRef.onDestroy(() => this.onDestroy());
+  }
+
+  public writeValue(value: string): void {
+    if (!value) {
+      this.reset();
+    } else {
+      // In this case, it is most likely that a form controller has requested to write a specific value into the component.
+      // This isn't really a supported case - reCAPTCHA values are single-use, and, in a sense, readonly.
+      // What this means is that the form controller has recaptcha control state of X, while reCAPTCHA itself can't "restore"
+      // to that state. In order to make form controller aware of this discrepancy, and to fix the said misalignment,
+      // we'll be telling the controller to "reset" the value back to null.
+      if (this.__unsafe_widgetValue !== value && !this.__unsafe_widgetValue) {
+        this.requiresControllerReset = true;
+      }
+    }
+  }
+
+  public registerOnChange(fn: (value: string | null) => void): void {
+    this.onChange = fn;
+    if (this.requiresControllerReset) {
+      this.requiresControllerReset = false;
+      this.onChange(null);
+    }
+  }
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  @HostListener('resolved', ['$event']) public onResolve($event: string): void {
+    if (this.onChange) {
+      this.onChange($event);
+    }
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   public ngAfterViewInit(): void {

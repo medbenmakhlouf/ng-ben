@@ -14,7 +14,6 @@ export { ReCaptchaV3Service } from './lib/recaptcha-v3.service';
 export type { OnExecuteData, OnExecuteErrorData } from './lib/recaptcha-v3.service';
 
 export { RecaptchaFormsModule } from './lib/recaptcha-forms.module';
-export { RecaptchaValueAccessorDirective } from './lib/recaptcha-value-accessor.directive';
 
 export {
   RECAPTCHA_LANGUAGE,
