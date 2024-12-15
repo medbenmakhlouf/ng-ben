@@ -8,6 +8,9 @@
     "paths": {
       "@ng-ben/google-recaptcha": [
         "./packages/google-recaptcha/src/public-api.ts"
+      ],
+      "@ng-ben/google-analytics": [
+        "./packages/google-analytics/src/public-api.ts"
       ]
     },
     "noImplicitOverride": true,

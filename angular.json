@@ -145,6 +145,49 @@
           }
         }
       }
+    },
+    "google-analytics": {
+      "projectType": "library",
+      "root": "packages/google-analytics",
+      "sourceRoot": "packages/google-analytics/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "packages/google-analytics/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/google-analytics/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/google-analytics/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "packages/google-analytics/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/google-analytics/**/*.ts",
+              "packages/google-analytics/**/*.html"
+            ],
+            "eslintConfig": "packages/google-analytics/eslint.config.js"
+          }
+        }
+      }
     }
   },
   "cli": {
