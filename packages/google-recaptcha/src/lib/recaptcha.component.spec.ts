@@ -1,3 +1,4 @@
+import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MockRecaptchaLoaderService } from './mock-recaptcha-loader.service.spec';
@@ -9,6 +10,7 @@ import { RECAPTCHA_SETTINGS } from './tokens';
 describe('RecaptchaComponent', () => {
   let component: RecaptchaComponent;
   let fixture: ComponentFixture<RecaptchaComponent>;
+  let componentRef: ComponentRef<RecaptchaComponent>;
   let mockRecaptchaLoaderService: MockRecaptchaLoaderService;
 
   beforeEach(async () => {
@@ -25,6 +27,7 @@ describe('RecaptchaComponent', () => {
 
     fixture = TestBed.createComponent(RecaptchaComponent);
     component = fixture.componentInstance;
+    componentRef = fixture.componentRef;
     fixture.detectChanges();
   });
 
@@ -114,7 +117,7 @@ describe('RecaptchaComponent', () => {
     // Arrange
     const emittedErrors: RecaptchaErrorParameters[] = [];
     component.errored.subscribe((error: RecaptchaErrorParameters) => emittedErrors.push(error));
-    component.errorMode = 'handled';
+    componentRef.setInput('errorMode', 'handled');
     mockRecaptchaLoaderService.init();
 
     // Act
@@ -152,7 +155,7 @@ describe('RecaptchaComponent', () => {
   it("should invoke grecaptcha.execute if size was set to 'invisible'", () => {
     // Arrange
     mockRecaptchaLoaderService.init();
-    component.size = 'invisible';
+    componentRef.setInput('size', 'invisible');
 
     // Act
     fixture.detectChanges();
@@ -165,7 +168,7 @@ describe('RecaptchaComponent', () => {
 
   it('should invoke grecaptcha.execute even if grecaptcha has not yet loaded at the time of invocation', () => {
     // Arrange
-    component.size = 'invisible';
+    componentRef.setInput('size', 'invisible');
 
     // Act
     fixture.detectChanges();
@@ -224,11 +227,11 @@ describe('RecaptchaComponent initialization', () => {
     const fixture = TestBed.createComponent(RecaptchaComponent);
     fixture.detectChanges();
     // Assert
-    expect(fixture.componentInstance.badge).toEqual('bottomleft');
-    expect(fixture.componentInstance.siteKey).toEqual('test site key');
-    expect(fixture.componentInstance.size).toEqual('compact');
-    expect(fixture.componentInstance.theme).toEqual('dark');
-    expect(fixture.componentInstance.type).toEqual('audio');
+    expect(fixture.componentInstance.badge()).toEqual('bottomleft');
+    expect(fixture.componentInstance.siteKey()).toEqual('test site key');
+    expect(fixture.componentInstance.size()).toEqual('compact');
+    expect(fixture.componentInstance.theme()).toEqual('dark');
+    expect(fixture.componentInstance.type()).toEqual('audio');
   });
 
   it('should gracefully handle destroying of the component if initialization has not finished', () => {

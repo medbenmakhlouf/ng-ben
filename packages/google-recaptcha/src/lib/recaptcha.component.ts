@@ -4,7 +4,6 @@ import {
   Component,
   ElementRef,
   OutputEmitterRef,
-  Input,
   NgZone,
   OnDestroy,
   inject,
@@ -39,15 +38,13 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   private settings = inject<RecaptchaSettings>(RECAPTCHA_SETTINGS, { optional: true });
 
   public readonly id = input<string>(`ngrecaptcha-${nextId++}`);
-
-  @Input() public siteKey?: string;
-  @Input() public theme?: ReCaptchaV2.Theme;
-  @Input() public type?: ReCaptchaV2.Type;
-  @Input() public size?: ReCaptchaV2.Size;
+  public readonly siteKey = input(this.settings ? this.settings.siteKey : undefined);
+  public readonly theme = input<ReCaptchaV2.Theme | undefined>(this.settings ? this.settings.theme : undefined);
+  public readonly type = input<ReCaptchaV2.Type | undefined>(this.settings ? this.settings.type : undefined);
+  public readonly size = input<ReCaptchaV2.Size | undefined>(this.settings ? this.settings.size : undefined);
   public readonly tabIndex = input<number>();
-  @Input() public badge?: ReCaptchaV2.Badge;
-  @Input() public errorMode: 'handled' | 'default' = 'default';
-
+  public readonly badge = input<ReCaptchaV2.Badge | undefined>(this.settings ? this.settings.badge : undefined);
+  public readonly errorMode = input<'handled' | 'default'>('default');
   public readonly resolved: OutputEmitterRef<string | null> = output<string | null>();
   public readonly errored: OutputEmitterRef<RecaptchaErrorParameters> = output<RecaptchaErrorParameters>();
 
@@ -59,16 +56,6 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   private grecaptcha!: ReCaptchaV2.ReCaptcha;
   /** @internal */
   private executeRequested!: boolean;
-
-  constructor() {
-    if (this.settings) {
-      this.siteKey = this.settings.siteKey;
-      this.theme = this.settings.theme;
-      this.type = this.settings.type;
-      this.size = this.settings.size;
-      this.badge = this.settings.badge;
-    }
-  }
 
   public ngAfterViewInit(): void {
     this.subscription = this.loader.ready.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha | null) => {
@@ -93,7 +80,7 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
    * Does nothing if component's size is not set to "invisible".
    */
   public execute(): void {
-    if (this.size !== 'invisible') {
+    if (this.size() !== 'invisible') {
       return;
     }
 
@@ -164,21 +151,21 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   private renderRecaptcha() {
     // This `any` can be removed after @types/grecaptcha get updated
     const renderOptions: ReCaptchaV2.Parameters = {
-      badge: this.badge,
+      badge: this.badge(),
       callback: (response: string) => {
         this.zone.run(() => this.captchaResponseCallback(response));
       },
       'expired-callback': () => {
         this.zone.run(() => this.expired());
       },
-      sitekey: this.siteKey,
-      size: this.size,
+      sitekey: this.siteKey(),
+      size: this.size(),
       tabindex: this.tabIndex(),
-      theme: this.theme,
-      type: this.type,
+      theme: this.theme(),
+      type: this.type(),
     };
 
-    if (this.errorMode === 'handled') {
+    if (this.errorMode() === 'handled') {
       renderOptions['error-callback'] = (...args: RecaptchaErrorParameters) => {
         this.zone.run(() => this.onError(args));
       };
