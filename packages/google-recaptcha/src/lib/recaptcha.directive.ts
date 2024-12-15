@@ -11,8 +11,9 @@ import {
   output,
   OutputEmitterRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { tap } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
@@ -63,8 +64,6 @@ export class RecaptchaDirective implements ControlValueAccessor {
     filter((grecaptcha: ReCaptchaV2.ReCaptcha) => typeof grecaptcha.render === 'function'),
   );
   /** @internal */
-  private subscription!: Subscription;
-  /** @internal */
   private widget!: number;
   /** @internal */
   private grecaptcha!: ReCaptchaV2.ReCaptcha;
@@ -92,10 +91,15 @@ export class RecaptchaDirective implements ControlValueAccessor {
 
   constructor() {
     this.destroyRef.onDestroy(() => this.onDestroy());
-    this.subscription = this.grecaptcha$.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha) => {
-      this.grecaptcha = grecaptcha;
-      this.renderRecaptcha();
-    });
+    this.grecaptcha$
+      .pipe(
+        takeUntilDestroyed(),
+        tap((grecaptcha: ReCaptchaV2.ReCaptcha) => {
+          this.grecaptcha = grecaptcha;
+          this.renderRecaptcha();
+        }),
+      )
+      .subscribe();
   }
 
   public writeValue(value: string): void {
@@ -139,9 +143,6 @@ export class RecaptchaDirective implements ControlValueAccessor {
     // reset the captcha to ensure it does not leave anything behind
     // after the component is no longer needed
     this.resetRecaptcha();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   /**
