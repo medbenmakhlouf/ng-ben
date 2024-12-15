@@ -121,11 +121,13 @@ export class RecaptchaDirective implements AfterViewInit, ControlValueAccessor {
       this.onChange(null);
     }
   }
+
   public registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  @HostListener('resolved', ['$event']) public onResolve($event: string): void {
+  @HostListener('resolved', ['$event'])
+  public onResolve($event: string): void {
     if (this.onChange) {
       this.onChange($event);
     }
