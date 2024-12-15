@@ -1,8 +1,8 @@
 <!--  Basic -->
-<re-captcha [siteKey]="siteKEy" (errored)="onError($event)" (resolved)="resolved($event)" errorMode="handled"></re-captcha>
+<re-captcha [siteKey]="siteKey" (errored)="onError($event)" (resolved)="resolved($event)" errorMode="handled"></re-captcha>
 <!--form-->
 <form #captchaProtectedForm="ngForm">
-  <re-captcha [siteKey]="siteKEy" [(ngModel)]="formModel.captcha" name="captcha" required #captchaControl="ngModel"></re-captcha>
+  <re-captcha [siteKey]="siteKey" [(ngModel)]="formModel.captcha" name="captcha" required #captchaControl="ngModel"></re-captcha>
   <div [hidden]="captchaControl.valid || captchaControl.pristine" class="error">Captcha must be solved</div>
   <div [hidden]="!captchaControl.valid" class="success">Captcha is valid</div>
   <div [hidden]="captchaProtectedForm.form.valid" class="error">The form must be filled out</div>
@@ -10,7 +10,7 @@
   <button (click)="formModel.captcha = ''">Reset Captcha</button>
 </form>
 <!--    invisible -->
-<re-captcha #captchaRef="reCaptcha" [siteKey]="siteKEy" (resolved)="resolved($event)" (errored)="onError($event)" errorMode="handled" size="invisible"></re-captcha>
+<re-captcha #captchaRef="reCaptcha" [siteKey]="siteKey" (resolved)="resolved($event)" (errored)="onError($event)" errorMode="handled" size="invisible"></re-captcha>
 <button (click)="captchaRef.execute()">Submit</button>
 <button (click)="captchaRef.reset()">Reset</button>
 <pre> reCAPTCHA response log:{{ captchaResponse || '(empty)' }}</pre>

@@ -10,7 +10,7 @@ import { RecaptchaComponent, RecaptchaErrorParameters, RecaptchaLoaderService } 
   providers: [RecaptchaLoaderService],
 })
 export class AppComponent {
-  siteKEy = '';
+  siteKey = '';
   public formModel: { captcha?: string } = {};
   public captchaResponse = '';
 
