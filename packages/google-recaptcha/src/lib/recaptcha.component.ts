@@ -67,13 +67,13 @@ export class RecaptchaComponent implements AfterViewInit {
   private renderOptions = computed<ReCaptchaV2.Parameters>(() => {
     const options: ReCaptchaV2.Parameters = {
       badge: this.badge(),
-      callback: (response: string) => this.zone.run(() => this.captchaResponseCallback(response)),
-      'expired-callback': () => this.zone.run(() => this.expired()),
       sitekey: this.siteKey(),
       size: this.size(),
       tabindex: this.tabIndex(),
       theme: this.theme(),
       type: this.type(),
+      callback: (response: string) => this.zone.run(() => this.captchaResponseCallback(response)),
+      'expired-callback': () => this.zone.run(() => this.expired()),
     };
     if (this.errorMode() === 'handled') {
       options['error-callback'] = (...args: RecaptchaErrorParameters) => {
@@ -178,7 +178,6 @@ export class RecaptchaComponent implements AfterViewInit {
   /** @internal */
   private renderRecaptcha() {
     this.widget = this.grecaptcha.render(this.elementRef.nativeElement, this.renderOptions());
-
     if (this.executeRequested) {
       this.executeRequested = false;
       this.execute();
