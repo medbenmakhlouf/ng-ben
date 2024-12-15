@@ -9,6 +9,7 @@ import {
   output,
   input,
   DestroyRef,
+  computed,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -62,6 +63,25 @@ export class RecaptchaComponent implements AfterViewInit {
   private grecaptcha!: ReCaptchaV2.ReCaptcha;
   /** @internal */
   private executeRequested!: boolean;
+  /** @internal */
+  private renderOptions = computed<ReCaptchaV2.Parameters>(() => {
+    const options: ReCaptchaV2.Parameters = {
+      badge: this.badge(),
+      callback: (response: string) => this.zone.run(() => this.captchaResponseCallback(response)),
+      'expired-callback': () => this.zone.run(() => this.expired()),
+      sitekey: this.siteKey(),
+      size: this.size(),
+      tabindex: this.tabIndex(),
+      theme: this.theme(),
+      type: this.type(),
+    };
+    if (this.errorMode() === 'handled') {
+      options['error-callback'] = (...args: RecaptchaErrorParameters) => {
+        this.zone.run(() => this.onError(args));
+      };
+    }
+    return options;
+  });
 
   constructor() {
     this.destroyRef.onDestroy(() => this.onDestroy());
@@ -157,29 +177,7 @@ export class RecaptchaComponent implements AfterViewInit {
 
   /** @internal */
   private renderRecaptcha() {
-    // This `any` can be removed after @types/grecaptcha get updated
-    const renderOptions: ReCaptchaV2.Parameters = {
-      badge: this.badge(),
-      callback: (response: string) => {
-        this.zone.run(() => this.captchaResponseCallback(response));
-      },
-      'expired-callback': () => {
-        this.zone.run(() => this.expired());
-      },
-      sitekey: this.siteKey(),
-      size: this.size(),
-      tabindex: this.tabIndex(),
-      theme: this.theme(),
-      type: this.type(),
-    };
-
-    if (this.errorMode() === 'handled') {
-      renderOptions['error-callback'] = (...args: RecaptchaErrorParameters) => {
-        this.zone.run(() => this.onError(args));
-      };
-    }
-
-    this.widget = this.grecaptcha.render(this.elementRef.nativeElement, renderOptions);
+    this.widget = this.grecaptcha.render(this.elementRef.nativeElement, this.renderOptions());
 
     if (this.executeRequested) {
       this.executeRequested = false;
