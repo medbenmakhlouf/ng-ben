@@ -6,9 +6,9 @@ import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 
 import { MockRecaptchaLoaderService } from './mock-recaptcha-loader.service.spec';
-import { RecaptchaLoaderService } from './recaptcha-loader.service';
-import { RecaptchaDirective } from './recaptcha.directive';
-import { RecaptchaComponent } from './recaptcha.component';
+import { RecaptchaLoaderService } from '../recaptcha-loader.service';
+import { RecaptchaDirective } from '../recaptcha.directive';
+import { RecaptchaComponent } from '../recaptcha.component';
 
 describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
   @Component({

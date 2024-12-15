@@ -1,5 +1,5 @@
-import { loader } from './load-script';
 import { MockGrecaptcha } from './mock-grecaptcha.spec';
+import { loader } from '../load-script';
 
 describe('script loader', () => {
   let mockLoadScript: (...params: Parameters<(typeof loader)['loadScript']>) => {

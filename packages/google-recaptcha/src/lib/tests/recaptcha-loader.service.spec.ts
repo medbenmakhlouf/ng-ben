@@ -3,8 +3,8 @@ import { NgModule, PLATFORM_ID, Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 
-import { loader } from './load-script';
 import { MockGrecaptcha } from './mock-grecaptcha.spec';
+import { loader } from '../load-script';
 import {
   RECAPTCHA_BASE_URL,
   RECAPTCHA_LANGUAGE,
@@ -12,8 +12,8 @@ import {
   RECAPTCHA_NONCE,
   RECAPTCHA_V3_SITE_KEY,
   RecaptchaLoaderOptions,
-} from './tokens';
-import { RecaptchaLoaderService } from './recaptcha-loader.service';
+} from '../tokens';
+import { RecaptchaLoaderService } from '../recaptcha-loader.service';
 
 describe('RecaptchaLoaderService', () => {
   let loadScriptStub: jasmine.Spy;

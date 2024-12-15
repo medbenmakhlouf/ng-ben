@@ -2,11 +2,11 @@ import { PLATFORM_ID, Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { BehaviorSubject } from 'rxjs';
-import { loader } from './load-script';
 import { MockGrecaptcha } from './mock-grecaptcha.spec';
-import { RecaptchaLoaderService } from './recaptcha-loader.service';
-import { OnExecuteData, OnExecuteErrorData, ReCaptchaV3Service } from './recaptcha-v3.service';
-import { RECAPTCHA_BASE_URL, RECAPTCHA_NONCE, RECAPTCHA_V3_SITE_KEY, RECAPTCHA_LANGUAGE } from './tokens';
+import { loader } from '../load-script';
+import { RecaptchaLoaderService } from '../recaptcha-loader.service';
+import { OnExecuteData, OnExecuteErrorData, ReCaptchaV3Service } from '../recaptcha-v3.service';
+import { RECAPTCHA_BASE_URL, RECAPTCHA_NONCE, RECAPTCHA_V3_SITE_KEY, RECAPTCHA_LANGUAGE } from '../tokens';
 
 /**
  *
