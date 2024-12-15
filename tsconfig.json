@@ -7,7 +7,7 @@
     "strict": true,
     "paths": {
       "@ng-ben/google-recaptcha": [
-        "./dist/google-recaptcha"
+        "./packages/google-recaptcha/src/public-api.ts"
       ]
     },
     "noImplicitOverride": true,

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RecaptchaDirective } from './recaptcha.directive';
 
 @Component({
-  exportAs: 'reCaptcha',
   selector: 're-captcha',
   template: ``,
   hostDirectives: [
