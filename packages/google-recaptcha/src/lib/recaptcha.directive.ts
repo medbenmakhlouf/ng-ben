@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ElementRef,
   OutputEmitterRef,
   NgZone,
@@ -40,7 +39,7 @@ export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Par
     },
   ],
 })
-export class RecaptchaDirective implements AfterViewInit, ControlValueAccessor {
+export class RecaptchaDirective implements ControlValueAccessor {
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private loader = inject(RecaptchaLoaderService);
   private zone = inject(NgZone);
@@ -97,6 +96,10 @@ export class RecaptchaDirective implements AfterViewInit, ControlValueAccessor {
 
   constructor() {
     this.destroyRef.onDestroy(() => this.onDestroy());
+    this.subscription = this.grecaptcha$.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha) => {
+      this.grecaptcha = grecaptcha;
+      this.renderRecaptcha();
+    });
   }
 
   public writeValue(value: string): void {
@@ -127,20 +130,13 @@ export class RecaptchaDirective implements AfterViewInit, ControlValueAccessor {
   }
 
   @HostListener('resolved', ['$event'])
-  public onResolve($event: string): void {
+  public onResolve($event: string | null): void {
     if (this.onChange) {
       this.onChange($event);
     }
     if (this.onTouched) {
       this.onTouched();
     }
-  }
-
-  public ngAfterViewInit(): void {
-    this.subscription = this.grecaptcha$.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha) => {
-      this.grecaptcha = grecaptcha;
-      this.renderRecaptcha();
-    });
   }
 
   public onDestroy() {
@@ -190,7 +186,7 @@ export class RecaptchaDirective implements AfterViewInit, ControlValueAccessor {
    * Instead, use more idiomatic ways to get reCAPTCHA value, such as `resolved` EventEmitter, or form-bound methods (ngModel, formControl, and the likes).
    * @returns {string | null} The reCAPTCHA value or null if the widget is not available.
    */
-  public get __unsafe_widgetValue(): string | null {
+  private get __unsafe_widgetValue(): string | null {
     return this.widget != null ? this.grecaptcha.getResponse(this.widget) : null;
   }
 
