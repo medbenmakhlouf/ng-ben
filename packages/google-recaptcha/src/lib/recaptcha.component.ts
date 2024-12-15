@@ -5,10 +5,10 @@ import {
   ElementRef,
   OutputEmitterRef,
   NgZone,
-  OnDestroy,
   inject,
   output,
   input,
+  DestroyRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -31,11 +31,12 @@ export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Par
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecaptchaComponent implements AfterViewInit, OnDestroy {
+export class RecaptchaComponent implements AfterViewInit {
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private loader = inject(RecaptchaLoaderService);
   private zone = inject(NgZone);
   private settings = inject<RecaptchaSettings>(RECAPTCHA_SETTINGS, { optional: true });
+  private destroyRef = inject(DestroyRef);
 
   public readonly id = input<string>(`ngrecaptcha-${nextId++}`);
   public readonly siteKey = input(this.settings ? this.settings.siteKey : undefined);
@@ -57,6 +58,10 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   private executeRequested!: boolean;
 
+  constructor() {
+    this.destroyRef.onDestroy(() => this.onDestroy());
+  }
+
   public ngAfterViewInit(): void {
     this.subscription = this.loader.ready.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha | null) => {
       if (grecaptcha != null && typeof grecaptcha.render === 'function') {
@@ -66,7 +71,7 @@ export class RecaptchaComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public ngOnDestroy(): void {
+  public onDestroy() {
     // reset the captcha to ensure it does not leave anything behind
     // after the component is no longer needed
     this.grecaptchaReset();

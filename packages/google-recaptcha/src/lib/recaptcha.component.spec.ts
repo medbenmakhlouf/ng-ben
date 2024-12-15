@@ -187,7 +187,7 @@ describe('RecaptchaComponent', () => {
 
     // Act
     fixture.detectChanges();
-    component.ngOnDestroy();
+    component.onDestroy();
 
     // Assert
     expect(mockRecaptchaLoaderService.grecaptchaMock.reset).toHaveBeenCalled();
@@ -239,6 +239,6 @@ describe('RecaptchaComponent initialization', () => {
     const fixture = TestBed.createComponent(RecaptchaComponent);
     fixture.detectChanges();
     // Act + Assert
-    expect(() => fixture.componentInstance.ngOnDestroy()).not.toThrow();
+    expect(() => fixture.componentInstance.onDestroy()).not.toThrow();
   });
 });
