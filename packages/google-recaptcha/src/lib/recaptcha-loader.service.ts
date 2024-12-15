@@ -11,8 +11,8 @@ import {
   RECAPTCHA_LANGUAGE,
   RECAPTCHA_NONCE,
   RECAPTCHA_V3_SITE_KEY,
-  RecaptchaLoaderOptions,
 } from './tokens';
+import { RecaptchaLoaderOptions } from './types';
 
 @Injectable()
 export class RecaptchaLoaderService {

@@ -2,8 +2,9 @@
 import { NgModule, PLATFORM_ID, Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs';
-
 import { MockGrecaptcha } from './mock-grecaptcha.spec';
+import { RecaptchaLoaderOptions } from '../types';
+
 import { loader } from '../load-script';
 import {
   RECAPTCHA_BASE_URL,
@@ -11,7 +12,6 @@ import {
   RECAPTCHA_LOADER_OPTIONS,
   RECAPTCHA_NONCE,
   RECAPTCHA_V3_SITE_KEY,
-  RecaptchaLoaderOptions,
 } from '../tokens';
 import { RecaptchaLoaderService } from '../recaptcha-loader.service';
 

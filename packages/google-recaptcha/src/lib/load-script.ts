@@ -1,6 +1,5 @@
 /* eslint-disable jsdoc/no-undefined-types */
-import { RecaptchaLoaderOptions } from './tokens';
-import { RenderMode } from './types';
+import { RecaptchaLoaderOptions, RenderMode } from './types';
 
 declare global {
   interface Window {

@@ -14,5 +14,10 @@ export {
   RECAPTCHA_V3_SITE_KEY,
   RECAPTCHA_LOADER_OPTIONS,
 } from './lib/tokens';
-export type { RecaptchaLoaderOptions } from './lib/tokens';
-export type { RecaptchaSettings, OnExecuteErrorData, OnExecuteData, RecaptchaErrorParameters } from './lib/types';
+export type {
+  RecaptchaSettings,
+  OnExecuteErrorData,
+  OnExecuteData,
+  RecaptchaErrorParameters,
+  RecaptchaLoaderOptions,
+} from './lib/types';
