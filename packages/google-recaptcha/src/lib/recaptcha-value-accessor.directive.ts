@@ -1,7 +1,7 @@
 import { Directive, forwardRef, HostListener, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { RecaptchaComponent } from './recaptcha.component';
+import { RecaptchaDirective } from './recaptcha.directive';
 
 @Directive({
   providers: [
@@ -15,7 +15,7 @@ import { RecaptchaComponent } from './recaptcha.component';
   standalone: true,
 })
 export class RecaptchaValueAccessorDirective implements ControlValueAccessor {
-  private host = inject(RecaptchaComponent);
+  private host = inject(RecaptchaDirective);
 
   /** @internal */
   private onChange!: (value: string | null) => void;

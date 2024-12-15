@@ -4,14 +4,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockRecaptchaLoaderService } from './mock-recaptcha-loader.service.spec';
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
 import { RecaptchaSettings } from './recaptcha-settings';
-import { RecaptchaComponent, RecaptchaErrorParameters } from './recaptcha.component';
+import { RecaptchaComponent } from './recaptcha.component';
+import { RecaptchaDirective, RecaptchaErrorParameters } from './recaptcha.directive';
 import { RECAPTCHA_SETTINGS } from './tokens';
 
 describe('RecaptchaComponent', () => {
-  let component: RecaptchaComponent;
   let fixture: ComponentFixture<RecaptchaComponent>;
   let componentRef: ComponentRef<RecaptchaComponent>;
   let mockRecaptchaLoaderService: MockRecaptchaLoaderService;
+  let directive: RecaptchaDirective;
 
   beforeEach(async () => {
     mockRecaptchaLoaderService = new MockRecaptchaLoaderService();
@@ -26,9 +27,9 @@ describe('RecaptchaComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(RecaptchaComponent);
-    component = fixture.componentInstance;
     componentRef = fixture.componentRef;
     fixture.detectChanges();
+    directive = fixture.debugElement.injector.get(RecaptchaDirective);
   });
 
   it('should render recaptcha once loader is done', () => {
@@ -46,7 +47,7 @@ describe('RecaptchaComponent', () => {
   it('should not reset grecaptcha if it has not loaded yet', () => {
     // Arrange
     // Act
-    component.reset();
+    directive.reset();
     fixture.detectChanges();
 
     // Assert
@@ -59,7 +60,7 @@ describe('RecaptchaComponent', () => {
 
     // Act
     fixture.detectChanges();
-    component.reset();
+    directive.reset();
     fixture.detectChanges();
 
     // Assert
@@ -69,14 +70,14 @@ describe('RecaptchaComponent', () => {
   it('should emit null value upon grecaptcha reset if it has been resolved prior to that', () => {
     // Arrange
     const emittedResponses: (string | null)[] = [];
-    component.resolved.subscribe((response: string | null) => emittedResponses.push(response));
+    directive.resolved.subscribe((response: string | null) => emittedResponses.push(response));
     mockRecaptchaLoaderService.init();
 
     // Act
     fixture.detectChanges();
     mockRecaptchaLoaderService.grecaptchaMock.emitGrecaptchaResponse('test response');
     fixture.detectChanges();
-    component.reset();
+    directive.reset();
     fixture.detectChanges();
 
     // Assert
@@ -86,7 +87,7 @@ describe('RecaptchaComponent', () => {
   it('should emit grecaptcha value through resolved event emitter', () => {
     // Arrange
     const emittedResponses: (string | null)[] = [];
-    component.resolved.subscribe((response: string | null) => emittedResponses.push(response));
+    directive.resolved.subscribe((response: string | null) => emittedResponses.push(response));
     mockRecaptchaLoaderService.init();
 
     // Act
@@ -100,7 +101,7 @@ describe('RecaptchaComponent', () => {
   it('should emit null value through resolved event emitter once grecaptcha expires', () => {
     // Arrange
     const emittedResponses: (string | null)[] = [];
-    component.resolved.subscribe((response: string | null) => emittedResponses.push(response));
+    directive.resolved.subscribe((response: string | null) => emittedResponses.push(response));
     mockRecaptchaLoaderService.init();
 
     // Act
@@ -116,7 +117,7 @@ describe('RecaptchaComponent', () => {
   it("should emit grecaptcha error if errorMode was set to 'handled'", () => {
     // Arrange
     const emittedErrors: RecaptchaErrorParameters[] = [];
-    component.errored.subscribe((error: RecaptchaErrorParameters) => emittedErrors.push(error));
+    directive.errored.subscribe((error: RecaptchaErrorParameters) => emittedErrors.push(error));
     componentRef.setInput('errorMode', 'handled');
     mockRecaptchaLoaderService.init();
 
@@ -145,7 +146,7 @@ describe('RecaptchaComponent', () => {
 
     // Act
     fixture.detectChanges();
-    component.execute();
+    directive.execute();
     fixture.detectChanges();
 
     // Assert
@@ -159,7 +160,7 @@ describe('RecaptchaComponent', () => {
 
     // Act
     fixture.detectChanges();
-    component.execute();
+    directive.execute();
     fixture.detectChanges();
 
     // Assert
@@ -172,7 +173,7 @@ describe('RecaptchaComponent', () => {
 
     // Act
     fixture.detectChanges();
-    component.execute();
+    directive.execute();
     fixture.detectChanges();
     mockRecaptchaLoaderService.init();
     fixture.detectChanges();
@@ -187,7 +188,7 @@ describe('RecaptchaComponent', () => {
 
     // Act
     fixture.detectChanges();
-    component.onDestroy();
+    directive.onDestroy();
 
     // Assert
     expect(mockRecaptchaLoaderService.grecaptchaMock.reset).toHaveBeenCalled();
@@ -197,7 +198,7 @@ describe('RecaptchaComponent', () => {
 describe('RecaptchaComponent initialization', () => {
   // Arrange
   let mockRecaptchaLoaderService: MockRecaptchaLoaderService;
-
+  let directive: RecaptchaDirective;
   beforeEach(async () => {
     mockRecaptchaLoaderService = new MockRecaptchaLoaderService();
     const recaptchaSettings: RecaptchaSettings = {
@@ -226,19 +227,21 @@ describe('RecaptchaComponent initialization', () => {
     // Act
     const fixture = TestBed.createComponent(RecaptchaComponent);
     fixture.detectChanges();
+    directive = fixture.debugElement.injector.get(RecaptchaDirective);
     // Assert
-    expect(fixture.componentInstance.badge()).toEqual('bottomleft');
-    expect(fixture.componentInstance.siteKey()).toEqual('test site key');
-    expect(fixture.componentInstance.size()).toEqual('compact');
-    expect(fixture.componentInstance.theme()).toEqual('dark');
-    expect(fixture.componentInstance.type()).toEqual('audio');
+    expect(directive.badge()).toEqual('bottomleft');
+    expect(directive.siteKey()).toEqual('test site key');
+    expect(directive.size()).toEqual('compact');
+    expect(directive.theme()).toEqual('dark');
+    expect(directive.type()).toEqual('audio');
   });
 
   it('should gracefully handle destroying of the component if initialization has not finished', () => {
     // Act
     const fixture = TestBed.createComponent(RecaptchaComponent);
     fixture.detectChanges();
+    directive = fixture.debugElement.injector.get(RecaptchaDirective);
     // Act + Assert
-    expect(() => fixture.componentInstance.onDestroy()).not.toThrow();
+    expect(() => directive.onDestroy()).not.toThrow();
   });
 });

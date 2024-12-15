@@ -3,7 +3,8 @@
  */
 
 export { RecaptchaComponent } from './lib/recaptcha.component';
-export type { RecaptchaErrorParameters } from './lib/recaptcha.component';
+export { RecaptchaDirective } from './lib/recaptcha.directive';
+export type { RecaptchaErrorParameters } from './lib/recaptcha.directive';
 export { RecaptchaLoaderService } from './lib/recaptcha-loader.service';
 export { RecaptchaModule } from './lib/recaptcha.module';
 export type { RecaptchaSettings } from './lib/recaptcha-settings';
