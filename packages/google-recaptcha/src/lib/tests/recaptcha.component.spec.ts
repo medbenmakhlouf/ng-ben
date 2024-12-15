@@ -1,11 +1,10 @@
 import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MockRecaptchaLoaderService } from './mock-recaptcha-loader.service.spec';
+import { RecaptchaErrorParameters, RecaptchaSettings } from '../types';
 import { RecaptchaLoaderService } from '../recaptcha-loader.service';
-import { RecaptchaSettings } from '../recaptcha-settings';
 import { RecaptchaComponent } from '../recaptcha.component';
-import { RecaptchaDirective, RecaptchaErrorParameters } from '../recaptcha.directive';
+import { RecaptchaDirective } from '../recaptcha.directive';
 import { RECAPTCHA_SETTINGS } from '../tokens';
 
 describe('RecaptchaComponent', () => {

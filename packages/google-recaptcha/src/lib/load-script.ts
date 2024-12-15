@@ -1,13 +1,12 @@
 /* eslint-disable jsdoc/no-undefined-types */
 import { RecaptchaLoaderOptions } from './tokens';
+import { RenderMode } from './types';
 
 declare global {
   interface Window {
     ng2recaptchaloaded?(): void;
   }
 }
-
-export type RenderMode = 'explicit' | { key: string };
 
 /**
  *

@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-import { RecaptchaSettings } from './recaptcha-settings';
+import { RecaptchaSettings } from './types';
 
 /** @deprecated Use `LOADER_OPTIONS` instead. See `RecaptchaLoaderOptions.onBeforeLoad` */
 export const RECAPTCHA_LANGUAGE = new InjectionToken<string>('recaptcha-language');

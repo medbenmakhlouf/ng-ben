@@ -4,11 +4,8 @@
 
 export { RecaptchaComponent } from './lib/recaptcha.component';
 export { RecaptchaDirective } from './lib/recaptcha.directive';
-export type { RecaptchaErrorParameters } from './lib/recaptcha.directive';
 export { RecaptchaLoaderService } from './lib/recaptcha-loader.service';
-export type { RecaptchaSettings } from './lib/recaptcha-settings';
 export { ReCaptchaV3Service } from './lib/recaptcha-v3.service';
-export type { OnExecuteData, OnExecuteErrorData } from './lib/recaptcha-v3.service';
 export {
   RECAPTCHA_LANGUAGE,
   RECAPTCHA_BASE_URL,
@@ -18,3 +15,4 @@ export {
   RECAPTCHA_LOADER_OPTIONS,
 } from './lib/tokens';
 export type { RecaptchaLoaderOptions } from './lib/tokens';
+export type { RecaptchaSettings, OnExecuteErrorData, OnExecuteData, RecaptchaErrorParameters } from './lib/types';

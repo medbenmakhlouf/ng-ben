@@ -1,29 +1,25 @@
 import {
-  ElementRef,
-  OutputEmitterRef,
-  NgZone,
-  inject,
-  output,
-  input,
-  DestroyRef,
   computed,
+  DestroyRef,
   Directive,
+  ElementRef,
   forwardRef,
   HostListener,
+  inject,
+  input,
+  NgZone,
+  output,
+  OutputEmitterRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
-import { RecaptchaSettings } from './recaptcha-settings';
 import { RECAPTCHA_SETTINGS } from './tokens';
+import { RecaptchaErrorParameters, RecaptchaSettings } from './types';
 
 let nextId = 0;
-
-export type NeverUndefined<T> = T extends undefined ? never : T;
-
-export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Parameters['error-callback']>>;
 
 @Directive({
   exportAs: 'reCaptcha',
