@@ -11,6 +11,7 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
 import { RecaptchaSettings } from './recaptcha-settings';
@@ -50,6 +51,10 @@ export class RecaptchaComponent implements AfterViewInit {
   public readonly errored: OutputEmitterRef<RecaptchaErrorParameters> = output<RecaptchaErrorParameters>();
 
   /** @internal */
+  private loader$ = this.loader.ready.pipe(
+    filter((grecaptcha: ReCaptchaV2.ReCaptcha) => typeof grecaptcha.render === 'function'),
+  );
+  /** @internal */
   private subscription!: Subscription;
   /** @internal */
   private widget!: number;
@@ -63,11 +68,9 @@ export class RecaptchaComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.subscription = this.loader.ready.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha | null) => {
-      if (grecaptcha != null && typeof grecaptcha.render === 'function') {
-        this.grecaptcha = grecaptcha;
-        this.renderRecaptcha();
-      }
+    this.subscription = this.loader$.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha) => {
+      this.grecaptcha = grecaptcha;
+      this.renderRecaptcha();
     });
   }
 

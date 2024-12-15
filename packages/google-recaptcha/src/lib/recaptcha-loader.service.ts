@@ -1,7 +1,7 @@
 /* eslint-disable jsdoc/no-undefined-types */
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { loader } from './load-script';
@@ -14,16 +14,6 @@ import {
   RecaptchaLoaderOptions,
 } from './tokens';
 
-/**
- * Converts a BehaviorSubject to an Observable that filters out null values.
- * @template T
- * @param {BehaviorSubject<T>} subject - The BehaviorSubject to convert.
- * @returns {Observable<T>} An Observable that emits non-null values.
- */
-function toNonNullObservable<T>(subject: BehaviorSubject<T>): Observable<T> {
-  return subject.asObservable().pipe(filter<T>((value) => value !== null));
-}
-
 @Injectable()
 export class RecaptchaLoaderService {
   private readonly platformId = inject(PLATFORM_ID);
@@ -33,7 +23,7 @@ export class RecaptchaLoaderService {
    */
   private static ready: BehaviorSubject<ReCaptchaV2.ReCaptcha | null> | null = null;
 
-  public ready: Observable<ReCaptchaV2.ReCaptcha | null>;
+  public ready: Observable<ReCaptchaV2.ReCaptcha>;
 
   /** @internal */
   private language = inject<string | null>(RECAPTCHA_LANGUAGE, { optional: true });
@@ -47,24 +37,25 @@ export class RecaptchaLoaderService {
   private options = inject<RecaptchaLoaderOptions | null>(RECAPTCHA_LOADER_OPTIONS, { optional: true });
 
   constructor() {
-    const subject = this.init();
-    this.ready = subject ? toNonNullObservable(subject) : of();
+    this.ready = this.init()
+      .asObservable()
+      .pipe(filter((value) => value !== null));
   }
 
   /**
    * @internal
    * @returns {BehaviorSubject<ReCaptchaV2.ReCaptcha | null> | undefined} A BehaviorSubject that emits ReCaptcha instances or `undefined` if not in a browser platform.
    */
-  private init(): BehaviorSubject<ReCaptchaV2.ReCaptcha | null> | undefined {
+  private init(): BehaviorSubject<ReCaptchaV2.ReCaptcha | null> {
     if (RecaptchaLoaderService.ready) {
       return RecaptchaLoaderService.ready;
     }
 
+    const subject = new BehaviorSubject<ReCaptchaV2.ReCaptcha | null>(null);
     if (!isPlatformBrowser(this.platformId)) {
-      return undefined;
+      return subject;
     }
 
-    const subject = new BehaviorSubject<ReCaptchaV2.ReCaptcha | null>(null);
     RecaptchaLoaderService.ready = subject;
 
     loader.newLoadScript({
