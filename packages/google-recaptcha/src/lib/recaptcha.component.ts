@@ -52,7 +52,7 @@ export class RecaptchaComponent implements AfterViewInit {
   public readonly errored: OutputEmitterRef<RecaptchaErrorParameters> = output<RecaptchaErrorParameters>();
 
   /** @internal */
-  private loader$ = this.loader.ready.pipe(
+  private grecaptcha$ = this.loader.ready.pipe(
     filter((grecaptcha: ReCaptchaV2.ReCaptcha) => typeof grecaptcha.render === 'function'),
   );
   /** @internal */
@@ -88,7 +88,7 @@ export class RecaptchaComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.subscription = this.loader$.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha) => {
+    this.subscription = this.grecaptcha$.subscribe((grecaptcha: ReCaptchaV2.ReCaptcha) => {
       this.grecaptcha = grecaptcha;
       this.renderRecaptcha();
     });
@@ -97,7 +97,7 @@ export class RecaptchaComponent implements AfterViewInit {
   public onDestroy() {
     // reset the captcha to ensure it does not leave anything behind
     // after the component is no longer needed
-    this.grecaptchaReset();
+    this.resetRecaptcha();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -128,8 +128,7 @@ export class RecaptchaComponent implements AfterViewInit {
         // on a non-resolved captcha.
         this.resolved.emit(null);
       }
-
-      this.grecaptchaReset();
+      this.resetRecaptcha();
     }
   }
 
@@ -169,7 +168,7 @@ export class RecaptchaComponent implements AfterViewInit {
   }
 
   /** @internal */
-  private grecaptchaReset() {
+  private resetRecaptcha() {
     if (this.widget != null) {
       this.zone.runOutsideAngular(() => this.grecaptcha.reset(this.widget));
     }
