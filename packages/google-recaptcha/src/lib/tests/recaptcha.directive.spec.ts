@@ -14,7 +14,7 @@ describe('RecaptchaValueAccessorDirective -> [(ngModel)]', () => {
   @Component({
     template: `
       <form #captchaForm="ngForm">
-        <re-captcha [(ngModel)]="formModel.captcha" name="captcha" #captcha="ngModel"></re-captcha>
+        <google-recaptcha [(ngModel)]="formModel.captcha" name="captcha" #captcha="ngModel"></google-recaptcha>
         @if (captcha.pristine) {
           <div captcha-pristine></div>
         }
@@ -114,7 +114,7 @@ describe('RecaptchaValueAccessorDirective -> formGroup', () => {
     template: `
       @if ((loading$ | async) === false) {
         <form [formGroup]="formGroup">
-          <re-captcha formControlName="captcha"></re-captcha>
+          <google-recaptcha formControlName="captcha"></google-recaptcha>
         </form>
       }
     `,

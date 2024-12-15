@@ -23,8 +23,9 @@ import { RecaptchaErrorParameters, RecaptchaSettings } from './types';
 let nextId = 0;
 
 @Directive({
-  exportAs: 'reCaptcha',
-  selector: '[re-captcha],re-captcha[formControlName],re-captcha[formControl],re-captcha[ngModel]',
+  exportAs: 'googleRecaptcha',
+  selector:
+    '[google-recaptcha],google-recaptcha[formControlName],google-recaptcha[formControl],google-recaptcha[ngModel]',
   host: {
     '[attr.id]': 'id()',
   },
