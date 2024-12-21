@@ -97,7 +97,7 @@
               "apps/showcase/**/*.ts",
               "apps/showcase/**/*.html"
             ],
-            "eslintConfig": "apps/showcase/eslint.config.js"
+            "eslintConfig": "apps/showcase/eslint.config.mjs"
           }
         }
       }
@@ -141,7 +141,7 @@
               "packages/google-recaptcha/**/*.ts",
               "packages/google-recaptcha/**/*.html"
             ],
-            "eslintConfig": "packages/google-recaptcha/eslint.config.js"
+            "eslintConfig": "packages/google-recaptcha/eslint.config.mjs"
           }
         }
       }
@@ -184,7 +184,7 @@
               "packages/google-analytics/**/*.ts",
               "packages/google-analytics/**/*.html"
             ],
-            "eslintConfig": "packages/google-analytics/eslint.config.js"
+            "eslintConfig": "packages/google-analytics/eslint.config.mjs"
           }
         }
       }

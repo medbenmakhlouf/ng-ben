@@ -1,14 +1,13 @@
-// @ts-check
-const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const angular = require('angular-eslint');
-const importPlugin = require('eslint-plugin-import');
-const jsdoc = require('eslint-plugin-jsdoc');
-const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
-const eslintConfigPrettier = require('eslint-config-prettier');
-const unusedImports = require('eslint-plugin-unused-imports');
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from 'angular-eslint';
+import importPlugin from 'eslint-plugin-import';
+import jsdoc from 'eslint-plugin-jsdoc';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import unusedImports from 'eslint-plugin-unused-imports';
 
-module.exports = tseslint.config(
+export default tseslint.config(
   {
     files: ['**/*.ts'],
     plugins: {
