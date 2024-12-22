@@ -2,8 +2,8 @@ import { type ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NGX_GOOGLE_ANALYTICS_ROUTER_INITIALIZER_PROVIDER } from './google-analytics-router.initializer';
 import { NgxGoogleAnalyticsModule } from './ngx-google-analytics.module';
-import { type IGoogleAnalyticsRoutingSettings } from './interfaces/i-google-analytics-routing-settings';
 import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN } from './tokens';
+import { type IGoogleAnalyticsRoutingSettings } from './types';
 
 /**
  * Attach a listener to `NavigationEnd` Router event. So, every time Router finish the page resolution it should call `NavigationEnd` event.

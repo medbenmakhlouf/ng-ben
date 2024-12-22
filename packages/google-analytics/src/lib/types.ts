@@ -38,3 +38,46 @@ export type GaWindow = Window & {
   gtag?: any;
   dataLayer?: any;
 };
+
+/**
+ * Standardizes a common command protocol :)
+ */
+export interface IGoogleAnalyticsCommand {
+  command: string;
+  values: any[];
+}
+
+/**
+ * Provide some custom settings for Automatics Router listener behaviour.
+ */
+export interface IGoogleAnalyticsRoutingSettings {
+  /**
+   * Exclude the given path to the auto page-view trigger.
+   *
+   * ```ts
+   * @NgModule({
+   *    imports: [
+   *      NgxGoogleAnalyticsModule.forRoot(...),
+   *      NgxGoogleAnalyticsRouterModule.forRoot({ exclude: ['/login', '/internal/*', /regExp/gi] })
+   *    ]
+   * })
+   * AppModule
+   * ```
+   */
+  exclude?: (string | RegExp)[];
+
+  /**
+   * Auto trigger page-view only for allowed uris.
+   *
+   * ```ts
+   * @NgModule({
+   *    imports: [
+   *      NgxGoogleAnalyticsModule.forRoot(...),
+   *      NgxGoogleAnalyticsRouterModule.forRoot({ include: ['/login', '/internal/*', /regExp/gi] })
+   *    ]
+   * })
+   * AppModule
+   * ```
+   */
+  include?: (string | RegExp)[];
+}
