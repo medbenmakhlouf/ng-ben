@@ -2,6 +2,7 @@ import {
   computed,
   DestroyRef,
   Directive,
+  effect,
   ElementRef,
   forwardRef,
   inject,
@@ -10,10 +11,8 @@ import {
   output,
   OutputEmitterRef,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { tap } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
 import { RECAPTCHA_SETTINGS } from './tokens';
@@ -60,9 +59,7 @@ export class RecaptchaDirective implements ControlValueAccessor {
   /** @internal */
   private requiresControllerReset = false;
   /** @internal */
-  private grecaptcha$ = this.loader.ready.pipe(
-    filter((grecaptcha: ReCaptchaV2.ReCaptcha) => typeof grecaptcha.render === 'function'),
-  );
+  private instance = toSignal<ReCaptchaV2.ReCaptcha | undefined>(this.loader.ready);
   /** @internal */
   private widget!: number;
   /** @internal */
@@ -91,15 +88,13 @@ export class RecaptchaDirective implements ControlValueAccessor {
 
   constructor() {
     this.destroyRef.onDestroy(() => this.onDestroy());
-    this.grecaptcha$
-      .pipe(
-        takeUntilDestroyed(),
-        tap((grecaptcha: ReCaptchaV2.ReCaptcha) => {
-          this.grecaptcha = grecaptcha;
-          this.renderRecaptcha();
-        }),
-      )
-      .subscribe();
+    effect(() => {
+      const grecaptcha = this.instance();
+      if (grecaptcha) {
+        this.grecaptcha = grecaptcha;
+        this.renderRecaptcha();
+      }
+    });
   }
 
   public writeValue(value: string): void {

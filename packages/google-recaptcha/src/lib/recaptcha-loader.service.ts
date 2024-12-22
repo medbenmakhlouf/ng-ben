@@ -27,7 +27,10 @@ export class RecaptchaLoaderService {
   constructor() {
     this.ready = this.init()
       .asObservable()
-      .pipe(filter((value) => value !== null));
+      .pipe(
+        filter((value) => value !== null),
+        filter((grecaptcha: ReCaptchaV2.ReCaptcha) => typeof grecaptcha.render === 'function'),
+      );
   }
 
   /**
