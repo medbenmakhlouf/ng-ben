@@ -10,19 +10,18 @@ import { type RecaptchaLoaderOptions } from './types';
 
 @Injectable()
 export class RecaptchaLoaderService {
+  /** @internal */
   private readonly platformId = inject(PLATFORM_ID);
-
-  /**
-   * @internal
-   */
+  /** @internal */
   private static ready: BehaviorSubject<ReCaptchaV2.ReCaptcha | null> | null = null;
-
-  public ready: Observable<ReCaptchaV2.ReCaptcha>;
-
   /** @internal */
   private v3SiteKey = inject<string | null>(RECAPTCHA_V3_SITE_KEY, { optional: true });
   /** @internal */
   private options = inject<RecaptchaLoaderOptions | null>(RECAPTCHA_LOADER_OPTIONS, { optional: true });
+  /** @internal */
+  private subject = new BehaviorSubject<ReCaptchaV2.ReCaptcha | null>(null);
+
+  public ready: Observable<ReCaptchaV2.ReCaptcha>;
 
   constructor() {
     this.ready = this.init()
@@ -41,14 +40,10 @@ export class RecaptchaLoaderService {
     if (RecaptchaLoaderService.ready) {
       return RecaptchaLoaderService.ready;
     }
-
-    const subject = new BehaviorSubject<ReCaptchaV2.ReCaptcha | null>(null);
     if (!isPlatformBrowser(this.platformId)) {
-      return subject;
+      return this.subject;
     }
-
-    RecaptchaLoaderService.ready = subject;
-
+    RecaptchaLoaderService.ready = this.subject;
     loader.loadScript({
       renderMode: this.v3SiteKey ? { key: this.v3SiteKey } : 'explicit',
       onBeforeLoad: (url) => {
@@ -62,10 +57,9 @@ export class RecaptchaLoaderService {
         if (this.options?.onLoaded) {
           value = this.options.onLoaded(recaptcha);
         }
-        subject.next(value);
+        this.subject.next(value);
       },
     });
-
-    return subject;
+    return this.subject;
   }
 }
