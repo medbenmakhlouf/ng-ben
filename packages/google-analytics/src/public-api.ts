@@ -17,7 +17,7 @@ export * from './lib/interfaces/i-google-analytics-settings';
 
 export * from './lib/services/google-analytics.service';
 
-export * from './lib/tokens/ngx-data-layer-token';
+export * from './lib/tokens';
 export * from './lib/tokens/ngx-google-analytics-router-settings-token';
 export * from './lib/tokens/ngx-google-analytics-settings-token';
 export * from './lib/tokens/ngx-gtag-token';

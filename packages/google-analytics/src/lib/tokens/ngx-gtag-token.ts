@@ -1,7 +1,7 @@
 import { InjectionToken, inject } from '@angular/core';
 import { NGX_WINDOW } from './ngx-window-token';
-import { NGX_DATA_LAYER } from './ngx-data-layer-token';
 import { type GaWindow } from './ngx-google-analytics-window';
+import { NGX_DATA_LAYER } from '../tokens';
 import { type DataLayer, type GtagFn } from '../types';
 
 /**
