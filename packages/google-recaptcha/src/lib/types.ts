@@ -94,7 +94,7 @@ export interface RecaptchaLoaderOptions {
    * }
    * ```
    */
-  onBeforeLoad?(url: URL): { url: URL; nonce?: string | null | undefined };
+  onBeforeLoad?(url: URL): { url: URL; nonce?: string | null };
 
   /**
    * Allows you to change the `grecaptcha` that the `ng-recaptcha` will be relying on.
@@ -130,6 +130,6 @@ export interface RecaptchaLoaderOptions {
 
 export interface ScriptLoaderOptions {
   renderMode: 'explicit' | { key: string };
-  onBeforeLoad(url: URL): { url: URL; nonce?: string | null | undefined };
+  onBeforeLoad(url: URL): { url: URL; nonce?: string | null };
   onLoaded(recaptcha: ReCaptchaV2.ReCaptcha): void;
 }
