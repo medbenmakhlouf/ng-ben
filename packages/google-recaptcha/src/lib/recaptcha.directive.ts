@@ -4,7 +4,6 @@ import {
   Directive,
   ElementRef,
   forwardRef,
-  HostListener,
   inject,
   input,
   NgZone,
@@ -130,7 +129,6 @@ export class RecaptchaDirective implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  @HostListener('resolved', ['$event'])
   public onResolve($event: string | null): void {
     if (this.onChange) {
       this.onChange($event);
@@ -170,6 +168,7 @@ export class RecaptchaDirective implements ControlValueAccessor {
         // That way we do not trigger "touching" of the control if someone does a "reset"
         // on a non-resolved captcha.
         this.resolved.emit(null);
+        this.onResolve(null);
       }
       this.resetRecaptcha();
     }
@@ -191,6 +190,7 @@ export class RecaptchaDirective implements ControlValueAccessor {
   /** @internal */
   private expired() {
     this.resolved.emit(null);
+    this.onResolve(null);
   }
 
   /**
@@ -208,6 +208,7 @@ export class RecaptchaDirective implements ControlValueAccessor {
    */
   private captchaResponseCallback(response: string) {
     this.resolved.emit(response);
+    this.onResolve(response);
   }
 
   /** @internal */
