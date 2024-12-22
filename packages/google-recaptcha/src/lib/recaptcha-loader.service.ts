@@ -49,8 +49,8 @@ export class RecaptchaLoaderService {
 
     RecaptchaLoaderService.ready = subject;
 
-    loader.newLoadScript({
-      v3SiteKey: this.v3SiteKey,
+    loader.loadScript({
+      renderMode: this.v3SiteKey ? { key: this.v3SiteKey } : 'explicit',
       onBeforeLoad: (url) => {
         if (this.options?.onBeforeLoad) {
           return this.options.onBeforeLoad(url);

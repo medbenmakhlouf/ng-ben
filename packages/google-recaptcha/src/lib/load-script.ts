@@ -1,5 +1,5 @@
 /* eslint-disable jsdoc/no-undefined-types */
-import { RecaptchaLoaderOptions, RenderMode, ScriptLoaderOptions } from './types';
+import { ScriptLoaderOptions } from './types';
 
 declare global {
   interface Window {
@@ -50,24 +50,4 @@ function loadScript(
   document.head.appendChild(script);
 }
 
-/**
- *
- * @param {object} root0 - The options object.
- * @param {string} [root0.v3SiteKey] - The site key for reCAPTCHA v3.
- * @param {(url: URL) => { url: URL; nonce?: string }} root0.onBeforeLoad - Function to call before loading the script.
- * @param {(grecaptcha: ReCaptchaV2.ReCaptcha) => void} root0.onLoaded - Function to call when the script is loaded.
- */
-function newLoadScript({
-  v3SiteKey,
-  onBeforeLoad,
-  onLoaded,
-}: { v3SiteKey: string | null; onLoaded(recaptcha: ReCaptchaV2.ReCaptcha): void } & Pick<
-  Required<RecaptchaLoaderOptions>,
-  'onBeforeLoad'
->) {
-  const renderMode: RenderMode = v3SiteKey ? { key: v3SiteKey } : 'explicit';
-
-  loader.loadScript({ renderMode, onBeforeLoad, onLoaded });
-}
-
-export const loader = { loadScript, newLoadScript };
+export const loader = { loadScript };
