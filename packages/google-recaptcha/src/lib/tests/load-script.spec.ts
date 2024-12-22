@@ -28,7 +28,7 @@ describe('script loader', () => {
   });
 
   afterEach(() => {
-    delete window.ng2recaptchaloaded;
+    delete window.recaptchaLoaded;
     // delete window.grecaptcha;
   });
 
@@ -121,8 +121,8 @@ describe('script loader', () => {
     });
 
     // Assert
-    expect(scriptUrlSearchParams.get('onload')).toEqual('ng2recaptchaloaded');
-    expect(window.ng2recaptchaloaded).toBeInstanceOf(Function);
+    expect(scriptUrlSearchParams.get('onload')).toEqual('recaptchaLoaded');
+    expect(window.recaptchaLoaded).toBeInstanceOf(Function);
   });
 
   it('should invoke provided onload callback via window global', () => {
@@ -137,7 +137,7 @@ describe('script loader', () => {
       onLoaded: onLoadedSpy,
     });
     window.grecaptcha = mockGrecaptchaValue;
-    window.ng2recaptchaloaded?.();
+    window.recaptchaLoaded?.();
 
     // Assert
     expect(onLoadedSpy).toHaveBeenCalledWith(mockGrecaptchaValue);
