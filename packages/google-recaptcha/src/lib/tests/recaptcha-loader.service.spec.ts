@@ -1,9 +1,9 @@
 /* eslint-disable jsdoc/no-undefined-types */
-import { NgModule, PLATFORM_ID, Provider } from '@angular/core';
+import { NgModule, PLATFORM_ID, type Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 import { MockGrecaptcha } from './mock-grecaptcha.spec';
-import { RecaptchaLoaderOptions } from '../types';
+import { type RecaptchaLoaderOptions } from '../types';
 
 import { loader } from '../load-script';
 import { RECAPTCHA_LOADER_OPTIONS, RECAPTCHA_V3_SITE_KEY } from '../tokens';

@@ -1,9 +1,9 @@
-import { PLATFORM_ID, Provider } from '@angular/core';
+import { PLATFORM_ID, type Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { BehaviorSubject } from 'rxjs';
 import { MockGrecaptcha } from './mock-grecaptcha.spec';
-import { OnExecuteData, OnExecuteErrorData } from '../types';
+import { type OnExecuteData, type OnExecuteErrorData } from '../types';
 import { loader } from '../load-script';
 import { RecaptchaLoaderService } from '../recaptcha-loader.service';
 import { ReCaptchaV3Service } from '../recaptcha-v3.service';

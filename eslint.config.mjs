@@ -52,6 +52,10 @@ export default tseslint.config(
         },
       ],
       '@angular-eslint/prefer-on-push-component-change-detection': 'error',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports', disallowTypeAnnotations: false, fixStyle: 'inline-type-imports' },
+      ],
       'unused-imports/no-unused-imports': 'warn',
       'unused-imports/no-unused-vars': [
         'warn',

@@ -1,9 +1,9 @@
 import { inject, Injectable, NgZone } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { type Observable, Subject } from 'rxjs';
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
 
 import { RECAPTCHA_V3_SITE_KEY } from './tokens';
-import { OnExecuteData, OnExecuteErrorData, ActionBacklogEntry } from './types';
+import { type OnExecuteData, type OnExecuteErrorData, type ActionBacklogEntry } from './types';
 
 /**
  * The main service for working with reCAPTCHA v3 APIs.

@@ -1,12 +1,12 @@
 /* eslint-disable jsdoc/no-undefined-types */
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, type Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { loader } from './load-script';
 import { RECAPTCHA_LOADER_OPTIONS, RECAPTCHA_V3_SITE_KEY } from './tokens';
-import { RecaptchaLoaderOptions } from './types';
+import { type RecaptchaLoaderOptions } from './types';
 
 @Injectable()
 export class RecaptchaLoaderService {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, type Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MockGrecaptcha } from './mock-grecaptcha.spec';
 

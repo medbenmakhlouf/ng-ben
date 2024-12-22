@@ -9,14 +9,14 @@ import {
   input,
   NgZone,
   output,
-  OutputEmitterRef,
+  type OutputEmitterRef,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
 import { RECAPTCHA_SETTINGS } from './tokens';
-import { RecaptchaErrorParameters, RecaptchaSettings } from './types';
+import { type RecaptchaErrorParameters, type RecaptchaSettings } from './types';
 
 let nextId = 0;
 

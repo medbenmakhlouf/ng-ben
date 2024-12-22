@@ -1,7 +1,7 @@
-import { ComponentRef } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentRef } from '@angular/core';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockRecaptchaLoaderService } from './mock-recaptcha-loader.service.spec';
-import { RecaptchaErrorParameters, RecaptchaSettings } from '../types';
+import { type RecaptchaErrorParameters, type RecaptchaSettings } from '../types';
 import { RecaptchaLoaderService } from '../recaptcha-loader.service';
 import { RecaptchaComponent } from '../recaptcha.component';
 import { RecaptchaDirective } from '../recaptcha.directive';

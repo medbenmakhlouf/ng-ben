@@ -1,4 +1,4 @@
-import { ScriptLoaderOptions } from './types';
+import { type ScriptLoaderOptions } from './types';
 
 declare global {
   interface Window {
