@@ -171,6 +171,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "tsConfig": "packages/google-analytics/tsconfig.spec.json",
+            "karmaConfig": "packages/google-analytics/karma.conf.js",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
