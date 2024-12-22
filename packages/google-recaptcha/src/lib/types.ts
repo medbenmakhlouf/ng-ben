@@ -128,3 +128,9 @@ export interface RecaptchaLoaderOptions {
    */
   onLoaded?(recaptcha: ReCaptchaV2.ReCaptcha): ReCaptchaV2.ReCaptcha;
 }
+
+export interface ScriptLoaderOptions {
+  renderMode: RenderMode;
+  onBeforeLoad(url: URL): { url: URL; nonce?: string | null | undefined };
+  onLoaded(recaptcha: ReCaptchaV2.ReCaptcha): void;
+}

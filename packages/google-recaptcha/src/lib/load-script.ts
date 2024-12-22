@@ -1,5 +1,5 @@
 /* eslint-disable jsdoc/no-undefined-types */
-import { RecaptchaLoaderOptions, RenderMode } from './types';
+import { RecaptchaLoaderOptions, RenderMode, ScriptLoaderOptions } from './types';
 
 declare global {
   interface Window {
@@ -16,23 +16,22 @@ declare global {
  * @param {string} [root0.url] - The URL to load the script from.
  * @param {string} [root0.lang] - The language code for the reCAPTCHA.
  * @param {string} [root0.nonce] - The nonce attribute for the script.
+ * @param options
  */
 function loadScript(
-  renderMode: RenderMode,
-  onBeforeLoad: (url: URL) => { url: URL; nonce?: string | null | undefined },
-  onLoaded: (grecaptcha: ReCaptchaV2.ReCaptcha) => void,
+  options: ScriptLoaderOptions,
   { url, lang, nonce }: { url?: string; lang?: string; nonce?: string } = {},
 ): void {
   window.ng2recaptchaloaded = () => {
-    onLoaded(grecaptcha);
+    options.onLoaded(grecaptcha);
   };
   const script = document.createElement('script');
   script.innerHTML = '';
 
-  const { url: baseUrl, nonce: onBeforeLoadNonce } = onBeforeLoad(
+  const { url: baseUrl, nonce: onBeforeLoadNonce } = options.onBeforeLoad(
     new URL(url || 'https://www.google.com/recaptcha/api.js'),
   );
-  baseUrl.searchParams.set('render', renderMode === 'explicit' ? renderMode : renderMode.key);
+  baseUrl.searchParams.set('render', options.renderMode === 'explicit' ? options.renderMode : options.renderMode.key);
   baseUrl.searchParams.set('onload', 'ng2recaptchaloaded');
   baseUrl.searchParams.set('trustedtypes', 'true');
   if (lang) {
@@ -68,7 +67,7 @@ function newLoadScript({
 >) {
   const renderMode: RenderMode = v3SiteKey ? { key: v3SiteKey } : 'explicit';
 
-  loader.loadScript(renderMode, onBeforeLoad, onLoaded);
+  loader.loadScript({ renderMode, onBeforeLoad, onLoaded });
 }
 
 export const loader = { loadScript, newLoadScript };

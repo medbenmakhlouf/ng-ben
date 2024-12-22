@@ -34,19 +34,13 @@ describe('script loader', () => {
 
   it('should add a script to document head', () => {
     // Arrange + Act + Assert
-    mockLoadScript(
-      'explicit',
-      (url) => ({ url }),
-      () => void 0,
-    );
+    mockLoadScript({ renderMode: 'explicit', onBeforeLoad: (url) => ({ url }), onLoaded: () => void 0 });
   });
 
   it('should setup script tag with nonce if provided', () => {
     // Arrange + Act
     const { scriptTag } = mockLoadScript(
-      'explicit',
-      (url) => ({ url }),
-      () => void 0,
+      { renderMode: 'explicit', onBeforeLoad: (url) => ({ url }), onLoaded: () => void 0 },
       { nonce: 'testNonce' },
     );
 
@@ -56,11 +50,11 @@ describe('script loader', () => {
 
   it('should load recaptcha from the correct domain', () => {
     // Arrange + Act
-    const { scriptUrl } = mockLoadScript(
-      'explicit',
-      (url) => ({ url }),
-      () => void 0,
-    );
+    const { scriptUrl } = mockLoadScript({
+      renderMode: 'explicit',
+      onBeforeLoad: (url) => ({ url }),
+      onLoaded: () => void 0,
+    });
 
     // Assert
     expect(scriptUrl.host).toEqual('www.google.com');
@@ -68,11 +62,11 @@ describe('script loader', () => {
 
   it('should load recaptcha with explicit render mode by default', () => {
     // Arrange + Act
-    const { scriptUrlSearchParams } = mockLoadScript(
-      'explicit',
-      (url) => ({ url }),
-      () => void 0,
-    );
+    const { scriptUrlSearchParams } = mockLoadScript({
+      renderMode: 'explicit',
+      onBeforeLoad: (url) => ({ url }),
+      onLoaded: () => void 0,
+    });
 
     // Assert
     expect(scriptUrlSearchParams.get('render')).toEqual('explicit');
@@ -81,9 +75,7 @@ describe('script loader', () => {
   it('should load recaptcha with correct language when the lang param is provided', () => {
     // Arrange + Act
     const { scriptUrlSearchParams } = mockLoadScript(
-      'explicit',
-      (url) => ({ url }),
-      () => void 0,
+      { renderMode: 'explicit', onBeforeLoad: (url) => ({ url }), onLoaded: () => void 0 },
       { lang: 'TEST-LANG' },
     );
 
@@ -93,11 +85,11 @@ describe('script loader', () => {
 
   it('should load recaptcha with site key render mode when key is provided', () => {
     // Arrange + Act
-    const { scriptUrlSearchParams } = mockLoadScript(
-      { key: 'test-key' },
-      (url) => ({ url }),
-      () => void 0,
-    );
+    const { scriptUrlSearchParams } = mockLoadScript({
+      renderMode: { key: 'test-key' },
+      onBeforeLoad: (url) => ({ url }),
+      onLoaded: () => void 0,
+    });
 
     // Assert
     expect(scriptUrlSearchParams.get('render')).toEqual('test-key');
@@ -106,9 +98,11 @@ describe('script loader', () => {
   it('should load recaptcha from the correct base url when one is provided domain', () => {
     // Arrange + Act
     const { scriptUrl } = mockLoadScript(
-      'explicit',
-      (url) => ({ url }),
-      () => void 0,
+      {
+        renderMode: 'explicit',
+        onBeforeLoad: (url) => ({ url }),
+        onLoaded: () => void 0,
+      },
       { url: 'https://www.test-base-url.com/script.js' },
     );
 
@@ -121,11 +115,11 @@ describe('script loader', () => {
   it('should load recaptcha with trusted types', () => {
     // Note: see https://developers.google.com/recaptcha/docs/v3#tips
     // Arrange + Act
-    const { scriptUrlSearchParams } = mockLoadScript(
-      'explicit',
-      (url) => ({ url }),
-      () => void 0,
-    );
+    const { scriptUrlSearchParams } = mockLoadScript({
+      renderMode: 'explicit',
+      onBeforeLoad: (url) => ({ url }),
+      onLoaded: () => void 0,
+    });
 
     // Assert
     expect(scriptUrlSearchParams.get('trustedtypes')).toEqual('true');
@@ -133,11 +127,11 @@ describe('script loader', () => {
 
   it('should setup onload callback via a window global', () => {
     // Arrange + Act
-    const { scriptUrlSearchParams } = mockLoadScript(
-      'explicit',
-      (url) => ({ url }),
-      () => void 0,
-    );
+    const { scriptUrlSearchParams } = mockLoadScript({
+      renderMode: 'explicit',
+      onBeforeLoad: (url) => ({ url }),
+      onLoaded: () => void 0,
+    });
 
     // Assert
     expect(scriptUrlSearchParams.get('onload')).toEqual('ng2recaptchaloaded');
@@ -150,7 +144,11 @@ describe('script loader', () => {
     const mockGrecaptchaValue = new MockGrecaptcha();
 
     // Act
-    mockLoadScript('explicit', (url) => ({ url }), onLoadedSpy);
+    mockLoadScript({
+      renderMode: 'explicit',
+      onBeforeLoad: (url) => ({ url }),
+      onLoaded: onLoadedSpy,
+    });
     window.grecaptcha = mockGrecaptchaValue;
     window.ng2recaptchaloaded?.();
 

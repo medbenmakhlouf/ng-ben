@@ -34,7 +34,7 @@ describe('ReCaptchaV3Service', () => {
   function onGrecaptchaLoad(grecaptcha: MockGrecaptcha) {
     expect(loadScriptStub).toHaveBeenCalledTimes(1);
     const loadArgs = loadScriptStub.calls.mostRecent().args as Parameters<(typeof loader)['loadScript']>;
-    loadArgs[2](grecaptcha);
+    loadArgs[0]?.onLoaded(grecaptcha);
   }
 
   /**

@@ -55,7 +55,7 @@ describe('RecaptchaLoaderService', () => {
 
     // Act
     const callArgs = loadScriptStub.calls.mostRecent().args as Parameters<(typeof loader)['loadScript']>;
-    callArgs[2](mockGrecaptchaValue);
+    callArgs[0]?.onLoaded(mockGrecaptchaValue);
 
     return resolvedValue!;
   }
