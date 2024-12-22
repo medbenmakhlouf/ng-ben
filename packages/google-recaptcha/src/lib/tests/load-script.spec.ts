@@ -39,10 +39,11 @@ describe('script loader', () => {
 
   it('should setup script tag with nonce if provided', () => {
     // Arrange + Act
-    const { scriptTag } = mockLoadScript(
-      { renderMode: 'explicit', onBeforeLoad: (url) => ({ url }), onLoaded: () => void 0 },
-      { nonce: 'testNonce' },
-    );
+    const { scriptTag } = mockLoadScript({
+      renderMode: 'explicit',
+      onBeforeLoad: (url) => ({ url, nonce: 'testNonce' }),
+      onLoaded: () => void 0,
+    });
 
     // Assert
     expect(scriptTag.nonce).toEqual('testNonce');
@@ -72,17 +73,6 @@ describe('script loader', () => {
     expect(scriptUrlSearchParams.get('render')).toEqual('explicit');
   });
 
-  it('should load recaptcha with correct language when the lang param is provided', () => {
-    // Arrange + Act
-    const { scriptUrlSearchParams } = mockLoadScript(
-      { renderMode: 'explicit', onBeforeLoad: (url) => ({ url }), onLoaded: () => void 0 },
-      { lang: 'TEST-LANG' },
-    );
-
-    // Assert
-    expect(scriptUrlSearchParams.get('hl')).toEqual('TEST-LANG');
-  });
-
   it('should load recaptcha with site key render mode when key is provided', () => {
     // Arrange + Act
     const { scriptUrlSearchParams } = mockLoadScript({
@@ -97,14 +87,11 @@ describe('script loader', () => {
 
   it('should load recaptcha from the correct base url when one is provided domain', () => {
     // Arrange + Act
-    const { scriptUrl } = mockLoadScript(
-      {
-        renderMode: 'explicit',
-        onBeforeLoad: (url) => ({ url }),
-        onLoaded: () => void 0,
-      },
-      { url: 'https://www.test-base-url.com/script.js' },
-    );
+    const { scriptUrl } = mockLoadScript({
+      renderMode: 'explicit',
+      onBeforeLoad: () => ({ url: new URL('https://www.test-base-url.com/script.js') }),
+      onLoaded: () => void 0,
+    });
 
     // Assert
     expect(scriptUrl.protocol).toEqual('https:');
