@@ -3,7 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter, skip } from 'rxjs/operators';
 import { type IGoogleAnalyticsRoutingSettings } from './interfaces/i-google-analytics-routing-settings';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
-import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN } from './tokens/ngx-google-analytics-router-settings-token';
+import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN } from './tokens';
 
 /**
  * Provide a DI Configuration to attach GA Trigger to Router Events at Angular Startup Cycle.
