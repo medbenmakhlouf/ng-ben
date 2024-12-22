@@ -29,9 +29,8 @@ export interface OnExecuteErrorData {
   error: any;
 }
 
-export type NeverUndefined<T> = T extends undefined ? never : T;
+type NeverUndefined<T> = T extends undefined ? never : T;
 export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Parameters['error-callback']>>;
-export type RenderMode = 'explicit' | { key: string };
 
 /**
  * Specifies the options for loading the reCAPTCHA script tag.
@@ -130,7 +129,7 @@ export interface RecaptchaLoaderOptions {
 }
 
 export interface ScriptLoaderOptions {
-  renderMode: RenderMode;
+  renderMode: 'explicit' | { key: string };
   onBeforeLoad(url: URL): { url: URL; nonce?: string | null | undefined };
   onLoaded(recaptcha: ReCaptchaV2.ReCaptcha): void;
 }
