@@ -2,7 +2,7 @@ import { Injectable, Inject, isDevMode } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NGX_GTAG_FN } from '../tokens';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from '../tokens/ngx-google-analytics-settings-token';
-import { type GaActionEnum } from '../enums/ga-action.enum';
+import { type GaActionEnum } from '../enums';
 import { type GtagFn, type IGoogleAnalyticsSettings } from '../types';
 
 @Injectable({
