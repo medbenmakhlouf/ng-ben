@@ -1,6 +1,6 @@
+import { DOCUMENT } from '@angular/common';
 import { inject, InjectionToken } from '@angular/core';
 import { type IGoogleAnalyticsRoutingSettings } from './interfaces/i-google-analytics-routing-settings';
-import { NGX_WINDOW } from './tokens/ngx-window-token';
 import type { DataLayer, GaWindow } from './types';
 
 /**
@@ -10,6 +10,22 @@ import type { DataLayer, GaWindow } from './types';
 export function getDataLayerFn(window: GaWindow): DataLayer {
   return window ? (window['dataLayer'] = window['dataLayer'] || []) : null;
 }
+
+/**
+ * Provide DOM Window reference.
+ */
+export const NGX_WINDOW = new InjectionToken<GaWindow>('ngx-window', {
+  providedIn: 'root',
+  factory: () => {
+    const { defaultView } = inject(DOCUMENT);
+
+    if (!defaultView) {
+      throw new Error('Window is not available');
+    }
+
+    return defaultView;
+  },
+});
 
 /**
  * Provides an injection token to access Google Analytics DataLayer Collection

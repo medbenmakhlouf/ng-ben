@@ -1,6 +1,5 @@
 import { InjectionToken, inject } from '@angular/core';
-import { NGX_WINDOW } from './ngx-window-token';
-import { NGX_DATA_LAYER } from '../tokens';
+import { NGX_DATA_LAYER, NGX_WINDOW } from '../tokens';
 import { type DataLayer, type GaWindow, type GtagFn } from '../types';
 
 /**
