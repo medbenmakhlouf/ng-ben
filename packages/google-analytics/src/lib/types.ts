@@ -33,7 +33,7 @@ export type GaAction =
 /**
  * Google Analytics GTagFn call signature
  */
-export type GtagFn = (...args: (string | Record<string, string>)[]) => {};
+export type GtagFn = (...args: (string | Record<string, string>)[]) => object;
 export type GaWindow = Window & {
   gtag?: any;
   dataLayer?: any;

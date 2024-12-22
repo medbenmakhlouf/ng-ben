@@ -16,11 +16,16 @@ export const NGX_GOOGLE_ANALYTICS_INITIALIZER_PROVIDER: Provider = {
 /**
  * Create a script element on DOM and link it to Google Analytics tracking code URI.
  * After that, execute exactly same init process as tracking snippet code.
- * @param settings
- * @param gtag
- * @param document
+ * @param {IGoogleAnalyticsSettings} settings - The Google Analytics settings.
+ * @param {GtagFn} gtag - The Google Analytics function.
+ * @param {Document} document - The Document interface.
+ * @returns {() => Promise<void>} An async function that initializes Google Analytics.
  */
-export function GoogleAnalyticsInitializer(settings: IGoogleAnalyticsSettings, gtag: GtagFn, document: Document) {
+export function GoogleAnalyticsInitializer(
+  settings: IGoogleAnalyticsSettings,
+  gtag: GtagFn,
+  document: Document,
+): () => Promise<void> {
   return async () => {
     if (!settings.trackingCode) {
       if (!isDevMode()) {

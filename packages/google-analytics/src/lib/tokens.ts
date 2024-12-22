@@ -3,8 +3,9 @@ import { inject, InjectionToken } from '@angular/core';
 import type { DataLayer, GaWindow, GtagFn, IGoogleAnalyticsRoutingSettings, IGoogleAnalyticsSettings } from './types';
 
 /**
- * Check if there is some global function called gtag on Window object, or create an empty function to doesn't brake codes...
- * @param window
+ * Check if there is some global function called gtag on Window object, or create an empty function to doesn't brake codes.
+ * @param {GaWindow} window - The window object to check for the gtag function.
+ * @returns {DataLayer} The dataLayer array from the window object.
  */
 export function getDataLayerFn(window: GaWindow): DataLayer {
   return window ? (window['dataLayer'] = window['dataLayer'] || []) : null;
@@ -44,9 +45,10 @@ export const NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN = new InjectionToken<IG
 );
 
 /**
- * Check if there is some global function called gtag on Window object, or create an empty function to doesn't brake codes...
- * @param window
- * @param dataLayer
+ * Check if there is some global function called gtag on Window object, or create an empty function to doesn't brake codes.
+ * @param {GaWindow} window - The window object to check for the gtag function.
+ * @param {DataLayer} dataLayer - The dataLayer array from the window object.
+ * @returns {GtagFn} The gtag function from the window object.
  */
 export function getGtagFn(window: GaWindow, dataLayer: DataLayer): GtagFn {
   return window

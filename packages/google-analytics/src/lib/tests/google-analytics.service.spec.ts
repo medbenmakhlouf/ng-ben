@@ -9,11 +9,11 @@ describe('GoogleAnalyticsService', () => {
   // @ts-expect-error: hein
   window['gtag'] = function () {
     // @ts-expect-error: hein
-    window['dataLayer'].push(arguments as any);
+    window['dataLayer'].push(args);
   };
 
   const tracking = 'GA-000000000';
-  let spyOnConsole: jasmine.Spy, spyOnGtag: jasmine.Spy;
+  let spyOnGtag: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,7 +22,6 @@ describe('GoogleAnalyticsService', () => {
   });
 
   beforeEach(() => {
-    spyOnConsole = spyOn(console, 'error');
     spyOnGtag = spyOn(window as any, 'gtag');
   });
 

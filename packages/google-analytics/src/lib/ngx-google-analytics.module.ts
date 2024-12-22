@@ -20,11 +20,12 @@ export class NgxGoogleAnalyticsModule {
    * You should provide a valid Google TrackingCode. This code will be provided to the entire application by
    * `NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN` token. You can inject this code in you components if you like by
    * use the following injection code `@Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) gaConfig: IGoogleAnalyticsSettings`
-   * @param trackingCode The Google Tracking Code
-   * @param initCommands When placed, it will run any GA Commands in sequence after setup GA environment.
-   * @param uri When placed, it will change the default js URI to the provided one.
-   * @param enableTracing When true, trace GA tracking errors on production mode.
-   * @param nonce When placed, nonce will be added to script tag.
+   * @param {string} trackingCode The Google Tracking Code
+   * @param {IGoogleAnalyticsCommand[]} [initCommands] When placed, it will run any GA Commands in sequence after setup GA environment.
+   * @param {string} [uri] When placed, it will change the default js URI to the provided one.
+   * @param {boolean} [enableTracing] When true, trace GA tracking errors on production mode.
+   * @param {string} [nonce] When placed, nonce will be added to script tag.
+   * @returns {ModuleWithProviders<NgxGoogleAnalyticsModule>} The module with providers.
    */
   static forRoot(
     trackingCode: string,

@@ -19,14 +19,15 @@ export const NGX_GOOGLE_ANALYTICS_ROUTER_INITIALIZER_PROVIDER: Provider = {
  * Attach a listener to `NavigationEnd` Router event. So, every time Router finish the page resolution it should call `NavigationEnd` event.
  * We assume that NavigationEnd is the final page resolution and call GA `page_view` command.
  *
- * To avoid double binds, we also destroy the subscription when de Bootstrap Component is destroied. But, we don't know for sure
+ * To avoid double binds, we also destroy the subscription when the Bootstrap Component is destroyed. But, we don't know for sure
  * that this strategy does not cause double bind on multiple bootstrap components.
  *
- * We are using de component's injector reference to resolve Router, sou I hope there is no problem w/ double bing.
+ * We are using the component's injector reference to resolve Router, so I hope there is no problem with double binding.
  *
- * If you have this problem, I encourage not Use NgxGoogleAnalyticsRouterModule and atach the listener on AppComponent initialization.
- * @param settings
- * @param gaService
+ * If you have this problem, I encourage not to use NgxGoogleAnalyticsRouterModule and attach the listener on AppComponent initialization.
+ * @param {IGoogleAnalyticsRoutingSettings | null} settings - The settings for Google Analytics routing.
+ * @param {GoogleAnalyticsService} gaService - The Google Analytics service.
+ * @returns {Function} A function that attaches the listener to the router events.
  */
 export function GoogleAnalyticsRouterInitializer(
   settings: IGoogleAnalyticsRoutingSettings | null,
@@ -56,7 +57,8 @@ export function GoogleAnalyticsRouterInitializer(
 
 /**
  * Converts all path rules from string to Regex instances
- * @param rules
+ * @param {Array<string | RegExp>} rules - The path rules to convert.
+ * @returns {Array<RegExp>} The converted path rules as Regex instances.
  */
 function normalizePathRules(rules: (string | RegExp)[]): RegExp[] {
   return rules.map((rule) => (rule instanceof RegExp ? rule : new RegExp(`^${rule.replace('*', '.*')}$`, 'i')));

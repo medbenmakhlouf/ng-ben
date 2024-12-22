@@ -1,5 +1,5 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaEventFormInputDirective } from '../ga-event-form-input.directive';
 import { GaEventDirective } from '../ga-event.directive';
 import { GaEventCategoryDirective } from '../ga-event-category.directive';
@@ -7,31 +7,28 @@ import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from '../tokens';
 import { NgxGoogleAnalyticsModule } from '../ngx-google-analytics.module';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 
-describe('GaEventFormInputDirective', () => {
-  @Component({
-    selector: 'ga-host',
-    template: `<input gaEvent="teste" />`,
-    // eslint-disable-next-line @angular-eslint/prefer-standalone
-    standalone: false,
-  })
-  class HostComponent {}
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'ga-host',
+  template: `<input gaEvent="teste" />`,
+  imports: [GaEventFormInputDirective, GaEventDirective],
+})
+class HostComponent {}
 
+describe('GaEventFormInputDirective', () => {
   let gaEventFormInput: GaEventFormInputDirective,
     gaEvent: GaEventDirective,
     gaCategory: GaEventCategoryDirective,
-    host: HostComponent,
     fixture: ComponentFixture<HostComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgxGoogleAnalyticsModule],
-      declarations: [HostComponent],
+      imports: [NgxGoogleAnalyticsModule, HostComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
-    host = fixture.componentInstance;
     fixture.detectChanges();
   });
 
