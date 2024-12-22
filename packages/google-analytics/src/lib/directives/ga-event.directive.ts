@@ -1,10 +1,10 @@
-import { Directive, ElementRef, Inject, Input, isDevMode, OnDestroy, Optional } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
-import { GaEventCategoryDirective } from './ga-event-category.directive';
-import { GoogleAnalyticsService } from '../services/google-analytics.service';
-import { GaActionEnum } from '../enums/ga-action.enum';
+import { Directive, type ElementRef, Inject, Input, isDevMode, type OnDestroy, Optional } from '@angular/core';
+import { fromEvent, type Subscription } from 'rxjs';
+import { type GaEventCategoryDirective } from './ga-event-category.directive';
+import { type GaActionEnum } from '../enums';
+import { type GoogleAnalyticsService } from '../services/google-analytics.service';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from '../tokens/ngx-google-analytics-settings-token';
-import { IGoogleAnalyticsSettings } from '../interfaces/i-google-analytics-settings';
+import { type IGoogleAnalyticsSettings } from '../interfaces/i-google-analytics-settings';
 
 @Directive({
   selector: `[gaEvent]`,
