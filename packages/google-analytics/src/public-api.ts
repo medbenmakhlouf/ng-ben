@@ -19,7 +19,6 @@ export * from './lib/services/google-analytics.service';
 
 export * from './lib/tokens';
 export * from './lib/tokens/ngx-google-analytics-settings-token';
-export * from './lib/tokens/ngx-gtag-token';
 
 export * from './lib/types';
 
