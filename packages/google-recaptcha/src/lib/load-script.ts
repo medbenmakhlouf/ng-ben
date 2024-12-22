@@ -2,7 +2,7 @@ import { type ScriptLoaderOptions } from './types';
 
 declare global {
   interface Window {
-    ng2recaptchaloaded?(): void;
+    recaptchaLoaded?(): void;
   }
 }
 
@@ -12,7 +12,7 @@ declare global {
  * @returns {void}
  */
 function loadScript(options: ScriptLoaderOptions): void {
-  window.ng2recaptchaloaded = () => {
+  window.recaptchaLoaded = () => {
     options.onLoaded(grecaptcha);
   };
   const script = document.createElement('script');
@@ -20,7 +20,7 @@ function loadScript(options: ScriptLoaderOptions): void {
     new URL('https://www.google.com/recaptcha/api.js'),
   );
   baseUrl.searchParams.set('render', options.renderMode === 'explicit' ? options.renderMode : options.renderMode.key);
-  baseUrl.searchParams.set('onload', 'ng2recaptchaloaded');
+  baseUrl.searchParams.set('onload', 'recaptchaLoaded');
   baseUrl.searchParams.set('trustedtypes', 'true');
   if (onBeforeLoadNonce) {
     script.setAttribute('nonce', onBeforeLoadNonce);
