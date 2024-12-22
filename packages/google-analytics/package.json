@@ -1,6 +1,6 @@
 {
   "name": "@ng-ben/google-analytics",
-  "version": "1.0.0",
+  "version": "19.0.0",
   "description": "A simple wrapper to load Google Analytics dependency by angular way",
   "keywords": [ "google", "google analytics", "angular", "typescript" ],
   "peerDependencies": {
