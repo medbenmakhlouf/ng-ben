@@ -25,7 +25,9 @@ export class GoogleAnalyticsService {
   }
 
   /**
-   * @param map
+   * Converts a Map to a key-value object.
+   * @param {Map<string, any>} map - The map to convert.
+   * @returns {Record<string, any> | void} The converted key-value object or undefined if the map is empty.
    * @todo Change this to `Object.fromEntity()` in the future...
    */
   private toKeyValue(map: Map<string, any>): Record<string, any> | void {
@@ -36,7 +38,7 @@ export class GoogleAnalyticsService {
 
   /**
    * Call native GA Tag
-   * @param {...any} args
+   * @param {...any} args - The arguments to pass to the GA Tag function.
    */
   gtag(...args: any[]) {
     try {
@@ -54,12 +56,12 @@ export class GoogleAnalyticsService {
    * 'event_category': 'video_auto_play'
    * });
    * ```
-   * @param action 'video_auto_play_start'
-   * @param category 'video_auto_play'
-   * @param label 'My promotional video'
-   * @param value An value to measure something
-   * @param interaction If user interaction is performed
-   * @param options
+   * @param {GaActionEnum | string} action 'video_auto_play_start'
+   * @param {string} [category] 'video_auto_play'
+   * @param {string} [label] 'My promotional video'
+   * @param {number} [value] A value to measure something
+   * @param {boolean} [interaction] If user interaction is performed
+   * @param {object} [options] - Additional options for the event
    */
   event(
     action: GaActionEnum | string,
@@ -108,10 +110,10 @@ export class GoogleAnalyticsService {
    * ```
    *
    * The tracking ID is injected automatically by Inject Token NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN
-   * @param path /home
-   * @param title Homepage
-   * @param location '{ page_location }'
-   * @param options '{ ... custom dimentions }'
+   * @param {string} path - /home
+   * @param {string} [title] - Homepage
+   * @param {string} [location] - '{ page_location }'
+   * @param {object} [options] - '{ ... custom dimensions }'
    */
   pageView(path: string, title?: string, location?: string, options?: object) {
     try {
@@ -141,11 +143,11 @@ export class GoogleAnalyticsService {
    * });
    *
    * ```
-   * @param screen 'screen_name'
-   * @param appName 'app_name'
-   * @param appId 'app_id'
-   * @param appVersion 'app_version'
-   * @param installerId 'app_installer_id'
+   * @param {string} screen - 'screen_name'
+   * @param {string} appName - 'app_name'
+   * @param {string} [appId] - 'app_id'
+   * @param {string} [appVersion] - 'app_version'
+   * @param {string} [installerId] - 'app_installer_id'
    */
   appView(screen: string, appName: string, appId?: string, appVersion?: string, installerId?: string) {
     try {
@@ -170,7 +172,7 @@ export class GoogleAnalyticsService {
 
   /**
    * Defines persistent values on GoogleAnalytics
-   * @param {...any} options
+   * @param {...any} options - The options to set.
    * @see https://developers.google.com/analytics/devguides/collection/gtagjs/setting-values
    *
    * ```js
@@ -197,8 +199,8 @@ export class GoogleAnalyticsService {
    * 'fatal': false   // set to true if the error is fatal
    * });
    * ```
-   * @param description 'error_description'
-   * @param fatal set to true if the error is fatal
+   * @param {string} [description] - 'error_description'
+   * @param {boolean} [fatal] - set to true if the error is fatal
    */
   exception(description?: string, fatal?: boolean) {
     try {
