@@ -56,27 +56,22 @@ export default tseslint.config(
         'error',
         { prefer: 'type-imports', disallowTypeAnnotations: false, fixStyle: 'inline-type-imports' },
       ],
-      'unused-imports/no-unused-imports': 'warn',
-      'unused-imports/no-unused-vars': [
-        'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
         {
-          vars: 'all',
-          varsIgnorePattern: '^_',
-          args: 'after-used',
+          args: 'all',
           argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
         },
       ],
+      'unused-imports/no-unused-imports': 'warn',
       'no-duplicate-imports': 'warn',
-      'sort-imports': [
-        'off',
-        {
-          ignoreCase: true,
-          ignoreDeclarationSort: false,
-          ignoreMemberSort: false,
-          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-          allowSeparatedGroups: false,
-        },
-      ],
+      'import/no-duplicates': ['error', { 'prefer-inline': true }],
+      'import/no-default-export': 'error',
       'import/order': [
         'error',
         {
