@@ -1,9 +1,9 @@
 import { NgModule, type ModuleWithProviders } from '@angular/core';
 import { NGX_GOOGLE_ANALYTICS_INITIALIZER_PROVIDER } from './google-analytics.initializer';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from './tokens';
-import { GaEventDirective } from './directives/ga-event.directive';
-import { GaEventCategoryDirective } from './directives/ga-event-category.directive';
-import { GaEventFormInputDirective } from './directives/ga-event-form-input.directive';
+import { GaEventDirective } from './ga-event.directive';
+import { GaEventCategoryDirective } from './ga-event-category.directive';
+import { GaEventFormInputDirective } from './ga-event-form-input.directive';
 import { type IGoogleAnalyticsCommand, type IGoogleAnalyticsSettings } from './types';
 
 /**

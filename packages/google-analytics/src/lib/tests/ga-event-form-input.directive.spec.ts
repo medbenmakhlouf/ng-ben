@@ -1,11 +1,11 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { GaEventFormInputDirective } from './ga-event-form-input.directive';
-import { GaEventDirective } from './ga-event.directive';
-import { GaEventCategoryDirective } from './ga-event-category.directive';
+import { GaEventFormInputDirective } from '../ga-event-form-input.directive';
+import { GaEventDirective } from '../ga-event.directive';
+import { GaEventCategoryDirective } from '../ga-event-category.directive';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from '../tokens';
 import { NgxGoogleAnalyticsModule } from '../ngx-google-analytics.module';
-import { GoogleAnalyticsService } from '../services/google-analytics.service';
+import { GoogleAnalyticsService } from '../google-analytics.service';
 
 describe('GaEventFormInputDirective', () => {
   @Component({

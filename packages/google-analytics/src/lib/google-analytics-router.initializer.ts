@@ -1,7 +1,7 @@
 import { type Provider, APP_BOOTSTRAP_LISTENER, type ComponentRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, skip } from 'rxjs/operators';
-import { GoogleAnalyticsService } from './services/google-analytics.service';
+import { GoogleAnalyticsService } from './google-analytics.service';
 import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN } from './tokens';
 import { type IGoogleAnalyticsRoutingSettings } from './types';
 

@@ -1,8 +1,8 @@
 import { Injectable, Inject, isDevMode } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from '../tokens';
-import { type GaActionEnum } from '../enums';
-import { type GtagFn, type IGoogleAnalyticsSettings } from '../types';
+import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
+import { type GaActionEnum } from './enums';
+import { type GtagFn, type IGoogleAnalyticsSettings } from './types';
 
 @Injectable({
   providedIn: 'root',

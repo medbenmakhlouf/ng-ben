@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { GoogleAnalyticsService } from './google-analytics.service';
+import { GoogleAnalyticsService } from '../google-analytics.service';
 import { NgxGoogleAnalyticsModule } from '../ngx-google-analytics.module';
 
 describe('GoogleAnalyticsService', () => {

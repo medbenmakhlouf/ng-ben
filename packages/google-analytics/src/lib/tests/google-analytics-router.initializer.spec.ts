@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { NavigationEnd, NavigationStart, type Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { GoogleAnalyticsRouterInitializer } from '../google-analytics-router.initializer';
-import { GoogleAnalyticsService } from '../services/google-analytics.service';
+import { GoogleAnalyticsService } from '../google-analytics.service';
 
 describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   /**

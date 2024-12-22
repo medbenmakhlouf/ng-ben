@@ -1,8 +1,8 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { GaEventDirective } from './ga-event.directive';
+import { GaEventDirective } from '../ga-event.directive';
 import { NgxGoogleAnalyticsModule } from '../ngx-google-analytics.module';
-import { GoogleAnalyticsService } from '../services/google-analytics.service';
+import { GoogleAnalyticsService } from '../google-analytics.service';
 import { type GaActionEnum } from '../enums';
 
 describe('GaEventDirective', () => {

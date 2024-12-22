@@ -1,4 +1,4 @@
-import { GaEventCategoryDirective } from './ga-event-category.directive';
+import { GaEventCategoryDirective } from '../ga-event-category.directive';
 
 describe('GaEventCategoryDirective', () => {
   it('should create an instance', () => {
