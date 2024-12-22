@@ -1,4 +1,9 @@
 /**
+ * Provides an interface os a GA command list.
+ */
+export type DataLayer = (string | Record<string, string>)[];
+
+/**
  * A string that represents a default GA action used by Google to generate e-commerce inteligence.
  *
  * You can provide a custom string as well.
@@ -24,3 +29,8 @@ export type GaAction =
   | 'view_item'
   | 'view_item_list'
   | 'view_promotion';
+
+/**
+ * Google Analytics GTagFn call signature
+ */
+export type GtagFn = (...args: (string | Record<string, string>)[]) => {};
