@@ -27,13 +27,13 @@ export const NGX_GOOGLE_ANALYTICS_ROUTER_INITIALIZER_PROVIDER: Provider = {
  * If you have this problem, I encourage not to use NgxGoogleAnalyticsRouterModule and attach the listener on AppComponent initialization.
  * @param {IGoogleAnalyticsRoutingSettings | null} settings - The settings for Google Analytics routing.
  * @param {GoogleAnalyticsService} gaService - The Google Analytics service.
- * @returns {Function} A function that attaches the listener to the router events.
+ * @returns {(c: ComponentRef<any>) => void} A function that attaches the listener to the router events.
  */
 export function GoogleAnalyticsRouterInitializer(
   settings: IGoogleAnalyticsRoutingSettings | null,
   gaService: GoogleAnalyticsService,
-) {
-  return async (c: ComponentRef<any>) => {
+): (c: ComponentRef<any>) => void {
+  return (c: ComponentRef<any>) => {
     const router = c.injector.get(Router);
     const { include = [], exclude = [] } = settings ?? {};
     const includeRules = normalizePathRules(include);
