@@ -26,4 +26,4 @@ export * from './lib/tokens/ngx-window-token';
 export * from './lib/types';
 
 export * from './lib/ngx-google-analytics.module';
-export * from './lib/ngx-google-analytics-router/ngx-google-analytics-router.module';
+export * from './lib/ngx-google-analytics-router.module';
