@@ -6,13 +6,7 @@ import { MockGrecaptcha } from './mock-grecaptcha.spec';
 import { RecaptchaLoaderOptions } from '../types';
 
 import { loader } from '../load-script';
-import {
-  RECAPTCHA_BASE_URL,
-  RECAPTCHA_LANGUAGE,
-  RECAPTCHA_LOADER_OPTIONS,
-  RECAPTCHA_NONCE,
-  RECAPTCHA_V3_SITE_KEY,
-} from '../tokens';
+import { RECAPTCHA_LOADER_OPTIONS, RECAPTCHA_V3_SITE_KEY } from '../tokens';
 import { RecaptchaLoaderService } from '../recaptcha-loader.service';
 
 describe('RecaptchaLoaderService', () => {
@@ -97,35 +91,6 @@ describe('RecaptchaLoaderService', () => {
 
     // Assert
     expect(loader.loadScript).toHaveBeenCalled();
-  });
-
-  it('should invoke script loader passing injected arguments through', () => {
-    // Arrange
-    initService([
-      {
-        provide: RECAPTCHA_LANGUAGE,
-        useValue: 'testLang',
-      },
-      {
-        provide: RECAPTCHA_BASE_URL,
-        useValue: 'https://test-url/test-api.js',
-      },
-      {
-        provide: RECAPTCHA_NONCE,
-        useValue: 'testNonce',
-      },
-    ]);
-
-    // Act
-    const { scriptTag, scriptUrl, scriptUrlSearchParams } = getMockLoadScriptParams();
-
-    // Assert
-    expect(scriptTag.nonce).toEqual('testNonce');
-    expect(scriptUrl.protocol).toEqual('https:');
-    expect(scriptUrl.hostname).toEqual('test-url');
-    expect(scriptUrl.pathname).toEqual('/test-api.js');
-    expect(scriptUrlSearchParams.get('render')).toEqual('explicit');
-    expect(scriptUrlSearchParams.get('hl')).toEqual('testLang');
   });
 
   it('should invoke script loader with v3 site key if provided', () => {
@@ -245,10 +210,6 @@ describe('RecaptchaLoaderService', () => {
             },
           } as RecaptchaLoaderOptions,
         },
-        {
-          provide: RECAPTCHA_NONCE,
-          useValue: 'old-test-nonce',
-        },
       ]);
 
       // Act
@@ -302,10 +263,6 @@ describe('RecaptchaLoaderService', () => {
           } as RecaptchaLoaderOptions,
         },
         {
-          provide: RECAPTCHA_BASE_URL,
-          useValue: 'https://test-url-old/test-api-old.js',
-        },
-        {
           provide: RECAPTCHA_V3_SITE_KEY,
           useValue: 'testSiteKeyV3',
         } as Provider,
@@ -334,10 +291,6 @@ describe('RecaptchaLoaderService', () => {
               return { url };
             },
           } as RecaptchaLoaderOptions,
-        },
-        {
-          provide: RECAPTCHA_LANGUAGE,
-          useValue: 'test-lang-old',
         },
       ]);
 

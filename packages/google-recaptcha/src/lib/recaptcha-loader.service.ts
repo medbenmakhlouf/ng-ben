@@ -5,13 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { loader } from './load-script';
-import {
-  RECAPTCHA_LOADER_OPTIONS,
-  RECAPTCHA_BASE_URL,
-  RECAPTCHA_LANGUAGE,
-  RECAPTCHA_NONCE,
-  RECAPTCHA_V3_SITE_KEY,
-} from './tokens';
+import { RECAPTCHA_LOADER_OPTIONS, RECAPTCHA_V3_SITE_KEY } from './tokens';
 import { RecaptchaLoaderOptions } from './types';
 
 @Injectable()
@@ -25,12 +19,6 @@ export class RecaptchaLoaderService {
 
   public ready: Observable<ReCaptchaV2.ReCaptcha>;
 
-  /** @internal */
-  private language = inject<string | null>(RECAPTCHA_LANGUAGE, { optional: true });
-  /** @internal */
-  private baseUrl = inject<string>(RECAPTCHA_BASE_URL, { optional: true });
-  /** @internal */
-  private nonce = inject<string | null>(RECAPTCHA_NONCE, { optional: true });
   /** @internal */
   private v3SiteKey = inject<string | null>(RECAPTCHA_V3_SITE_KEY, { optional: true });
   /** @internal */
@@ -64,24 +52,13 @@ export class RecaptchaLoaderService {
         if (this.options?.onBeforeLoad) {
           return this.options.onBeforeLoad(url);
         }
-
-        const newUrl = new URL(this.baseUrl ?? url);
-
-        if (this.language) {
-          newUrl.searchParams.set('hl', this.language);
-        }
-
-        return {
-          url: newUrl,
-          nonce: this.nonce,
-        };
+        return { url };
       },
       onLoaded: (recaptcha) => {
         let value = recaptcha;
         if (this.options?.onLoaded) {
           value = this.options.onLoaded(recaptcha);
         }
-
         subject.next(value);
       },
     });

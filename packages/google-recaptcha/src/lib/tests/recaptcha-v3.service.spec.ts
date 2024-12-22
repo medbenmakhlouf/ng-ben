@@ -7,7 +7,7 @@ import { OnExecuteData, OnExecuteErrorData } from '../types';
 import { loader } from '../load-script';
 import { RecaptchaLoaderService } from '../recaptcha-loader.service';
 import { ReCaptchaV3Service } from '../recaptcha-v3.service';
-import { RECAPTCHA_BASE_URL, RECAPTCHA_NONCE, RECAPTCHA_V3_SITE_KEY, RECAPTCHA_LANGUAGE } from '../tokens';
+import { RECAPTCHA_V3_SITE_KEY } from '../tokens';
 
 /**
  *
@@ -18,34 +18,14 @@ async function nextTick() {
 
 describe('ReCaptchaV3Service', () => {
   let loadScriptStub: jasmine.Spy;
-  let scriptAppendSpy: jasmine.Spy;
   beforeEach(() => {
     loadScriptStub = spyOn(loader, 'loadScript').and.callThrough();
-    scriptAppendSpy = spyOn(document.head, 'appendChild').and.stub();
   });
 
   afterEach(() => {
     // @ts-expect-error we need to reset the class after each test
     delete RecaptchaLoaderService.ready;
   });
-
-  /**
-   * Retrieves the parameters of the most recently appended script tag.
-   * @returns {object} An object containing the script tag, script URL, and script URL search parameters.
-   */
-  function getMockLoadScriptParams() {
-    expect(scriptAppendSpy).toHaveBeenCalledTimes(1);
-
-    const scriptTag = scriptAppendSpy.calls.mostRecent().args[0] as HTMLScriptElement;
-    const scriptUrl = new URL(scriptTag.src);
-    const scriptUrlSearchParams = new URLSearchParams(scriptUrl.searchParams);
-
-    return {
-      scriptTag,
-      scriptUrl,
-      scriptUrlSearchParams,
-    };
-  }
 
   /**
    * Handles the loading of the grecaptcha script.
@@ -82,35 +62,6 @@ describe('ReCaptchaV3Service', () => {
 
     // Assert
     expect(loadScriptStub).toHaveBeenCalled();
-  });
-
-  it('should load grecaptcha with correct parameters', () => {
-    // Arrange
-    initService([
-      {
-        provide: RECAPTCHA_LANGUAGE,
-        useValue: 'testLang',
-      },
-      {
-        provide: RECAPTCHA_BASE_URL,
-        useValue: 'https://test-url/test-api.js',
-      },
-      {
-        provide: RECAPTCHA_NONCE,
-        useValue: 'testNonce',
-      },
-    ]);
-
-    // Act
-    const { scriptTag, scriptUrl, scriptUrlSearchParams } = getMockLoadScriptParams();
-
-    // Assert
-    expect(scriptTag.nonce).toEqual('testNonce');
-    expect(scriptUrl.protocol).toEqual('https:');
-    expect(scriptUrl.hostname).toEqual('test-url');
-    expect(scriptUrl.pathname).toEqual('/test-api.js');
-    expect(scriptUrlSearchParams.get('render')).toEqual('testSikeKeyV3');
-    expect(scriptUrlSearchParams.get('hl')).toEqual('testLang');
   });
 
   it('should not load grecaptcha upon initialization if it is already present', () => {
