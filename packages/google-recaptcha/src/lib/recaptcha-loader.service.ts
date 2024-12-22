@@ -20,17 +20,13 @@ export class RecaptchaLoaderService {
   private subject = new BehaviorSubject<ReCaptchaV2.ReCaptcha | null>(null);
   /** @internal */
   private static ready: BehaviorSubject<ReCaptchaV2.ReCaptcha | null>;
-
-  public ready: Observable<ReCaptchaV2.ReCaptcha>;
-
-  constructor() {
-    this.ready = this.init()
-      .asObservable()
-      .pipe(
-        filter((value) => value !== null),
-        filter((grecaptcha: ReCaptchaV2.ReCaptcha) => typeof grecaptcha.render === 'function'),
-      );
-  }
+  /** @public */
+  public ready: Observable<ReCaptchaV2.ReCaptcha> = (isPlatformBrowser(this.platformId) ? this.init() : this.subject)
+    .asObservable()
+    .pipe(
+      filter((value) => value !== null),
+      filter((grecaptcha: ReCaptchaV2.ReCaptcha) => typeof grecaptcha.render === 'function'),
+    );
 
   /**
    * @internal
@@ -39,9 +35,6 @@ export class RecaptchaLoaderService {
   private init(): BehaviorSubject<ReCaptchaV2.ReCaptcha | null> {
     if (RecaptchaLoaderService.ready) {
       return RecaptchaLoaderService.ready;
-    }
-    if (!isPlatformBrowser(this.platformId)) {
-      return this.subject;
     }
     RecaptchaLoaderService.ready = this.subject;
     loader.loadScript({
