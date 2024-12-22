@@ -1,9 +1,9 @@
 import { type Provider, APP_INITIALIZER, isDevMode } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from '../tokens/ngx-google-analytics-settings-token';
-import { type IGoogleAnalyticsSettings } from '../interfaces/i-google-analytics-settings';
-import { NGX_GTAG_FN } from '../tokens/ngx-gtag-token';
-import { type GtagFn } from '../types';
+import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from './tokens/ngx-google-analytics-settings-token';
+import { type IGoogleAnalyticsSettings } from './interfaces/i-google-analytics-settings';
+import { NGX_GTAG_FN } from './tokens/ngx-gtag-token';
+import { type GtagFn } from './types';
 
 /**
  * Provide a DI Configuration to attach GA Initialization at Angular Startup Cycle.

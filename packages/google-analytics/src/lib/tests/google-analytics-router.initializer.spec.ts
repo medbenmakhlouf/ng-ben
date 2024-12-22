@@ -1,8 +1,8 @@
-import { ComponentRef, Injector } from '@angular/core';
+import { type ComponentRef, type Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, type Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { GoogleAnalyticsRouterInitializer } from './google-analytics-router.initializer';
+import { GoogleAnalyticsRouterInitializer } from '../google-analytics-router.initializer';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
 describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {

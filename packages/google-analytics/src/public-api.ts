@@ -8,8 +8,8 @@ export * from './lib/directives/ga-event-form-input.directive';
 
 export * from './lib/enums/ga-action.enum';
 
-export * from './lib/initializers/google-analytics.initializer';
-export * from './lib/initializers/google-analytics-router.initializer';
+export * from './lib/google-analytics.initializer';
+export * from './lib/google-analytics-router.initializer';
 
 export * from './lib/interfaces/i-google-analytics-command';
 export * from './lib/interfaces/i-google-analytics-routing-settings';

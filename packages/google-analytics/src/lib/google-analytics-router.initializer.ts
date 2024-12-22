@@ -1,9 +1,9 @@
-import { Provider, APP_BOOTSTRAP_LISTENER, ComponentRef } from '@angular/core';
+import { type Provider, APP_BOOTSTRAP_LISTENER, type ComponentRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, skip } from 'rxjs/operators';
-import { IGoogleAnalyticsRoutingSettings } from '../interfaces/i-google-analytics-routing-settings';
-import { GoogleAnalyticsService } from '../services/google-analytics.service';
-import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN } from '../tokens/ngx-google-analytics-router-settings-token';
+import { type IGoogleAnalyticsRoutingSettings } from './interfaces/i-google-analytics-routing-settings';
+import { GoogleAnalyticsService } from './services/google-analytics.service';
+import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN } from './tokens/ngx-google-analytics-router-settings-token';
 
 /**
  * Provide a DI Configuration to attach GA Trigger to Router Events at Angular Startup Cycle.
