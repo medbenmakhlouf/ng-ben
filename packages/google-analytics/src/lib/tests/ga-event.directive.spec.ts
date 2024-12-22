@@ -1,95 +1,94 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { GaEventCategoryDirective } from '@ng-ben/google-analytics';
 import { GaEventDirective } from '../ga-event.directive';
 import { NgxGoogleAnalyticsModule } from '../ngx-google-analytics.module';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 import { type GaActionEnum } from '../enums';
 
-describe('GaEventDirective', () => {
-  @Component({
-    selector: 'ga-host',
-    template: `
-      <button
-        gaEvent="test-1"
-        class="test-1 test-click"
-        [gaAction]="gaAction"
-        [gaLabel]="gaLabel"
-        [label]="label"
-        [gaValue]="gaValue"
-        [gaInteraction]="gaInteraction"
-      ></button>
-      <button
-        gaEvent="test-2"
-        class="test-2 test-focus"
-        [gaAction]="gaAction"
-        [gaLabel]="gaLabel"
-        [label]="label"
-        [gaValue]="gaValue"
-        [gaInteraction]="gaInteraction"
-        gaBind="focus"
-      ></button>
-      <button
-        gaEvent="test-3"
-        class="test-3 test-blur"
-        [gaAction]="gaAction"
-        [gaLabel]="gaLabel"
-        [label]="label"
-        [gaValue]="gaValue"
-        [gaInteraction]="gaInteraction"
-        gaBind="blur"
-      ></button>
-      <button
-        gaCategory="test-4"
-        [gaEvent]="gaEvent"
-        class="test-4 test-category"
-        [gaAction]="gaAction"
-        [gaLabel]="gaLabel"
-        [label]="label"
-        [gaValue]="gaValue"
-        [gaInteraction]="gaInteraction"
-      ></button>
-      <button
-        gaEvent="test-5"
-        class="test-5 test-custom"
-        [gaAction]="gaAction"
-        [gaLabel]="gaLabel"
-        [label]="label"
-        [gaValue]="gaValue"
-        [gaInteraction]="gaInteraction"
-        gaBind="custom"
-      ></button>
-    `,
-    // eslint-disable-next-line @angular-eslint/prefer-standalone
-    standalone: false,
-  })
-  class HostComponent {
-    gaAction!: GaActionEnum | string;
-    gaLabel!: string;
-    label!: string;
-    gaValue!: number;
-    gaInteraction!: boolean;
-    gaBind = 'click';
-    gaEvent!: GaActionEnum | string;
-  }
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'ga-host',
+  template: `
+    <button
+      gaEvent="test-1"
+      class="test-1 test-click"
+      [gaAction]="gaAction"
+      [gaLabel]="gaLabel"
+      [label]="label"
+      [gaValue]="gaValue"
+      [gaInteraction]="gaInteraction"
+      >Button 1</button
+    >
+    <button
+      gaEvent="test-2"
+      class="test-2 test-focus"
+      [gaAction]="gaAction"
+      [gaLabel]="gaLabel"
+      [label]="label"
+      [gaValue]="gaValue"
+      [gaInteraction]="gaInteraction"
+      gaBind="focus"
+      >Button 2</button
+    >
+    <button
+      gaEvent="test-3"
+      class="test-3 test-blur"
+      [gaAction]="gaAction"
+      [gaLabel]="gaLabel"
+      [label]="label"
+      [gaValue]="gaValue"
+      [gaInteraction]="gaInteraction"
+      gaBind="blur"
+      >Button 3</button
+    >
+    <button
+      gaCategory="test-4"
+      [gaEvent]="gaEvent"
+      class="test-4 test-category"
+      [gaAction]="gaAction"
+      [gaLabel]="gaLabel"
+      [label]="label"
+      [gaValue]="gaValue"
+      [gaInteraction]="gaInteraction"
+      >Button 4</button
+    >
+    <button
+      gaEvent="test-5"
+      class="test-5 test-custom"
+      [gaAction]="gaAction"
+      [gaLabel]="gaLabel"
+      [label]="label"
+      [gaValue]="gaValue"
+      [gaInteraction]="gaInteraction"
+      gaBind="custom"
+      >Button 5</button
+    >
+  `,
+  imports: [GaEventDirective, GaEventCategoryDirective],
+})
+class HostComponent {
+  gaAction!: GaActionEnum | string;
+  gaLabel!: string;
+  label!: string;
+  gaValue!: number;
+  gaInteraction!: boolean;
+  // gaBind = 'click';
+  gaEvent!: GaActionEnum | string;
+}
 
+describe('GaEventDirective', () => {
   let fixture: ComponentFixture<HostComponent>, host: HostComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgxGoogleAnalyticsModule],
-      declarations: [HostComponent],
+      imports: [NgxGoogleAnalyticsModule, HostComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
     host = fixture.componentInstance;
-    // gaCategory = fixture
-    //   .debugElement
-    //   .query(c => c.classes['test-4'])
-    //   .injector
-    //   .get(GaEventCategoryDirective);
-    // gaEvent = new GaEventDirective(gaCategory, TestBed.inject(GoogleAnalyticsService));
   });
 
   it('should create an instance', () => {
@@ -154,12 +153,10 @@ describe('GaEventDirective', () => {
   });
 
   it('should warn a message when try to call a event w/o gaEvent/gaAction value', () => {
-    const ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService),
-      spyOnConsole = spyOn(console, 'warn'),
-      input = fixture.debugElement.query((e) =>
-        (e.nativeElement as HTMLButtonElement).classList.contains('test-category'),
-      );
-
+    const spyOnConsole = spyOn(console, 'warn');
+    const input = fixture.debugElement.query((e) =>
+      (e.nativeElement as HTMLButtonElement).classList.contains('test-category'),
+    );
     fixture.detectChanges();
     input.nativeElement.click();
     fixture.detectChanges();
