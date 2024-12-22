@@ -1,8 +1,7 @@
 import { inject, InjectionToken } from '@angular/core';
 import { type IGoogleAnalyticsRoutingSettings } from './interfaces/i-google-analytics-routing-settings';
-import type { GaWindow } from './tokens/ngx-google-analytics-window';
 import { NGX_WINDOW } from './tokens/ngx-window-token';
-import type { DataLayer } from './types';
+import type { DataLayer, GaWindow } from './types';
 
 /**
  * Check if there is some global function called gtag on Window object, or create an empty function to doesn't brake codes...
