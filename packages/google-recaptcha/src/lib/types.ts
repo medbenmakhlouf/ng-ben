@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs';
+
 export interface RecaptchaSettings {
   siteKey?: string;
   theme?: ReCaptchaV2.Theme;
@@ -31,6 +33,7 @@ export interface OnExecuteErrorData {
 
 type NeverUndefined<T> = T extends undefined ? never : T;
 export type RecaptchaErrorParameters = Parameters<NeverUndefined<ReCaptchaV2.Parameters['error-callback']>>;
+export type ActionBacklogEntry = [string, Subject<string>];
 
 /**
  * Specifies the options for loading the reCAPTCHA script tag.

@@ -3,9 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { RecaptchaLoaderService } from './recaptcha-loader.service';
 
 import { RECAPTCHA_V3_SITE_KEY } from './tokens';
-import { OnExecuteData, OnExecuteErrorData } from './types';
-
-type ActionBacklogEntry = [string, Subject<string>];
+import { OnExecuteData, OnExecuteErrorData, ActionBacklogEntry } from './types';
 
 /**
  * The main service for working with reCAPTCHA v3 APIs.
@@ -25,7 +23,6 @@ export class ReCaptchaV3Service {
   private actionBacklog: ActionBacklogEntry[] | undefined;
   /** @internal */
   private grecaptcha!: ReCaptchaV2.ReCaptcha;
-
   /** @internal */
   private onExecuteSubject!: Subject<OnExecuteData>;
   /** @internal */
