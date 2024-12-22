@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { IGoogleAnalyticsSettings } from '../interfaces/i-google-analytics-settings';
+import { type IGoogleAnalyticsSettings } from '../types';
 
 /**
  * Provide a Injection Token to global settings.
