@@ -13,13 +13,13 @@ export class RecaptchaLoaderService {
   /** @internal */
   private readonly platformId = inject(PLATFORM_ID);
   /** @internal */
-  private static ready: BehaviorSubject<ReCaptchaV2.ReCaptcha | null> | null = null;
-  /** @internal */
   private v3SiteKey = inject<string | null>(RECAPTCHA_V3_SITE_KEY, { optional: true });
   /** @internal */
   private options = inject<RecaptchaLoaderOptions | null>(RECAPTCHA_LOADER_OPTIONS, { optional: true });
   /** @internal */
   private subject = new BehaviorSubject<ReCaptchaV2.ReCaptcha | null>(null);
+  /** @internal */
+  private static ready: BehaviorSubject<ReCaptchaV2.ReCaptcha | null>;
 
   public ready: Observable<ReCaptchaV2.ReCaptcha>;
 
