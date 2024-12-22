@@ -1,16 +1,15 @@
-import { Directive, ElementRef, Inject, Input, isDevMode, OnDestroy, Optional } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+import { Directive, ElementRef, Inject, Input, isDevMode, type OnDestroy, Optional } from '@angular/core';
+import { fromEvent, type Subscription } from 'rxjs';
 import { GaEventCategoryDirective } from './ga-event-category.directive';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
-import { GaActionEnum } from '../enums/ga-action.enum';
+import { type GaActionEnum } from '../enums/ga-action.enum';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from '../tokens/ngx-google-analytics-settings-token';
-import { IGoogleAnalyticsSettings } from '../interfaces/i-google-analytics-settings';
+import { type IGoogleAnalyticsSettings } from '../interfaces/i-google-analytics-settings';
 
 @Directive({
   selector: `[gaEvent]`,
   exportAs: 'gaEvent',
-  // eslint-disable-next-line @angular-eslint/prefer-standalone
-  standalone: false,
 })
 export class GaEventDirective implements OnDestroy {
   constructor(

@@ -1,12 +1,9 @@
 import { Directive, Host, Optional, Input } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { GaEventDirective } from './ga-event.directive';
 
 @Directive({
-  selector: `input[gaEvent],
-             select[gaEvent],
-             textarea[gaEvent]`,
-  // eslint-disable-next-line @angular-eslint/prefer-standalone
-  standalone: false,
+  selector: `input[gaEvent], select[gaEvent],textarea[gaEvent]`,
 })
 export class GaEventFormInputDirective {
   constructor(@Host() @Optional() protected gaEvent: GaEventDirective) {

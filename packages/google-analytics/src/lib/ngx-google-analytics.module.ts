@@ -12,8 +12,7 @@ import { type IGoogleAnalyticsCommand, type IGoogleAnalyticsSettings } from './t
  * This module should be a dependency on the highest level module of the application, i.e. AppModule in most use cases.
  */
 @NgModule({
-  imports: [],
-  declarations: [GaEventDirective, GaEventCategoryDirective, GaEventFormInputDirective],
+  imports: [GaEventDirective, GaEventCategoryDirective, GaEventFormInputDirective],
   exports: [GaEventDirective, GaEventCategoryDirective, GaEventFormInputDirective],
 })
 export class NgxGoogleAnalyticsModule {
