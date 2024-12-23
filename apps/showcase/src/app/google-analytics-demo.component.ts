@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { GaEventCategoryDirective, GaEventDirective } from '@ng-ben/google-analytics';
+import { GaEventDirective } from '@ng-ben/google-analytics';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-google-analytics-demo',
-  imports: [RouterOutlet, RouterLink, GaEventCategoryDirective, GaEventDirective],
+  imports: [RouterOutlet, RouterLink, GaEventDirective],
   template: `
     <!--The content below is only a placeholder and can be replaced.-->
     <div style="text-align:center">

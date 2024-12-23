@@ -1,6 +1,6 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { GaEventCategoryDirective } from '../ga-event-category.directive';
+import { By } from '@angular/platform-browser';
 import { GaEventDirective } from '../ga-event.directive';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 import { type GaActionEnum } from '../enums';
@@ -64,7 +64,7 @@ import { type GaActionEnum } from '../enums';
       >Button 5</button
     >
   `,
-  imports: [GaEventDirective, GaEventCategoryDirective],
+  imports: [GaEventDirective],
 })
 class HostComponent {
   gaAction!: GaActionEnum | string;
@@ -281,5 +281,50 @@ describe('GaEventDirective', () => {
     fixture.detectChanges();
 
     expect(spyOnGa).toHaveBeenCalledWith(action, 'test-4', undefined, undefined, gaInteraction);
+  });
+});
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'ga-input-host',
+  template: `<input gaEvent="teste" gaAction="teste" gaBind="focus" />`,
+  imports: [GaEventDirective],
+})
+class InputHostComponent {}
+
+describe('GaEventDirectiveWithInput', () => {
+  let gaEvent: GaEventDirective, fixture: ComponentFixture<InputHostComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [InputHostComponent],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(InputHostComponent);
+    fixture.detectChanges();
+    gaEvent = fixture.debugElement.query(By.directive(GaEventDirective)).injector.get(GaEventDirective);
+  });
+
+  // it('should update gaBind when input is updated', () => {
+  //   // gaEventFormInput.gaBind = 'click';
+  //   expect(gaEvent.gaBind()).toBe('click');
+  // });
+
+  // it('should use `focus` as a default gaBind', () => {
+  //   expect(gaEvent.gaBind()).toBe('focus');
+  // });
+
+  it('should call `GoogleAnalyticsService.event()` on trigger focus at input', () => {
+    const ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService);
+    const spyOnGa = spyOn(ga, 'event');
+    const input = fixture.debugElement.query((e) => e.name === 'input');
+
+    fixture.detectChanges();
+    input.nativeElement.dispatchEvent(new FocusEvent('focus'));
+    fixture.detectChanges();
+
+    expect(spyOnGa).toHaveBeenCalledWith('teste', undefined, undefined, undefined, undefined);
   });
 });
