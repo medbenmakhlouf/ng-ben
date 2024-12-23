@@ -303,7 +303,10 @@ describe('GoogleAnalyticDirective', () => {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ga-input-host',
-  template: `<input google-analytics [data]="{ action: 'teste' }" bindTo="focus" />`,
+  template: `
+    <input google-analytics [data]="{ action: 'teste' }" />
+    <textarea google-analytics [data]="{ action: 'teste' }"></textarea>
+  `,
   imports: [GoogleAnalyticsDirective],
 })
 class InputHostComponent {}
@@ -323,14 +326,9 @@ describe('GoogleAnalyticDirectiveWithInput', () => {
     gaEvent = fixture.debugElement.query(By.directive(GoogleAnalyticsDirective)).injector.get(GoogleAnalyticsDirective);
   });
 
-  // it('should update gaBind when input is updated', () => {
-  //   // gaEventFormInput.gaBind = 'click';
-  //   expect(gaEvent.gaBind()).toBe('click');
-  // });
-
-  // it('should use `focus` as a default gaBind', () => {
-  //   expect(gaEvent.gaBind()).toBe('focus');
-  // });
+  it('should use `focus` as a default gaBind', () => {
+    expect(gaEvent.eventName()).toBe('focus');
+  });
 
   it('should call `GoogleAnalyticsService.event()` on trigger focus at input', () => {
     const ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService);

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject, input, afterRenderEffect } from '@angular/core';
+import { Directive, ElementRef, inject, input, afterRenderEffect, computed } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { fromEvent, switchMap } from 'rxjs';
 import { type GoogleAnalyticEvent } from './types';
@@ -13,8 +13,12 @@ export class GoogleAnalyticsDirective {
   private readonly el = inject(ElementRef);
   readonly data = input.required<GoogleAnalyticEvent>();
   readonly bindTo = input<string>('click');
-  private bindTo$ = toObservable(this.bindTo).pipe(
-    switchMap((bindTo: string) => fromEvent(this.el.nativeElement, bindTo)),
+  readonly eventName = computed(() => {
+    const isInput = ['INPUT', 'TEXTAREA'].includes(this.el.nativeElement.tagName);
+    return isInput && this.bindTo() === 'click' ? 'focus' : this.bindTo();
+  });
+  private bindTo$ = toObservable(this.eventName).pipe(
+    switchMap((eventName: string) => fromEvent(this.el.nativeElement, eventName)),
   );
   private fromBindTo = toSignal(this.bindTo$);
 
