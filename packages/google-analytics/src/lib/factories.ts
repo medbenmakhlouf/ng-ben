@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { type ComponentRef, inject, isDevMode } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, skip } from 'rxjs/operators';
+import { filter, skip, tap } from 'rxjs/operators';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
 import type { GoogleAnalyticsRoutingSettings, GoogleAnalyticsSettings, GtagFn } from './types';
 import { type GoogleAnalyticsService } from './google-analytics.service';
@@ -110,8 +110,9 @@ export function routerInitializerFactory(
         filter((event) =>
           excludeRules.length > 0 ? !excludeRules.some((rule) => rule.test(event.urlAfterRedirects)) : true,
         ),
+        tap((event) => gaService.pageView(event.urlAfterRedirects, undefined)),
       )
-      .subscribe((event) => gaService.pageView(event.urlAfterRedirects, undefined));
+      .subscribe();
     // Cleanup
     c.onDestroy(() => subs.unsubscribe());
   };
