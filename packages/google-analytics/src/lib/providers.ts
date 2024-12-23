@@ -3,13 +3,21 @@ import {
   type EnvironmentProviders,
   makeEnvironmentProviders,
   provideAppInitializer,
+  type Provider,
 } from '@angular/core';
 import { initializerFactory, routerInitializerFactory } from './factories';
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { type GoogleAnalyticsRoutingSettings, type GoogleAnalyticsSettings } from './types';
-import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN, NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from './tokens';
+import { ROUTING_SETTINGS, GLOBAL_SETTINGS } from './tokens';
 
 /**
+ * Install Google Analytics Tracking code on your environment and configure tracking ID.
+ *
+ * You should provide a valid Google TrackingCode. This code will be provided to the entire application by
+ * `NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN` token. You can inject this code in you components if you like by
+ * use the following injection code `@Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) gaConfig: IGoogleAnalyticsSettings`
+ * This module should be a dependency on the highest level module of the application, i.e. AppConfig in most use cases.
+ *
  * Provides Google Analytics Router settings.
  *
  * Attach a listener to `NavigationEnd` Router event. So, every time Router finish the page resolution it should call `NavigationEnd` event.
@@ -38,46 +46,29 @@ import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN, NGX_GOOGLE_ANALYTICS_SETTI
  *       }
  *     });
  * ```
- * @param {GoogleAnalyticsRoutingSettings} [settings] - The routing settings for Google Analytics.
+ * @param {GoogleAnalyticsSettings} [settings] - The settings for Google Analytics.*
+ * @param {GoogleAnalyticsRoutingSettings} [routerSettings] - The routing settings for Google Analytics.
  * @returns {EnvironmentProviders} An array of environment providers.
  */
-export function provideGoogleAnalyticRouter(settings?: GoogleAnalyticsRoutingSettings): EnvironmentProviders {
-  return makeEnvironmentProviders([
-    {
-      provide: NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN,
-      useValue: settings ?? {},
-    },
+export function provideGoogleAnalytic(
+  settings?: GoogleAnalyticsSettings,
+  routerSettings?: GoogleAnalyticsRoutingSettings,
+): EnvironmentProviders {
+  const providers: Provider[] = [{ provide: GLOBAL_SETTINGS, useValue: settings }];
+  if (routerSettings) {
+    providers.push({ provide: ROUTING_SETTINGS, useValue: routerSettings });
     /**
      * Provide a DI Configuration to attach GA Trigger to Router Events at Angular Startup Cycle.
      */
-    {
+    providers.push({
       provide: APP_BOOTSTRAP_LISTENER,
-      multi: true,
       useFactory: routerInitializerFactory,
-      deps: [NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN, GoogleAnalyticsService],
-    },
-  ]);
-}
-
-/**
- * Install Google Analytics Tracking code on your environment and configure tracking ID.
- *
- * You should provide a valid Google TrackingCode. This code will be provided to the entire application by
- * `NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN` token. You can inject this code in you components if you like by
- * use the following injection code `@Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) gaConfig: IGoogleAnalyticsSettings`
- * This module should be a dependency on the highest level module of the application, i.e. AppConfig in most use cases.
- * @param {GoogleAnalyticsSettings} [settings] - The settings for Google Analytics.*
- * @returns {EnvironmentProviders} An array of environment providers.
- */
-export function provideGoogleAnalytic(settings?: GoogleAnalyticsSettings): EnvironmentProviders {
-  return makeEnvironmentProviders([
-    {
-      provide: NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN,
-      useValue: settings,
-    },
-    /**
-     * Provide a DI Configuration to attach GA Initialization at Angular Startup Cycle.
-     */
-    provideAppInitializer(initializerFactory),
-  ]);
+      deps: [ROUTING_SETTINGS, GoogleAnalyticsService],
+      multi: true,
+    });
+  }
+  /**
+   * Provide a DI Configuration to attach GA Initialization at Angular Startup Cycle.
+   */
+  return makeEnvironmentProviders([providers, provideAppInitializer(initializerFactory)]);
 }

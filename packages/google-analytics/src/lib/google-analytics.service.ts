@@ -1,15 +1,15 @@
 import { Injectable, isDevMode, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
+import { GLOBAL_SETTINGS, GTAG_FN } from './tokens';
 import { type GtagFn, type GoogleAnalyticsSettings, type GoogleAnalyticEvent } from './types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoogleAnalyticsService {
-  private readonly settings = inject<GoogleAnalyticsSettings>(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN);
+  private readonly settings = inject<GoogleAnalyticsSettings>(GLOBAL_SETTINGS);
   private readonly _document = inject(DOCUMENT);
-  private readonly _gtag = inject<GtagFn>(NGX_GTAG_FN);
+  private readonly _gtag = inject<GtagFn>(GTAG_FN);
 
   private get document(): Document {
     return this._document;

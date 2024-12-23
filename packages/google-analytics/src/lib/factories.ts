@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { type ComponentRef, inject, isDevMode } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, skip, tap } from 'rxjs/operators';
-import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
+import { GLOBAL_SETTINGS, GTAG_FN } from './tokens';
 import type { GoogleAnalyticsRoutingSettings, GoogleAnalyticsSettings, GtagFn } from './types';
 import { type GoogleAnalyticsService } from './google-analytics.service';
 
@@ -13,9 +13,9 @@ import { type GoogleAnalyticsService } from './google-analytics.service';
  */
 export const initializerFactory = (): Promise<void> | void => {
   // The Google Analytics settings.
-  const settings = inject<GoogleAnalyticsSettings>(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN);
+  const settings = inject<GoogleAnalyticsSettings>(GLOBAL_SETTINGS);
   //  The Google Analytics function.
-  const gtag = inject<GtagFn>(NGX_GTAG_FN);
+  const gtag = inject<GtagFn>(GTAG_FN);
   // The Document interface.
   const document = inject<Document>(DOCUMENT);
   if (!settings.trackingCode) {
