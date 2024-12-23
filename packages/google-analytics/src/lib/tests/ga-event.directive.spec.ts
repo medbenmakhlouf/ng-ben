@@ -1,7 +1,7 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { GaEventDirective } from '../ga-event.directive';
+import { GoogleAnalyticsDirective } from '../google-analytics.directive';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 import { type GaActionEnum } from '../enums';
 
@@ -10,6 +10,7 @@ import { type GaActionEnum } from '../enums';
   selector: 'ga-host',
   template: `
     <button
+      google-analytics
       gaEvent="test-1"
       class="test-1 test-click"
       [gaAction]="gaAction"
@@ -20,6 +21,7 @@ import { type GaActionEnum } from '../enums';
       >Button 1</button
     >
     <button
+      google-analytics
       gaEvent="test-2"
       class="test-2 test-focus"
       [gaAction]="gaAction"
@@ -31,6 +33,7 @@ import { type GaActionEnum } from '../enums';
       >Button 2</button
     >
     <button
+      google-analytics
       gaEvent="test-3"
       class="test-3 test-blur"
       [gaAction]="gaAction"
@@ -42,6 +45,7 @@ import { type GaActionEnum } from '../enums';
       >Button 3</button
     >
     <button
+      google-analytics
       gaCategory="test-4"
       [gaEvent]="gaEvent"
       class="test-4 test-category"
@@ -53,6 +57,7 @@ import { type GaActionEnum } from '../enums';
       >Button 4</button
     >
     <button
+      google-analytics
       gaEvent="test-5"
       class="test-5 test-custom"
       [gaAction]="gaAction"
@@ -64,7 +69,7 @@ import { type GaActionEnum } from '../enums';
       >Button 5</button
     >
   `,
-  imports: [GaEventDirective],
+  imports: [GoogleAnalyticsDirective],
 })
 class HostComponent {
   gaAction!: GaActionEnum | string;
@@ -93,7 +98,7 @@ describe('GaEventDirective', () => {
   it('should create an instance', () => {
     const gaEvent = fixture.debugElement
       .query((i) => (i.nativeElement as HTMLButtonElement).classList.contains('test-1'))
-      .injector.get(GaEventDirective);
+      .injector.get(GoogleAnalyticsDirective);
     expect(gaEvent).toBeTruthy();
   });
 
@@ -287,13 +292,13 @@ describe('GaEventDirective', () => {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ga-input-host',
-  template: `<input gaEvent="teste" gaAction="teste" gaBind="focus" />`,
-  imports: [GaEventDirective],
+  template: `<input google-analytics gaEvent="teste" gaAction="teste" gaBind="focus" />`,
+  imports: [GoogleAnalyticsDirective],
 })
 class InputHostComponent {}
 
 describe('GaEventDirectiveWithInput', () => {
-  let gaEvent: GaEventDirective, fixture: ComponentFixture<InputHostComponent>;
+  let gaEvent: GoogleAnalyticsDirective, fixture: ComponentFixture<InputHostComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -304,7 +309,7 @@ describe('GaEventDirectiveWithInput', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InputHostComponent);
     fixture.detectChanges();
-    gaEvent = fixture.debugElement.query(By.directive(GaEventDirective)).injector.get(GaEventDirective);
+    gaEvent = fixture.debugElement.query(By.directive(GoogleAnalyticsDirective)).injector.get(GoogleAnalyticsDirective);
   });
 
   // it('should update gaBind when input is updated', () => {

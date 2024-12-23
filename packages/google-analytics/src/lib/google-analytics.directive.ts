@@ -7,10 +7,10 @@ import { GoogleAnalyticsService } from './google-analytics.service';
 import { type GaActionEnum } from './enums';
 
 @Directive({
-  selector: `[gaEvent],input[gaEvent],select[gaEvent],textarea[gaEvent]`,
-  exportAs: 'gaEvent',
+  selector: `[google-analytics],input[google-analytics],select[google-analytics],textarea[google-analytics]`,
+  exportAs: 'googleAnalytics',
 })
-export class GaEventDirective implements OnDestroy {
+export class GoogleAnalyticsDirective implements OnDestroy {
   private gaService = inject(GoogleAnalyticsService);
   private settings = inject<GoogleAnalyticsSettings>(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN);
   private readonly el = inject(ElementRef);

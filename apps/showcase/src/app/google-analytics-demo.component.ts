@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { GaEventDirective } from '@ng-ben/google-analytics';
+import { GoogleAnalyticsDirective } from '@ng-ben/google-analytics';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-google-analytics-demo',
-  imports: [RouterOutlet, RouterLink, GaEventDirective],
+  imports: [RouterOutlet, RouterLink, GoogleAnalyticsDirective],
   template: `
     <!--The content below is only a placeholder and can be replaced.-->
     <div style="text-align:center">
@@ -24,21 +24,26 @@ import { GaEventDirective } from '@ng-ben/google-analytics';
       <h2>Directive tests</h2>
 
       <div>
-        <button gaEvent gaCategory="ga_directive_test" gaAction="click_test">Click Test</button>
-        <button gaEvent gaCategory="ga_directive_test" gaAction="focus_test" gaBind="focus">Focus Test</button>
-        <button gaEvent gaCategory="ga_directive_test" gaAction="blur_test" gaBind="blur">Blur Test</button>
+        <button google-analytics gaCategory="ga_directive_test" gaAction="click_test">Click Test</button>
+        <button google-analytics gaCategory="ga_directive_test" gaAction="focus_test" gaBind="focus">Focus Test</button>
+        <button google-analytics gaCategory="ga_directive_test" gaAction="blur_test" gaBind="blur">Blur Test</button>
       </div>
 
       <div>
-        <input gaEvent gaCategory="ga_directive_input_test" gaAction="fill_blur" placeholder="Auto Blur Test" />
+        <input
+          google-analytics
+          gaCategory="ga_directive_input_test"
+          gaAction="fill_blur"
+          placeholder="Auto Blur Test"
+        />
       </div>
 
       <h2>Group Directive Test</h2>
 
-      <div gaCategory="ga_test_category">
-        <button gaEvent gaAction="click_test">Click Test</button>
-        <button gaEvent gaAction="focus_test" gaBind="focus">Focus Test</button>
-        <button gaEvent gaAction="blur_test" gaBind="blur">Blur Test</button>
+      <div google-analytics gaCategory="ga_test_category">
+        <button google-analytics gaAction="click_test">Click Test</button>
+        <button google-analytics gaAction="focus_test" gaBind="focus">Focus Test</button>
+        <button google-analytics gaAction="blur_test" gaBind="blur">Blur Test</button>
       </div>
     </div>
   `,
