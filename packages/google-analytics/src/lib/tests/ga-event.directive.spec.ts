@@ -1,6 +1,6 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { GaEventCategoryDirective } from '@ng-ben/google-analytics';
+import { GaEventCategoryDirective } from '../ga-event-category.directive';
 import { GaEventDirective } from '../ga-event.directive';
 import { NgxGoogleAnalyticsModule } from '../ngx-google-analytics.module';
 import { GoogleAnalyticsService } from '../google-analytics.service';
