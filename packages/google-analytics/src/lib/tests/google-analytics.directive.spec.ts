@@ -30,7 +30,7 @@ class HostComponent {
   interaction!: boolean;
 }
 
-describe('GaEventDirective', () => {
+describe('GoogleAnalyticDirective', () => {
   let fixture: ComponentFixture<HostComponent>, host: HostComponent;
 
   beforeEach(() => {
@@ -308,7 +308,7 @@ describe('GaEventDirective', () => {
 })
 class InputHostComponent {}
 
-describe('GaEventDirectiveWithInput', () => {
+describe('GoogleAnalyticDirectiveWithInput', () => {
   let gaEvent: GoogleAnalyticsDirective, fixture: ComponentFixture<InputHostComponent>;
 
   beforeEach(() => {
