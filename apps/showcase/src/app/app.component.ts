@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { GoogleRecaptchaDemoComponent } from './google-recaptcha-demo/google-recaptcha-demo.component';
+import { GoogleAnalyticsDemoComponent } from './google-analytics-demo.component';
+import { GoogleRecaptchaDemoComponent } from './google-recaptcha-demo.component';
 
 @Component({
   selector: 'app-root',
-  template: ` <app-google-recaptcha-demo /> `,
+  template: `
+    <app-google-recaptcha-demo />
+    <app-google-analytics-demo />
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GoogleRecaptchaDemoComponent],
+  imports: [GoogleRecaptchaDemoComponent, GoogleAnalyticsDemoComponent],
 })
 export class AppComponent {}
