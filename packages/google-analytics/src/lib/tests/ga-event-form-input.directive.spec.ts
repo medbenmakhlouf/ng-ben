@@ -1,5 +1,5 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component, ChangeDetectionStrategy, type DebugElement } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { GaEventFormInputDirective } from '../ga-event-form-input.directive';
 import { GaEventDirective } from '../ga-event.directive';
@@ -8,16 +8,13 @@ import { GoogleAnalyticsService } from '../google-analytics.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ga-host',
-  template: `<input gaEvent="teste" />`,
+  template: `<input gaEvent="teste" gaAction="teste" />`,
   imports: [GaEventFormInputDirective, GaEventDirective],
 })
 class HostComponent {}
 
 describe('GaEventFormInputDirective', () => {
-  let gaEventFormInput: GaEventFormInputDirective,
-    gaEvent: GaEventDirective,
-    debugElement: DebugElement,
-    fixture: ComponentFixture<HostComponent>;
+  let gaEventFormInput: GaEventFormInputDirective, gaEvent: GaEventDirective, fixture: ComponentFixture<HostComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,11 +24,11 @@ describe('GaEventFormInputDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
-    debugElement = fixture.debugElement;
     fixture.detectChanges();
-    debugElement = fixture.debugElement.query(By.directive(GaEventFormInputDirective));
-    gaEvent = debugElement.injector.get(GaEventDirective);
-    gaEventFormInput = debugElement.injector.get(GaEventFormInputDirective);
+    gaEvent = fixture.debugElement.query(By.directive(GaEventDirective)).injector.get(GaEventDirective);
+    gaEventFormInput = fixture.debugElement
+      .query(By.directive(GaEventFormInputDirective))
+      .injector.get(GaEventFormInputDirective);
   });
 
   it('should create an instance', () => {

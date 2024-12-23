@@ -12,6 +12,8 @@ export class GaEventFormInputDirective {
     this.gaBind = 'focus';
   }
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set gaBind(bind: string) {
     if (this.gaEvent) {
       this.gaEvent.gaBind = bind;

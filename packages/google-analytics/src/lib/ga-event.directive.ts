@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { Directive, ElementRef, Input, isDevMode, type OnDestroy, inject } from '@angular/core';
+import { Directive, ElementRef, Input, isDevMode, type OnDestroy, inject, input } from '@angular/core';
 import { fromEvent, type Subscription } from 'rxjs';
 import { GaEventCategoryDirective } from './ga-event-category.directive';
 import { GoogleAnalyticsSettings } from './types';
@@ -23,15 +23,17 @@ export class GaEventDirective implements OnDestroy {
 
   private bindSubscription?: Subscription;
 
-  @Input() gaAction!: GaActionEnum | string;
-  @Input() gaLabel!: string;
-  @Input() label!: string;
-  @Input() gaValue!: number;
-  @Input() gaInteraction!: boolean;
-  @Input() gaEvent!: GaActionEnum | string;
+  readonly gaAction = input.required<GaActionEnum | string>();
+  readonly gaLabel = input<string>();
+  readonly label = input<string>();
+  readonly gaValue = input<number>();
+  readonly gaInteraction = input<boolean>();
+  readonly gaEvent = input.required<GaActionEnum | string>();
 
   private _gaBind!: string;
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set gaBind(gaBind: string) {
     if (this.bindSubscription) {
       this.bindSubscription.unsubscribe();
@@ -52,21 +54,18 @@ export class GaEventDirective implements OnDestroy {
 
   protected trigger() {
     try {
-      // Observação: não é obrigatório especificar uma categoria, uma etiqueta ou um valor. Consulte Eventos padrão do Google Analytics abaixo.
-      // if (!this.$gaCategoryDirective) {
-      //   throw new Error('You must provide a gaCategory attribute w/ gaEvent Directive.');
-      // }
-
-      if (!this.gaAction && !this.gaEvent) {
+      const gaAction = this.gaAction();
+      const gaEvent = this.gaEvent();
+      if (!gaAction && !gaEvent) {
         throw new Error('You must provide a gaAction attribute to identify this event.');
       }
 
       this.gaService.event(
-        this.gaAction || this.gaEvent,
-        this.gaCategoryDirective ? this.gaCategoryDirective.gaCategory : undefined,
-        this.gaLabel || this.label,
-        this.gaValue,
-        this.gaInteraction,
+        gaAction || gaEvent,
+        this.gaCategoryDirective ? this.gaCategoryDirective.gaCategory() : undefined,
+        this.gaLabel() || this.label(),
+        this.gaValue(),
+        this.gaInteraction(),
       );
     } catch (err: any) {
       this.throw(err);

@@ -1,9 +1,9 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 
 @Directive({
   exportAs: 'gaCategory',
   selector: `[gaEvent][gaCategory],[gaCategory]`,
 })
 export class GaEventCategoryDirective {
-  @Input() gaCategory!: string;
+  readonly gaCategory = input.required<string>();
 }
