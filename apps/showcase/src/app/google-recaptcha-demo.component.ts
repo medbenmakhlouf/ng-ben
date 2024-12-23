@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { type RecaptchaErrorParameters, RecaptchaLoaderService, RecaptchaComponent } from '@ng-ben/google-recaptcha';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-google-recaptcha-demo',
   imports: [FormsModule, RecaptchaComponent],
   providers: [RecaptchaLoaderService],
