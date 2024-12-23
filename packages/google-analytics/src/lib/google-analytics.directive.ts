@@ -32,7 +32,7 @@ export class GoogleAnalyticsDirective {
   private trigger() {
     try {
       if (!this.data().action) {
-        throw new Error('You must provide a gaAction attribute to identify this event.');
+        throw new Error('You must provide an action attribute to identify this event.');
       }
       this.gaService.event(this.data());
     } catch (err: any) {

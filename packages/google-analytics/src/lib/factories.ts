@@ -86,7 +86,7 @@ export const initializerFactory = (): Promise<void> | void => {
  *
  * We are using the component's injector reference to resolve Router, so I hope there is no problem with double binding.
  *
- * If you have this problem, I encourage not to use NgxGoogleAnalyticsRouterModule and attach the listener on AppComponent initialization.
+ * If you have this problem, I encourage not to provide router settings and attach the listener on AppComponent initialization.
  * @param {GoogleAnalyticsRoutingSettings | null} settings - The settings for Google Analytics routing.
  * @param {GoogleAnalyticsService} gaService - The Google Analytics service.
  * @returns {(c: ComponentRef<any>) => void} A function that attaches the listener to the router events.
