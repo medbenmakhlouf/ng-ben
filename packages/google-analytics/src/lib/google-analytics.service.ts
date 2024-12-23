@@ -21,16 +21,19 @@ export class GoogleAnalyticsService {
     }
   }
 
+  public throwWarn(err: Error) {
+    if ((isDevMode() || this.settings.enableTracing) && console && console.warn) {
+      console.warn(err);
+    }
+  }
+
   /**
    * Converts a Map to a key-value object.
    * @param {Map<string, any>} map - The map to convert.
    * @returns {Record<string, any> | void} The converted key-value object or undefined if the map is empty.
-   * @todo Change this to `Object.fromEntity()` in the future...
    */
-  private toKeyValue(map: Map<string, any>): Record<string, any> | void {
-    return map.size > 0
-      ? Array.from(map).reduce((obj, [key, value]) => Object.defineProperty(obj, key, { value, enumerable: true }), {})
-      : undefined;
+  private toKeyValue(map: Map<string, any>): Record<string, any> | undefined {
+    return map.size > 0 ? Object.fromEntries(map) : undefined;
   }
 
   /**
