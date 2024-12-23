@@ -16,9 +16,7 @@
             "outputPath": "dist/showcase",
             "index": "apps/showcase/src/index.html",
             "browser": "apps/showcase/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "apps/showcase/tsconfig.app.json",
             "assets": [
               {
@@ -26,9 +24,7 @@
                 "input": "apps/showcase/public"
               }
             ],
-            "styles": [
-              "apps/showcase/src/styles.css"
-            ],
+            "styles": ["apps/showcase/src/styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -73,10 +69,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "apps/showcase/tsconfig.spec.json",
             "assets": [
               {
@@ -84,19 +77,14 @@
                 "input": "apps/showcase/public"
               }
             ],
-            "styles": [
-              "apps/showcase/src/styles.css"
-            ],
+            "styles": ["apps/showcase/src/styles.css"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "apps/showcase/**/*.ts",
-              "apps/showcase/**/*.html"
-            ],
+            "lintFilePatterns": ["apps/showcase/**/*.ts", "apps/showcase/**/*.html"],
             "eslintConfig": "apps/showcase/eslint.config.mjs"
           }
         }
@@ -128,19 +116,13 @@
           "options": {
             "tsConfig": "packages/google-recaptcha/tsconfig.spec.json",
             "karmaConfig": "packages/google-recaptcha/karma.conf.js",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "packages/google-recaptcha/**/*.ts",
-              "packages/google-recaptcha/**/*.html"
-            ],
+            "lintFilePatterns": ["packages/google-recaptcha/**/*.ts", "packages/google-recaptcha/**/*.html"],
             "eslintConfig": "packages/google-recaptcha/eslint.config.mjs"
           }
         }
@@ -172,19 +154,13 @@
           "options": {
             "tsConfig": "packages/google-analytics/tsconfig.spec.json",
             "karmaConfig": "packages/google-analytics/karma.conf.js",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "packages/google-analytics/**/*.ts",
-              "packages/google-analytics/**/*.html"
-            ],
+            "lintFilePatterns": ["packages/google-analytics/**/*.ts", "packages/google-analytics/**/*.html"],
             "eslintConfig": "packages/google-analytics/eslint.config.mjs"
           }
         }
@@ -192,8 +168,10 @@
     }
   },
   "cli": {
-    "schematicCollections": [
-      "angular-eslint"
-    ]
+    "schematicCollections": ["angular-eslint"]
+  },
+  "schematics": {
+    "@schematics/angular:application": { "strict": true },
+    "@schematics/angular:component": { "changeDetection": "OnPush", "inlineStyle": true }
   }
 }

@@ -6,12 +6,8 @@
     "outDir": "./dist/out-tsc",
     "strict": true,
     "paths": {
-      "@ng-ben/google-recaptcha": [
-        "./packages/google-recaptcha/src/public-api.ts"
-      ],
-      "@ng-ben/google-analytics": [
-        "./packages/google-analytics/src/public-api.ts"
-      ]
+      "@ng-ben/google-recaptcha": ["./packages/google-recaptcha/src/public-api.ts"],
+      "@ng-ben/google-analytics": ["./packages/google-analytics/src/public-api.ts"]
     },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
