@@ -29,7 +29,9 @@ export default tseslint.config(
       'import/resolver': {
         // You will also need to install and configure the TypeScript resolver
         // See also https://github.com/import-js/eslint-import-resolver-typescript#configuration
-        typescript: true,
+        typescript: {
+          project: ['tsconfig.json', 'apps/*/tsconfig.app.json'],
+        },
         node: true,
       },
     },
