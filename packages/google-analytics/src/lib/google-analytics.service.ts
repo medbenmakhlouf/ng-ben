@@ -1,8 +1,7 @@
 import { Injectable, isDevMode, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
-import { type GaActionEnum } from './enums';
-import { type GtagFn, type GoogleAnalyticsSettings } from './types';
+import { type GtagFn, type GoogleAnalyticsSettings, type GoogleAnalyticEvent } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -54,43 +53,31 @@ export class GoogleAnalyticsService {
    * 'event_category': 'video_auto_play'
    * });
    * ```
-   * @param {GaActionEnum | string} action 'video_auto_play_start'
-   * @param {string} [category] 'video_auto_play'
-   * @param {string} [label] 'My promotional video'
-   * @param {number} [value] A value to measure something
-   * @param {boolean} [interaction] If user interaction is performed
-   * @param {object} [options] - Additional options for the event
+   * @param {GoogleAnalyticEvent} [data] event data
    */
-  event(
-    action: GaActionEnum | string,
-    category?: string,
-    label?: string,
-    value?: number,
-    interaction?: boolean,
-    options?: object,
-  ) {
+  event(data: GoogleAnalyticEvent) {
     try {
       const opt = new Map<string, any>();
-      if (category) {
-        opt.set('event_category', category);
+      if (data.category) {
+        opt.set('event_category', data.category);
       }
-      if (label) {
-        opt.set('event_label', label);
+      if (data.label) {
+        opt.set('event_label', data.label);
       }
-      if (value) {
-        opt.set('value', value);
+      if (data.value) {
+        opt.set('value', data.value);
       }
-      if (interaction !== undefined) {
-        opt.set('interaction', interaction);
+      if (data.interaction !== undefined) {
+        opt.set('interaction', data.interaction);
       }
-      if (options) {
-        Object.entries(options).map(([key, value]) => opt.set(key, value));
+      if (data.options) {
+        Object.entries(data.options).map(([key, value]) => opt.set(key, value));
       }
       const params = this.toKeyValue(opt);
       if (params) {
-        this.gtag('event', action as string, params);
+        this.gtag('event', data.action as string, params);
       } else {
-        this.gtag('event', action as string);
+        this.gtag('event', data.action as string);
       }
     } catch (error: any) {
       this.throw(error);

@@ -40,7 +40,7 @@ describe('GoogleAnalyticsService', () => {
       const action = 'video_auto_play_start',
         ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService);
 
-      ga.event(action);
+      ga.event({ action });
 
       expect(spyOnGtag).toHaveBeenCalledWith('event', action);
     });
@@ -50,7 +50,7 @@ describe('GoogleAnalyticsService', () => {
         event_category = 'video_auto_play',
         ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService);
 
-      ga.event(action, event_category);
+      ga.event({ action, category: event_category });
 
       expect(spyOnGtag).toHaveBeenCalledWith('event', action, { event_category });
     });
@@ -60,7 +60,7 @@ describe('GoogleAnalyticsService', () => {
         event_label = 'My promotional video',
         ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService);
 
-      ga.event(action, undefined, event_label);
+      ga.event({ action, label: event_label });
 
       expect(spyOnGtag).toHaveBeenCalledWith('event', action, { event_label });
     });
@@ -70,7 +70,7 @@ describe('GoogleAnalyticsService', () => {
         value = 40,
         ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService);
 
-      ga.event(action, undefined, undefined, value);
+      ga.event({ action, value });
 
       expect(spyOnGtag).toHaveBeenCalledWith('event', action, { value });
     });
@@ -80,7 +80,7 @@ describe('GoogleAnalyticsService', () => {
         interaction = true,
         ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService);
 
-      ga.event(action, undefined, undefined, undefined, interaction);
+      ga.event({ action, interaction });
 
       expect(spyOnGtag).toHaveBeenCalledWith('event', action, { interaction });
     });
