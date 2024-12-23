@@ -1,9 +1,8 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, type DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { GaEventFormInputDirective } from '../ga-event-form-input.directive';
 import { GaEventDirective } from '../ga-event.directive';
-import { GaEventCategoryDirective } from '../ga-event-category.directive';
-import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from '../tokens';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 
 @Component({
@@ -17,7 +16,7 @@ class HostComponent {}
 describe('GaEventFormInputDirective', () => {
   let gaEventFormInput: GaEventFormInputDirective,
     gaEvent: GaEventDirective,
-    gaCategory: GaEventCategoryDirective,
+    debugElement: DebugElement,
     fixture: ComponentFixture<HostComponent>;
 
   beforeEach(() => {
@@ -28,18 +27,11 @@ describe('GaEventFormInputDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
+    debugElement = fixture.debugElement;
     fixture.detectChanges();
-  });
-
-  beforeEach(() => {
-    gaCategory = new GaEventCategoryDirective();
-    gaEvent = new GaEventDirective(
-      gaCategory,
-      TestBed.inject(GoogleAnalyticsService),
-      TestBed.inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN),
-      fixture.elementRef,
-    );
-    gaEventFormInput = new GaEventFormInputDirective(gaEvent);
+    debugElement = fixture.debugElement.query(By.directive(GaEventFormInputDirective));
+    gaEvent = debugElement.injector.get(GaEventDirective);
+    gaEventFormInput = debugElement.injector.get(GaEventFormInputDirective);
   });
 
   it('should create an instance', () => {
@@ -56,9 +48,9 @@ describe('GaEventFormInputDirective', () => {
   });
 
   it('should call `GoogleAnalyticsService.event()` on trigger focus at input', () => {
-    const ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService),
-      spyOnGa = spyOn(ga, 'event'),
-      input = fixture.debugElement.query((e) => e.name === 'input');
+    const ga: GoogleAnalyticsService = TestBed.inject(GoogleAnalyticsService);
+    const spyOnGa = spyOn(ga, 'event');
+    const input = fixture.debugElement.query((e) => e.name === 'input');
 
     fixture.detectChanges();
     input.nativeElement.dispatchEvent(new FocusEvent('focus'));

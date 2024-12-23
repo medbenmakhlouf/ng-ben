@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { Directive, ElementRef, Inject, Input, isDevMode, type OnDestroy, Optional } from '@angular/core';
+import { Directive, ElementRef, Input, isDevMode, type OnDestroy, inject } from '@angular/core';
 import { fromEvent, type Subscription } from 'rxjs';
 import { GaEventCategoryDirective } from './ga-event-category.directive';
 import { GoogleAnalyticsSettings } from './types';
@@ -12,12 +12,12 @@ import { type GaActionEnum } from './enums';
   exportAs: 'gaEvent',
 })
 export class GaEventDirective implements OnDestroy {
-  constructor(
-    @Optional() private gaCategoryDirective: GaEventCategoryDirective,
-    private gaService: GoogleAnalyticsService,
-    @Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) private settings: GoogleAnalyticsSettings,
-    private readonly el: ElementRef,
-  ) {
+  private gaCategoryDirective = inject(GaEventCategoryDirective, { optional: true })!;
+  private gaService = inject(GoogleAnalyticsService);
+  private settings = inject<GoogleAnalyticsSettings>(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN);
+  private readonly el = inject(ElementRef);
+
+  constructor() {
     this.gaBind = 'click';
   }
 

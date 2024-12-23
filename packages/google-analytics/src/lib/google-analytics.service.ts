@@ -1,4 +1,4 @@
-import { Injectable, Inject, isDevMode } from '@angular/core';
+import { Injectable, isDevMode, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
 import { type GaActionEnum } from './enums';
@@ -8,15 +8,13 @@ import { type GtagFn, type GoogleAnalyticsSettings } from './types';
   providedIn: 'root',
 })
 export class GoogleAnalyticsService {
+  private readonly settings = inject<GoogleAnalyticsSettings>(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN);
+  private readonly _document = inject(DOCUMENT);
+  private readonly _gtag = inject<GtagFn>(NGX_GTAG_FN);
+
   private get document(): Document {
     return this._document;
   }
-
-  constructor(
-    @Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) private readonly settings: GoogleAnalyticsSettings,
-    @Inject(DOCUMENT) private readonly _document: any,
-    @Inject(NGX_GTAG_FN) private readonly _gtag: GtagFn,
-  ) {}
 
   private throw(err: Error) {
     if ((this.settings.enableTracing || isDevMode()) && console && console.error) {
