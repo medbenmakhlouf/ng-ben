@@ -2,7 +2,7 @@ import { type ComponentRef, type Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationEnd, NavigationStart, type Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { GoogleAnalyticsRouterInitializer } from '../google-analytics-router.initializer';
+import { routerInitializerFactory } from '../factories';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 
 describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
@@ -39,7 +39,7 @@ describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   });
 
   it('should not trigger the first route event', async () => {
-    await GoogleAnalyticsRouterInitializer(null, gaService)(component);
+    await routerInitializerFactory(null, gaService)(component);
 
     // act
     router$.next(new NavigationStart(1, '/test'));
@@ -51,7 +51,7 @@ describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   });
 
   it('should trigger the second route event', async () => {
-    await GoogleAnalyticsRouterInitializer(null, gaService)(component);
+    await routerInitializerFactory(null, gaService)(component);
 
     // act
     router$.next(new NavigationStart(1, '/test'));
@@ -64,7 +64,7 @@ describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   });
 
   it('should trigger only included route', async () => {
-    await GoogleAnalyticsRouterInitializer({ include: ['/test'] }, gaService)(component);
+    await routerInitializerFactory({ include: ['/test'] }, gaService)(component);
 
     // act
     router$.next(new NavigationStart(1, '/test'));
@@ -81,7 +81,7 @@ describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   });
 
   it('should not trigger excluded route', async () => {
-    await GoogleAnalyticsRouterInitializer({ exclude: ['/test'] }, gaService)(component);
+    await routerInitializerFactory({ exclude: ['/test'] }, gaService)(component);
 
     // act
     router$.next(new NavigationStart(1, '/test1'));
@@ -98,13 +98,7 @@ describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   });
 
   it('should work w/ include and exclude router', async () => {
-    await GoogleAnalyticsRouterInitializer(
-      {
-        include: ['/test*'],
-        exclude: ['/test-2'],
-      },
-      gaService,
-    )(component);
+    await routerInitializerFactory({ include: ['/test*'], exclude: ['/test-2'] }, gaService)(component);
 
     // act
     router$.next(new NavigationStart(1, '/test-1'));
@@ -119,12 +113,7 @@ describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   });
 
   it('should match simple uri', async () => {
-    await GoogleAnalyticsRouterInitializer(
-      {
-        include: ['/test-1'],
-      },
-      gaService,
-    )(component);
+    await routerInitializerFactory({ include: ['/test-1'] }, gaService)(component);
 
     // act
     router$.next(new NavigationStart(1, '/test-1'));
@@ -137,12 +126,7 @@ describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   });
 
   it('should match wildcard uri', async () => {
-    await GoogleAnalyticsRouterInitializer(
-      {
-        include: ['/test*'],
-      },
-      gaService,
-    )(component);
+    await routerInitializerFactory({ include: ['/test*'] }, gaService)(component);
 
     // act
     router$.next(new NavigationStart(1, '/test-1'));
@@ -155,12 +139,7 @@ describe('googleAnalyticsRouterInitializer(settings, gaService)', () => {
   });
 
   it('should match RegExp uri', async () => {
-    await GoogleAnalyticsRouterInitializer(
-      {
-        include: [new RegExp('/test.*', 'i')],
-      },
-      gaService,
-    )(component);
+    await routerInitializerFactory({ include: [new RegExp('/test.*', 'i')] }, gaService)(component);
 
     // act
     router$.next(new NavigationStart(1, '/test-1'));
