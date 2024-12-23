@@ -1,18 +1,13 @@
-import { DOCUMENT } from '@angular/common';
 import {
   APP_BOOTSTRAP_LISTENER,
-  APP_INITIALIZER,
   type EnvironmentProviders,
   makeEnvironmentProviders,
+  provideAppInitializer,
 } from '@angular/core';
 import { initializerFactory, routerInitializerFactory } from './factories';
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { type GoogleAnalyticsRoutingSettings, type GoogleAnalyticsSettings } from './types';
-import {
-  NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN,
-  NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN,
-  NGX_GTAG_FN,
-} from './tokens';
+import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN, NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from './tokens';
 
 /**
  * Provides Google Analytics Router settings.
@@ -83,11 +78,6 @@ export function provideGoogleAnalytic(settings?: GoogleAnalyticsSettings): Envir
     /**
      * Provide a DI Configuration to attach GA Initialization at Angular Startup Cycle.
      */
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: initializerFactory,
-      deps: [NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN, DOCUMENT],
-    },
+    provideAppInitializer(initializerFactory),
   ]);
 }

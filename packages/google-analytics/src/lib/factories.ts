@@ -1,83 +1,81 @@
-import { type ComponentRef, isDevMode } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { type ComponentRef, inject, isDevMode } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, skip } from 'rxjs/operators';
+import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
 import type { GoogleAnalyticsRoutingSettings, GoogleAnalyticsSettings, GtagFn } from './types';
 import { type GoogleAnalyticsService } from './google-analytics.service';
 
 /**
  * Create a script element on DOM and link it to Google Analytics tracking code URI.
  * After that, execute exactly same init process as tracking snippet code.
- * @param {GoogleAnalyticsSettings} settings - The Google Analytics settings.
- * @param {GtagFn} gtag - The Google Analytics function.
- * @param {Document} document - The Document interface.
- * @returns {() => Promise<void>} An async function that initializes Google Analytics.
+ * @returns {Promise<void> | void} An async function that initializes Google Analytics.
  */
-export function initializerFactory(
-  settings: GoogleAnalyticsSettings,
-  gtag: GtagFn,
-  document: Document,
-): () => Promise<void> {
-  return async () => {
-    if (!settings.trackingCode) {
-      if (!isDevMode()) {
-        console.error(
-          'Empty tracking code for Google Analytics. Make sure to provide one when initializing NgxGoogleAnalyticsModule.',
-        );
-      }
+export const initializerFactory = (): Promise<void> | void => {
+  // The Google Analytics settings.
+  const settings = inject<GoogleAnalyticsSettings>(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN);
+  //  The Google Analytics function.
+  const gtag = inject<GtagFn>(NGX_GTAG_FN);
+  // The Document interface.
+  const document = inject<Document>(DOCUMENT);
+  if (!settings.trackingCode) {
+    if (!isDevMode()) {
+      console.error(
+        'Empty tracking code for Google Analytics. Make sure to provide one when initializing NgxGoogleAnalyticsModule.',
+      );
+    }
+    return Promise.resolve();
+  }
 
-      return;
+  if (!gtag) {
+    if (!isDevMode()) {
+      console.error(
+        'Was not possible create or read gtag() fn. Make sure this module is running on a Browser w/ access to Window interface.',
+      );
     }
 
-    if (!gtag) {
-      if (!isDevMode()) {
-        console.error(
-          'Was not possible create or read gtag() fn. Make sure this module is running on a Browser w/ access to Window interface.',
-        );
-      }
+    return Promise.resolve();
+  }
 
-      return;
+  if (!document) {
+    if (!isDevMode()) {
+      console.error(
+        'Was not possible to access Document interface. Make sure this module is running on a Browser w/ access do Document interface.',
+      );
     }
+  }
 
-    if (!document) {
-      if (!isDevMode()) {
-        console.error(
-          'Was not possible to access Document interface. Make sure this module is running on a Browser w/ access do Document interface.',
-        );
-      }
-    }
+  // Set default ga.js uri
+  settings.uri = settings.uri || `https://www.googletagmanager.com/gtag/js?id=${settings.trackingCode}`;
 
-    // Set default ga.js uri
-    settings.uri = settings.uri || `https://www.googletagmanager.com/gtag/js?id=${settings.trackingCode}`;
+  // these commands should run first!
+  settings.initCommands = settings?.initCommands ?? [];
 
-    // these commands should run first!
-    settings.initCommands = settings?.initCommands ?? [];
+  // assert config command
+  if (!settings.initCommands.find((x) => x.command === 'config')) {
+    settings.initCommands.unshift({ command: 'config', values: [settings.trackingCode] });
+  }
 
-    // assert config command
-    if (!settings.initCommands.find((x) => x.command === 'config')) {
-      settings.initCommands.unshift({ command: 'config', values: [settings.trackingCode] });
-    }
+  // assert js command
+  if (!settings.initCommands.find((x) => x.command === 'js')) {
+    settings.initCommands.unshift({ command: 'js', values: [new Date()] });
+  }
 
-    // assert js command
-    if (!settings.initCommands.find((x) => x.command === 'js')) {
-      settings.initCommands.unshift({ command: 'js', values: [new Date()] });
-    }
+  for (const command of settings.initCommands) {
+    gtag(command.command, ...command.values);
+  }
 
-    for (const command of settings.initCommands) {
-      gtag(command.command, ...command.values);
-    }
+  const s: HTMLScriptElement = document.createElement('script');
+  s.async = true;
+  s.src = settings.uri;
 
-    const s: HTMLScriptElement = document.createElement('script');
-    s.async = true;
-    s.src = settings.uri;
+  if (settings.nonce) {
+    s.setAttribute('nonce', settings.nonce);
+  }
 
-    if (settings.nonce) {
-      s.setAttribute('nonce', settings.nonce);
-    }
-
-    const head: HTMLHeadElement = document.getElementsByTagName('head')[0];
-    head.appendChild(s);
-  };
-}
+  const head: HTMLHeadElement = document.getElementsByTagName('head')[0];
+  head.appendChild(s);
+};
 
 /**
  * Attach a listener to `NavigationEnd` Router event. So, every time Router finish the page resolution it should call `NavigationEnd` event.
