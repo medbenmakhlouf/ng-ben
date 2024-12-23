@@ -3,7 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter, skip } from 'rxjs/operators';
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN } from './tokens';
-import { type IGoogleAnalyticsRoutingSettings } from './types';
+import { type GoogleAnalyticsRoutingSettings } from './types';
 
 /**
  * Provide a DI Configuration to attach GA Trigger to Router Events at Angular Startup Cycle.
@@ -25,12 +25,12 @@ export const NGX_GOOGLE_ANALYTICS_ROUTER_INITIALIZER_PROVIDER: Provider = {
  * We are using the component's injector reference to resolve Router, so I hope there is no problem with double binding.
  *
  * If you have this problem, I encourage not to use NgxGoogleAnalyticsRouterModule and attach the listener on AppComponent initialization.
- * @param {IGoogleAnalyticsRoutingSettings | null} settings - The settings for Google Analytics routing.
+ * @param {GoogleAnalyticsRoutingSettings | null} settings - The settings for Google Analytics routing.
  * @param {GoogleAnalyticsService} gaService - The Google Analytics service.
  * @returns {(c: ComponentRef<any>) => void} A function that attaches the listener to the router events.
  */
 export function GoogleAnalyticsRouterInitializer(
-  settings: IGoogleAnalyticsRoutingSettings | null,
+  settings: GoogleAnalyticsRoutingSettings | null,
   gaService: GoogleAnalyticsService,
 ): (c: ComponentRef<any>) => void {
   return (c: ComponentRef<any>) => {

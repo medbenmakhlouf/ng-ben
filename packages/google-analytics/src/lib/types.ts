@@ -42,7 +42,7 @@ export type GaWindow = Window & {
 /**
  * Standardizes a common command protocol :)
  */
-export interface IGoogleAnalyticsCommand {
+export interface GoogleAnalyticsCommand {
   command: string;
   values: any[];
 }
@@ -50,7 +50,7 @@ export interface IGoogleAnalyticsCommand {
 /**
  * Provide some custom settings for Automatics Router listener behaviour.
  */
-export interface IGoogleAnalyticsRoutingSettings {
+export interface GoogleAnalyticsRoutingSettings {
   /**
    * Exclude the given path to the auto page-view trigger.
    *
@@ -85,11 +85,11 @@ export interface IGoogleAnalyticsRoutingSettings {
 /**
  * Standardize an key-value objet to configure GA installation.
  */
-export interface IGoogleAnalyticsSettings {
+export interface GoogleAnalyticsSettings {
   /** Is mandatory to provide a tracking code folks... */
   trackingCode: string;
   /** You can inject custom initialization commands like UserId or other e-commerce features. */
-  initCommands?: IGoogleAnalyticsCommand[];
+  initCommands?: GoogleAnalyticsCommand[];
   /** If Google changes the uri and I die, you can survive! */
   uri?: string;
   /** If true, trace GA tracking errors in production mode */

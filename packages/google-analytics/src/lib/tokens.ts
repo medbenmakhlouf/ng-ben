@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { inject, InjectionToken } from '@angular/core';
-import type { DataLayer, GaWindow, GtagFn, IGoogleAnalyticsRoutingSettings, IGoogleAnalyticsSettings } from './types';
+import type { DataLayer, GaWindow, GtagFn, GoogleAnalyticsRoutingSettings, GoogleAnalyticsSettings } from './types';
 
 /**
  * Check if there is some global function called gtag on Window object, or create an empty function to doesn't brake codes.
@@ -37,7 +37,7 @@ export const NGX_DATA_LAYER = new InjectionToken<DataLayer>('ngx-data-layer', {
 /**
  * Provide a Injection Token to global settings.
  */
-export const NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN = new InjectionToken<IGoogleAnalyticsRoutingSettings>(
+export const NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN = new InjectionToken<GoogleAnalyticsRoutingSettings>(
   'ngx-google-analytics-routing-settings',
   {
     factory: () => ({}),
@@ -71,7 +71,7 @@ export const NGX_GTAG_FN = new InjectionToken<GtagFn>('ngx-gtag-fn', {
 /**
  * Provide a Injection Token to global settings.
  */
-export const NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN = new InjectionToken<IGoogleAnalyticsSettings>(
+export const NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN = new InjectionToken<GoogleAnalyticsSettings>(
   'ngx-google-analytics-settings',
   {
     factory: () => ({ trackingCode: '', enableTracing: false }),

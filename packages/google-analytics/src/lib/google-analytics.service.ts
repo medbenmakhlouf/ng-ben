@@ -2,7 +2,7 @@ import { Injectable, Inject, isDevMode } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
 import { type GaActionEnum } from './enums';
-import { type GtagFn, type IGoogleAnalyticsSettings } from './types';
+import { type GtagFn, type GoogleAnalyticsSettings } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class GoogleAnalyticsService {
   }
 
   constructor(
-    @Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) private readonly settings: IGoogleAnalyticsSettings,
+    @Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) private readonly settings: GoogleAnalyticsSettings,
     @Inject(DOCUMENT) private readonly _document: any,
     @Inject(NGX_GTAG_FN) private readonly _gtag: GtagFn,
   ) {}

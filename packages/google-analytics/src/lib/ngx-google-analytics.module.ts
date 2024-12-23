@@ -4,7 +4,7 @@ import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from './tokens';
 import { GaEventDirective } from './ga-event.directive';
 import { GaEventCategoryDirective } from './ga-event-category.directive';
 import { GaEventFormInputDirective } from './ga-event-form-input.directive';
-import { type IGoogleAnalyticsCommand, type IGoogleAnalyticsSettings } from './types';
+import { type GoogleAnalyticsCommand, type GoogleAnalyticsSettings } from './types';
 
 /**
  * Install Google Analytics Tracking code on your environment and configure tracking ID.
@@ -21,7 +21,7 @@ export class NgxGoogleAnalyticsModule {
    * `NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN` token. You can inject this code in you components if you like by
    * use the following injection code `@Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) gaConfig: IGoogleAnalyticsSettings`
    * @param {string} trackingCode The Google Tracking Code
-   * @param {IGoogleAnalyticsCommand[]} [initCommands] When placed, it will run any GA Commands in sequence after setup GA environment.
+   * @param {GoogleAnalyticsCommand[]} [initCommands] When placed, it will run any GA Commands in sequence after setup GA environment.
    * @param {string} [uri] When placed, it will change the default js URI to the provided one.
    * @param {boolean} [enableTracing] When true, trace GA tracking errors on production mode.
    * @param {string} [nonce] When placed, nonce will be added to script tag.
@@ -29,7 +29,7 @@ export class NgxGoogleAnalyticsModule {
    */
   static forRoot(
     trackingCode: string,
-    initCommands: IGoogleAnalyticsCommand[] = [],
+    initCommands: GoogleAnalyticsCommand[] = [],
     uri?: string,
     enableTracing?: boolean,
     nonce?: string,
@@ -45,7 +45,7 @@ export class NgxGoogleAnalyticsModule {
             uri,
             enableTracing,
             nonce,
-          } as IGoogleAnalyticsSettings,
+          } as GoogleAnalyticsSettings,
         },
         NGX_GOOGLE_ANALYTICS_INITIALIZER_PROVIDER,
       ],

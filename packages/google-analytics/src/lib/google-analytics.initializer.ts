@@ -1,7 +1,7 @@
 import { type Provider, APP_INITIALIZER, isDevMode } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN, NGX_GTAG_FN } from './tokens';
-import { type GtagFn, type IGoogleAnalyticsSettings } from './types';
+import { type GtagFn, type GoogleAnalyticsSettings } from './types';
 
 /**
  * Provide a DI Configuration to attach GA Initialization at Angular Startup Cycle.
@@ -16,13 +16,13 @@ export const NGX_GOOGLE_ANALYTICS_INITIALIZER_PROVIDER: Provider = {
 /**
  * Create a script element on DOM and link it to Google Analytics tracking code URI.
  * After that, execute exactly same init process as tracking snippet code.
- * @param {IGoogleAnalyticsSettings} settings - The Google Analytics settings.
+ * @param {GoogleAnalyticsSettings} settings - The Google Analytics settings.
  * @param {GtagFn} gtag - The Google Analytics function.
  * @param {Document} document - The Document interface.
  * @returns {() => Promise<void>} An async function that initializes Google Analytics.
  */
 export function GoogleAnalyticsInitializer(
-  settings: IGoogleAnalyticsSettings,
+  settings: GoogleAnalyticsSettings,
   gtag: GtagFn,
   document: Document,
 ): () => Promise<void> {

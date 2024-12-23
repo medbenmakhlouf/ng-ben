@@ -2,7 +2,7 @@
 import { Directive, ElementRef, Inject, Input, isDevMode, type OnDestroy, Optional } from '@angular/core';
 import { fromEvent, type Subscription } from 'rxjs';
 import { GaEventCategoryDirective } from './ga-event-category.directive';
-import { IGoogleAnalyticsSettings } from './types';
+import { GoogleAnalyticsSettings } from './types';
 import { NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN } from './tokens';
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { type GaActionEnum } from './enums';
@@ -15,7 +15,7 @@ export class GaEventDirective implements OnDestroy {
   constructor(
     @Optional() private gaCategoryDirective: GaEventCategoryDirective,
     private gaService: GoogleAnalyticsService,
-    @Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) private settings: IGoogleAnalyticsSettings,
+    @Inject(NGX_GOOGLE_ANALYTICS_SETTINGS_TOKEN) private settings: GoogleAnalyticsSettings,
     private readonly el: ElementRef,
   ) {
     this.gaBind = 'click';

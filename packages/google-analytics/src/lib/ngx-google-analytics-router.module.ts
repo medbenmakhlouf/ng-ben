@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NGX_GOOGLE_ANALYTICS_ROUTER_INITIALIZER_PROVIDER } from './google-analytics-router.initializer';
 import { NgxGoogleAnalyticsModule } from './ngx-google-analytics.module';
 import { NGX_GOOGLE_ANALYTICS_ROUTING_SETTINGS_TOKEN } from './tokens';
-import { type IGoogleAnalyticsRoutingSettings } from './types';
+import { type GoogleAnalyticsRoutingSettings } from './types';
 
 /**
  * Attach a listener to `NavigationEnd` Router event. So, every time Router finish the page resolution it should call `NavigationEnd` event.
@@ -39,7 +39,7 @@ ngOnInit() {
   declarations: [],
 })
 export class NgxGoogleAnalyticsRouterModule {
-  static forRoot(settings?: IGoogleAnalyticsRoutingSettings): ModuleWithProviders<NgxGoogleAnalyticsRouterModule> {
+  static forRoot(settings?: GoogleAnalyticsRoutingSettings): ModuleWithProviders<NgxGoogleAnalyticsRouterModule> {
     return {
       ngModule: NgxGoogleAnalyticsRouterModule,
       providers: [
