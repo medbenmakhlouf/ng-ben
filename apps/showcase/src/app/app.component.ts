@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RecaptchaComponent, RecaptchaErrorParameters, RecaptchaLoaderService } from '@ng-ben/google-recaptcha';
+import { RecaptchaComponent, type RecaptchaErrorParameters, RecaptchaLoaderService } from '@ng-ben/google-recaptcha';
 
 @Component({
   selector: 'app-root',
